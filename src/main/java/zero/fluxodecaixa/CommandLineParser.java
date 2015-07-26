@@ -15,6 +15,11 @@ public class CommandLineParser {
     }
 
     public void run() {
+        if (args.length == 0) {
+            errors.add("Empty command line");
+            return;
+        }
+
         String module = args[0];
 
         if ("conta".equals(module)) {

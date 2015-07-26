@@ -45,4 +45,25 @@ public class CommandLineParserTests {
         assertEquals("Invalid module: \"invalid module name\"", errors.get(0));
     }
 
+    @Test
+    public void should_empty_command_line_return_error() {
+        initializeParser(new String[] {});
+
+              assertNull(parser.getCommand());
+
+            List<String> errors = parser.getErrors();
+            assertEquals(1, errors.size());
+            assertEquals("Empty command line", errors.get(0));
+    }
+
+//    @Test
+//    public void should_invalid_conta_add_command_line_return_error() {
+//        initializeParser(new String[] { "conta", "add" });
+//
+//        assertNull(parser.getCommand());
+//
+//        List<String> errors = parser.getErrors();
+//        assertEquals(1, errors.size());
+//        assertEquals("\"conta add\": <nome> [observacao]", errors.get(0));
+//    }
 }
