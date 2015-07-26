@@ -1,14 +1,17 @@
 package zero.fluxodecaixa;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommandLineParser {
 
     private String[] args;
     private Command command;
+    private List<String> errors;
 
     public CommandLineParser(String[] args) {
         this.args = args;
+        errors = new ArrayList<String>();
     }
 
     public void run() {
@@ -29,6 +32,8 @@ public class CommandLineParser {
                 this.command = command;
                 return;
             }
+        } else {
+            errors.add("Invalid module: \"invalid module name\"");
         }
     }
 
@@ -37,8 +42,7 @@ public class CommandLineParser {
     }
 
     public List<String> getErrors() {
-        // TODO Auto-generated method stub
-        return null;
+        return errors;
     }
 
 }
