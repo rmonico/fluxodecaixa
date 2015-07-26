@@ -33,27 +33,44 @@ public class CommandLineParser {
             return;
         }
 
-        if ("add".equals(args[1])) {
-            if (args.length == 2) {
-                errors.add("\"conta add\" no argument");
-                return;
-            }
+        String commandName = args[1];
 
-            ContaAddCommand command = new ContaAddCommand();
-
-            command.setNome(args[2]);
-
-            if (args.length == 4) {
-                if ("contabilizavel".equals(args[3])) {
-                    command.setContabilizavel(true);
-                }
-            } else {
-                errors.add("\"conta add\" extra argument(s)");
-                return;
-            }
-
-            this.command = command;
+        if ("add".equals(commandName)) {
+            parseContaAdd();
+        } else if ("ls".equals(commandName)) {
+            parseContaLs();
         }
+    }
+
+    private void parseContaAdd() {
+        if (args.length == 2) {
+            errors.add("\"conta add\" no argument");
+            return;
+        }
+
+        ContaAddCommand command = new ContaAddCommand();
+
+        command.setNome(args[2]);
+
+        if (args.length == 4) {
+            if ("contabilizavel".equals(args[3])) {
+                command.setContabilizavel(true);
+            }
+        } else {
+            errors.add("\"conta add\" extra argument(s)");
+            return;
+        }
+
+        this.command = command;
+    }
+
+    private void parseContaLs() {
+        if (args.length != 2) {
+            errors.add("\"conta ls\" extra argument(s)");
+            return;
+        }
+
+        command = new ContaLsCommand();
     }
 
     public Command getCommand() {

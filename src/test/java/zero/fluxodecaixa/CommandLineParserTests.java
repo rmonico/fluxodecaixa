@@ -89,4 +89,22 @@ public class CommandLineParserTests {
         assertEquals("\"conta add\" extra argument(s)", errors.get(0));
     }
 
+    @Test
+    public void should_parse_conta_ls() {
+        initializeParser(new String[] { "conta", "ls" });
+
+        assertEquals(ContaLsCommand.class, parser.getCommand().getClass());
+    }
+
+    @Test
+    public void should_parse_conta_ls_extra_arguments() {
+        initializeParser(new String[] { "conta", "ls", "extra", "argument" });
+
+
+        assertNull(parser.getCommand());
+
+        List<String> errors = parser.getErrors();
+        assertEquals(1, errors.size());
+        assertEquals("\"conta ls\" extra argument(s)", errors.get(0));
+    }
 }
