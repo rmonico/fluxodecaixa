@@ -61,7 +61,7 @@ public class CommandLineParserTests {
 
         List<String> errors = parser.getErrors();
         assertEquals(1, errors.size());
-        assertEquals("\"conta add\": <nome> [observacao]", errors.get(0));
+        assertEquals("\"conta add\" invalid params", errors.get(0));
     }
 
     @Test

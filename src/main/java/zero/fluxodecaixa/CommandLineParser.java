@@ -29,6 +29,11 @@ public class CommandLineParser {
             }
 
             if ("add".equals(args[1])) {
+                if (args.length == 2) {
+                    errors.add("\"conta add\" invalid params");
+                    return;
+                }
+
                 ContaAddCommand command = new ContaAddCommand();
 
                 command.setNome(args[2]);
