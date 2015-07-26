@@ -8,7 +8,7 @@ import org.junit.Test;
 public class CommandLineParserTests {
 
     @Test
-    public void should_parse_command_line() {
+    public void should_parse_conta_add_command_line() {
         CommandLineParser parser = new CommandLineParser(new String[] { "conta", "add", "nova conta", "contabilizavel" });
 
         parser.run();
@@ -22,4 +22,5 @@ public class CommandLineParserTests {
         assertEquals("nova conta", command.getNome());
         assertTrue(command.isContabilizavel());
     }
+
 }
