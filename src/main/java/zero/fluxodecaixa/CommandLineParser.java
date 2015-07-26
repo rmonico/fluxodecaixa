@@ -20,35 +20,39 @@ public class CommandLineParser {
             return;
         }
 
-        String module = args[0];
-
-        if ("conta".equals(module)) {
-            if (args.length == 1) {
-                errors.add("\"conta\" no command");
-                return;
-            }
-
-            if ("add".equals(args[1])) {
-                if (args.length == 2) {
-                    errors.add("\"conta add\" invalid params");
-                    return;
-                }
-
-                ContaAddCommand command = new ContaAddCommand();
-
-                command.setNome(args[2]);
-
-                if (args.length > 2) {
-                    if ("contabilizavel".equals(args[3])) {
-                        command.setContabilizavel(true);
-                    }
-                }
-
-                this.command = command;
-                return;
-            }
+        if ("conta".equals(args[0])) {
+            parseContaModule();
         } else {
             errors.add("Invalid module: \"invalid module name\"");
+        }
+    }
+
+    private void parseContaModule() {
+        if (args.length == 1) {
+            errors.add("\"conta\" no command");
+            return;
+        }
+
+        if ("add".equals(args[1])) {
+            if (args.length == 2) {
+                errors.add("\"conta add\" no argument");
+                return;
+            }
+
+            ContaAddCommand command = new ContaAddCommand();
+
+            command.setNome(args[2]);
+
+            if (args.length == 4) {
+                if ("contabilizavel".equals(args[3])) {
+                    command.setContabilizavel(true);
+                }
+            } else {
+                errors.add("\"conta add\" extra argument(s)");
+                return;
+            }
+
+            this.command = command;
         }
     }
 

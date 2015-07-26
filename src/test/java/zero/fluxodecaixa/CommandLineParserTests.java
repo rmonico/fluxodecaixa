@@ -61,11 +61,11 @@ public class CommandLineParserTests {
 
         List<String> errors = parser.getErrors();
         assertEquals(1, errors.size());
-        assertEquals("\"conta add\" invalid params", errors.get(0));
+        assertEquals("\"conta add\" no argument", errors.get(0));
     }
 
     @Test
-    public void should_parse_conta_add_command_line() {
+    public void should_parse_conta_add() {
         initializeParser(new String[] { "conta", "add", "nova conta", "contabilizavel" });
 
         Command c = parser.getCommand();
@@ -76,6 +76,17 @@ public class CommandLineParserTests {
 
         assertEquals("nova conta", command.getNome());
         assertTrue(command.isContabilizavel());
+    }
+
+    @Test
+    public void should_parse_conta_add_extra_arguments() {
+        initializeParser(new String[] { "conta", "add", "nova conta", "contabilizavel", "extra", "argument" });
+
+        assertNull(parser.getCommand());
+
+        List<String> errors = parser.getErrors();
+        assertEquals(1, errors.size());
+        assertEquals("\"conta add\" extra argument(s)", errors.get(0));
     }
 
 }
