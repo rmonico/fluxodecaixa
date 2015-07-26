@@ -10,11 +10,19 @@ import org.junit.Test;
 
 public class CommandLineParserTests {
 
-    @Test
-    public void should_parse_conta_add_command_line() {
-        CommandLineParser parser = new CommandLineParser(new String[] { "conta", "add", "nova conta", "contabilizavel" });
+    private CommandLineParser parser;
+
+    private CommandLineParser initializeParser(String[] args) {
+        parser = new CommandLineParser(args);
 
         parser.run();
+
+        return parser;
+    }
+
+    @Test
+    public void should_parse_conta_add_command_line() {
+        initializeParser(new String[] { "conta", "add", "nova conta", "contabilizavel" });
 
         Command c = parser.getCommand();
 
@@ -28,9 +36,7 @@ public class CommandLineParserTests {
 
     @Test
     public void should_invalid_command_line_return_error() {
-        CommandLineParser parser = new CommandLineParser(new String[] { "invalid module name", "command", "line" });
-
-        parser.run();
+        initializeParser(new String[] { "invalid module name", "command", "line" });
 
         assertNull(parser.getCommand());
 
@@ -38,4 +44,5 @@ public class CommandLineParserTests {
         assertEquals(1, errors.size());
         assertEquals("Invalid module: \"invalid module name\"", errors.get(0));
     }
+
 }
