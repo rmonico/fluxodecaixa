@@ -1,5 +1,7 @@
 package zero.fluxodecaixa;
 
+import java.util.List;
+
 public class CommandLineParser {
 
     private String[] args;
@@ -32,6 +34,11 @@ public class CommandLineParser {
 
     public Command getCommand() {
         return command;
+    }
+
+    public List<String> getErrors() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

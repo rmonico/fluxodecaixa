@@ -1,7 +1,10 @@
 package zero.fluxodecaixa;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.junit.Test;
 
@@ -23,4 +26,16 @@ public class CommandLineParserTests {
         assertTrue(command.isContabilizavel());
     }
 
+    @Test
+    public void should_invalid_command_line_return_error() {
+        CommandLineParser parser = new CommandLineParser(new String[] { "invalid module name", "command", "line" });
+
+        parser.run();
+
+        assertNull(parser.getCommand());
+
+        List<String> errors = parser.getErrors();
+        assertEquals(1, errors.size());
+        assertEquals("Invalid module: \"invalid module name\"", errors.get(0));
+    }
 }
