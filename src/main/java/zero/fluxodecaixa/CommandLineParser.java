@@ -2,17 +2,36 @@ package zero.fluxodecaixa;
 
 public class CommandLineParser {
 
+    private String[] args;
+    private Command command;
+
     public CommandLineParser(String[] args) {
-        // TODO Auto-generated constructor stub
+        this.args = args;
     }
 
     public void run() {
-        // TODO Auto-generated method stub
-        
+        String module = args[0];
+
+        if ("conta".equals(module)) {
+            if ("add".equals(args[1])) {
+                ContaAddCommand command = new ContaAddCommand();
+
+                command.setNome(args[2]);
+
+                if (args.length > 2) {
+                    if ("contabilizavel".equals(args[3])) {
+                        command.setContabilizavel(true);
+                    }
+                }
+
+                this.command = command;
+                return;
+            }
+        }
     }
 
     public Command getCommand() {
-        return null;
+        return command;
     }
 
 }
