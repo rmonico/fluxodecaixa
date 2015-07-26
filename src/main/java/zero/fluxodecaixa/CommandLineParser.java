@@ -23,6 +23,11 @@ public class CommandLineParser {
         String module = args[0];
 
         if ("conta".equals(module)) {
+            if (args.length == 1) {
+                errors.add("\"conta\" no command");
+                return;
+            }
+
             if ("add".equals(args[1])) {
                 ContaAddCommand command = new ContaAddCommand();
 

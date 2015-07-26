@@ -43,6 +43,17 @@ public class CommandLineParserTests {
     }
 
     @Test
+    public void should_empty_conta_return_error() {
+        initializeParser(new String[] { "conta" });
+
+        assertNull(parser.getCommand());
+
+        List<String> errors = parser.getErrors();
+        assertEquals(1, errors.size());
+        assertEquals("\"conta\" no command", errors.get(0));
+    }
+
+    @Test
     public void should_empty_conta_add_return_error() {
         initializeParser(new String[] { "conta", "add" });
 
