@@ -223,7 +223,11 @@ public class EasyMVC {
 
             DependencyManager dependencyManager = managers.get(dependencyClass);
 
-            dependencyManager.beforeUse();
+            try {
+                dependencyManager.beforeUse();
+            } catch (Exception e1) {
+                throw new EasyMVCException(e1);
+            }
 
             Object dependency = dependencyManager.getInstance();
 
@@ -249,7 +253,7 @@ public class EasyMVC {
         }
     }
 
-    private void disposeDependencies(Object instance) {
+    private void disposeDependencies(Object instance) throws EasyMVCException {
         for (Field field : instance.getClass().getDeclaredFields()) {
             if (field.getAnnotation(Dependency.class) == null)
                 continue;
@@ -258,7 +262,11 @@ public class EasyMVC {
 
             DependencyManager dependencyManager = managers.get(dependencyClass);
 
-            dependencyManager.afterUse();
+            try {
+                dependencyManager.afterUse();
+            } catch (Exception e) {
+                throw new EasyMVCException(e);
+            }
         }
     }
 

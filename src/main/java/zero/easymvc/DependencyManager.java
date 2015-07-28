@@ -4,9 +4,9 @@ public interface DependencyManager {
 
     public Class<?> dependencyClass();
 
-    public void beforeUse();
+    public void beforeUse() throws Exception;
 
     public Object getInstance();
 
-    public void afterUse();
+    public void afterUse() throws Exception;
 }
