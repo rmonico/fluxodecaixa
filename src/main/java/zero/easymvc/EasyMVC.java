@@ -106,9 +106,22 @@ public class EasyMVC {
     private void createBean(CommandData data, Command command) throws EasyMVCException {
         Object[] extraArgs = getExtraArgs(data, command);
 
-        Class<?> beanClass = data.handlerMethod.getParameterTypes()[0];
+        Class<?>[] parameterTypes = data.handlerMethod.getParameterTypes();
 
-        List<Field> fields = getBeanInjectedFields(beanClass);
+        List<Field> fields;
+
+        boolean hasBean = parameterTypes.length > 0;
+        Class<?> beanClass;
+
+        if (hasBean) {
+            beanClass = parameterTypes[0];
+
+            fields = getBeanInjectedFields(beanClass);
+        } else {
+            beanClass = null;
+
+            fields = new LinkedList<>();
+        }
 
         if (extraArgs.length > fields.size())
             throw new EasyMVCException("Extra arguments found. Command: " + command.toString());
@@ -116,13 +129,15 @@ public class EasyMVC {
             throw new EasyMVCException("Insuficient arguments. Command: " + command.toString());
         }
 
-        try {
-            data.bean = beanClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new EasyMVCException(e);
-        }
+        if (hasBean) {
+            try {
+                data.bean = beanClass.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new EasyMVCException(e);
+            }
 
-        injectExtraArgsIntoBeanFields(data.bean, fields, extraArgs);
+            injectExtraArgsIntoBeanFields(data.bean, fields, extraArgs);
+        }
     }
 
     private Object[] getExtraArgs(CommandData data, Command command) {
@@ -150,8 +165,9 @@ public class EasyMVC {
         for (int i = 0; i < fields.size(); i++) {
             Field field = fields.get(i);
 
+            field.setAccessible(true);
+
             try {
-                field.setAccessible(true);
                 field.set(bean, extraArgs[i]);
             } catch (IllegalArgumentException | IllegalAccessException e) {
                 throw new EasyMVCException(e);
@@ -171,7 +187,10 @@ public class EasyMVC {
 
     private void invokeHandler(CommandData data) throws EasyMVCException {
         try {
-            data.handlerMethod.invoke(data.handlerInstance, data.bean);
+            if (data.bean == null)
+                data.handlerMethod.invoke(data.handlerInstance);
+            else
+                data.handlerMethod.invoke(data.handlerInstance, data.bean);
         } catch (IllegalAccessException | IllegalArgumentException e) {
             throw new EasyMVCException(e);
         } catch (InvocationTargetException ite) {
@@ -185,7 +204,10 @@ public class EasyMVC {
         }
 
         try {
-            data.rendererMethod.invoke(data.rendererInstance, bean);
+            if (bean == null)
+                data.rendererMethod.invoke(data.rendererInstance);
+            else
+                data.rendererMethod.invoke(data.rendererInstance, bean);
         } catch (IllegalAccessException | IllegalArgumentException e) {
             throw new EasyMVCException(e);
         } catch (InvocationTargetException ite) {

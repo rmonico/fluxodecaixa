@@ -85,6 +85,34 @@ public class EasyMVCFindAndRunCommandTests {
         controller.run("command");
     }
 
+    public static class NoBeanCommand {
+
+        public static boolean ran;
+        public static boolean rendered;
+
+        @CommandHandler(path = "command")
+        public void run() {
+            ran = true;
+        }
+
+        @Renderer
+        public void render() {
+            rendered = true;
+        }
+    }
+
+    @Test
+    public void command_can_have_no_bean() throws EasyMVCException {
+        controller.registerCommandHandler(NoBeanCommand.class);
+
+        controller.bindPathToRenderer(NoBeanCommand.class, new StringArrayCommand("command"));
+
+        controller.run("command");
+
+        assertTrue(NoBeanCommand.ran);
+        assertTrue(NoBeanCommand.rendered);
+    }
+
     @Test(expected = EasyMVCException.class)
     public void should_throw_exception_when_calling_command_with_renderer_but_without_handler() throws EasyMVCException {
         controller.bindPathToRenderer(TestRenderer.class, new StringArrayCommand("command"));
