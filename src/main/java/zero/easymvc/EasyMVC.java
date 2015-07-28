@@ -61,11 +61,11 @@ public class EasyMVC {
 
     }
 
-    public void run(String... args) throws EasyMVCException {
-        run(new StringArrayCommand(args));
+    public Object run(String... args) throws EasyMVCException {
+        return run(new StringArrayCommand(args));
     }
 
-    public void run(Command command) throws EasyMVCException {
+    public Object run(Command command) throws EasyMVCException {
         CommandData data = getCommandDataFor(command);
 
         checkCommandDataIntegrity(data, command);
@@ -79,6 +79,8 @@ public class EasyMVC {
         invokeHandler(data);
 
         invokeRenderer(data, data.bean);
+
+        return data.bean;
     }
 
     private CommandData getCommandDataFor(Command command) {
@@ -145,9 +147,9 @@ public class EasyMVC {
     }
 
     private void injectExtraArgsIntoBeanFields(Object bean, List<Field> fields, Object[] extraArgs) throws EasyMVCException {
-        for (int i =0;i<fields.size();i++) {
+        for (int i = 0; i < fields.size(); i++) {
             Field field = fields.get(i);
-            
+
             try {
                 field.setAccessible(true);
                 field.set(bean, extraArgs[i]);
