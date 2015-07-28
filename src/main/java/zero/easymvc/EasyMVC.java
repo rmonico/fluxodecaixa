@@ -70,15 +70,15 @@ public class EasyMVC {
         }
 
         if (handlerData.instance == null) {
-            createHandlerInstanceAndBeans(handlerData);
+            createHandlerInstanceAndBean(handlerData);
         }
 
         invokeHandler(handlerData);
 
-        invokeRenderer(rendererData, handlerData.beans);
+        invokeRenderer(rendererData, handlerData.bean);
     }
 
-    private void createHandlerInstanceAndBeans(HandlerData data) throws EasyMVCException {
+    private void createHandlerInstanceAndBean(HandlerData data) throws EasyMVCException {
         Method method = data.method;
 
         try {
@@ -90,12 +90,14 @@ public class EasyMVC {
         }
 
         Class<?>[] parameters = method.getParameterTypes();
-        data.beans = new Object[parameters.length];
+
+        if (parameters.length > 1) {
+            throw new EasyMVCException("Commands can have just one parameter.");
+        }
 
         for (int i = 0; i < parameters.length; i++) {
             try {
-                Object bean = parameters[i].newInstance();
-                data.beans[i] = bean;
+                data.bean = parameters[i].newInstance();
             } catch (InstantiationException | IllegalAccessException e) {
                 throw new EasyMVCException(e);
             }
@@ -104,19 +106,19 @@ public class EasyMVC {
 
     private void invokeHandler(HandlerData data) throws EasyMVCException {
         try {
-            data.method.invoke(data.instance, data.beans);
+            data.method.invoke(data.instance, data.bean);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new EasyMVCException(e);
         }
     }
 
-    private void invokeRenderer(RendererData data, Object[] beans) throws EasyMVCException {
+    private void invokeRenderer(RendererData data, Object bean) throws EasyMVCException {
         if (data.instance == null) {
             createRendererInstance(data);
         }
 
         try {
-            data.method.invoke(data.instance, beans);
+            data.method.invoke(data.instance, bean);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new EasyMVCException(e);
         }

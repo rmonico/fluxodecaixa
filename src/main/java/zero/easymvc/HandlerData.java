@@ -6,7 +6,7 @@ class HandlerData {
 
     public Object instance;
     public Method method;
-    public Object[] beans;
+    public Object bean;
 
     public HandlerData(Method method) {
         this.method = method;
