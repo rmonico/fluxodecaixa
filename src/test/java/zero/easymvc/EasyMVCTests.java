@@ -7,6 +7,40 @@ import org.junit.Test;
 
 public class EasyMVCTests {
 
+    public static class TestBean {
+
+        public static boolean commandRan;
+        public static boolean rendererRan;
+        public static int instanceCount;
+
+        public TestBean() {
+            instanceCount++;
+        }
+
+        public static void reset() {
+            instanceCount = 0;
+            commandRan = false;
+            rendererRan = false;
+        }
+
+    }
+
+    public static class TestCommand {
+        @CommandHandler(path = { "command", "subcommand" })
+        public void execute(TestBean bean) {
+            TestBean.commandRan = true;
+        }
+
+    }
+
+    public static class TestsRenderer {
+
+        @Renderer
+        public void render(TestBean bean) {
+            TestBean.rendererRan = true;
+        }
+    }
+
     @Test(expected = EasyMVCException.class)
     public void should_throw_exception_on_invoking_unknown_command() throws EasyMVCException {
         EasyMVC controller = new EasyMVC();
