@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class EasyMVCTests {
+public class EasyMVCFindAndRunCommandTests {
 
     public static class TestBean {
 
