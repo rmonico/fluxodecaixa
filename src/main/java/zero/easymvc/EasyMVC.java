@@ -2,17 +2,15 @@ package zero.easymvc;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 public class EasyMVC {
 
-    private Map<Command, HandlerData> handlers;
-    private Map<Command, RendererData> renderers;
+    private List<CommandData> commands;
 
     public EasyMVC() {
-        handlers = new HashMap<>();
-        renderers = new HashMap<>();
+        commands = new LinkedList<>();
     }
 
     public void registerCommandHandler(Class<?> handlerClass) {
@@ -22,17 +20,28 @@ public class EasyMVC {
             if (annotation != null) {
                 Command command = new StringArrayCommand(annotation.path());
 
-                if (handlers.get(command) != null) {
+                CommandData data = getCommandDataFor(command);
+                if (data == null) {
+                    data = new CommandData(command);
+                    commands.add(data);
+                } else if (data.handlerMethod != null)
+                    // TODO Depois fazer chamar todas as ocorrências da
+                    // anotação.
                     throw new RuntimeException("A command can have just one handler!");
-                }
-                // TODO Depois fazer chamar todas as ocorrências da
-                // anotação.
 
-                HandlerData data = new HandlerData(method);
-
-                handlers.put(command, data);
+                data.handlerMethod = method;
             }
         }
+    }
+
+    private CommandData getCommandDataFor(Command command) {
+        for (CommandData data : commands) {
+            if (data.command.isSameCommand(command)) {
+                return data;
+            }
+        }
+        
+        return null;
     }
 
     public void bindPathToRenderer(Class<?> rendererClass, Command command) {
@@ -40,13 +49,15 @@ public class EasyMVC {
             Renderer annotation = method.getAnnotation(Renderer.class);
 
             if (annotation != null) {
-                if (renderers.get(command) != null) {
+                CommandData data = getCommandDataFor(command);
+
+                if (data == null) {
+                    data = new CommandData(command);
+                    commands.add(data);
+                } else if (data.rendererMethod != null)
                     throw new RuntimeException("A command can have just one renderer class!");
-                }
 
-                RendererData data = new RendererData(method);
-
-                renderers.put(command, data);
+                data.rendererMethod = method;
             }
         }
 
@@ -57,34 +68,34 @@ public class EasyMVC {
     }
 
     public void run(Command command) throws EasyMVCException {
-        HandlerData handlerData = handlers.get(command);
+        CommandData data = getCommandDataFor(command);
 
-        if (handlerData == null) {
-            throw new EasyMVCException("Handler not found for command " + command.toString());
+        checkCommandDataIntegrity(command, data);
+
+        if (data.handlerInstance == null) {
+            createHandlerInstanceAndBean(data);
         }
 
-        RendererData rendererData = renderers.get(command);
+        invokeHandler(data);
 
-        if (rendererData == null) {
-            throw new EasyMVCException("Renderer not found for command " + command.toString());
-        }
-
-        if (handlerData.instance == null) {
-            createHandlerInstanceAndBean(handlerData);
-        }
-
-        invokeHandler(handlerData);
-
-        invokeRenderer(rendererData, handlerData.bean);
+        invokeRenderer(data, data.bean);
     }
 
-    private void createHandlerInstanceAndBean(HandlerData data) throws EasyMVCException {
-        Method method = data.method;
+    private void checkCommandDataIntegrity(Command command, CommandData data) throws EasyMVCException {
+        if (data == null) {
+            throw new EasyMVCException("Handler not found for command " + command.toString());
+        } else if (data.rendererMethod == null) {
+            throw new EasyMVCException("Renderer not found for command " + command.toString());
+        }
+    }
+
+    private void createHandlerInstanceAndBean(CommandData data) throws EasyMVCException {
+        Method method = data.handlerMethod;
 
         try {
             Class<?> handlerClass = method.getDeclaringClass();
             Object instance = handlerClass.newInstance();
-            data.instance = instance;
+            data.handlerInstance = instance;
         } catch (InstantiationException | IllegalAccessException e) {
             throw new EasyMVCException(e);
         }
@@ -104,31 +115,31 @@ public class EasyMVC {
         }
     }
 
-    private void invokeHandler(HandlerData data) throws EasyMVCException {
+    private void invokeHandler(CommandData data) throws EasyMVCException {
         try {
-            data.method.invoke(data.instance, data.bean);
+            data.handlerMethod.invoke(data.handlerInstance, data.bean);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new EasyMVCException(e);
         }
     }
 
-    private void invokeRenderer(RendererData data, Object bean) throws EasyMVCException {
-        if (data.instance == null) {
+    private void invokeRenderer(CommandData data, Object bean) throws EasyMVCException {
+        if (data.rendererInstance == null) {
             createRendererInstance(data);
         }
 
         try {
-            data.method.invoke(data.instance, bean);
+            data.rendererMethod.invoke(data.rendererInstance, bean);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             throw new EasyMVCException(e);
         }
     }
 
-    private void createRendererInstance(RendererData data) throws EasyMVCException {
+    private void createRendererInstance(CommandData data) throws EasyMVCException {
         try {
-            Object instance = data.method.getDeclaringClass().newInstance();
+            Object instance = data.rendererMethod.getDeclaringClass().newInstance();
 
-            data.instance = instance;
+            data.rendererInstance = instance;
         } catch (InstantiationException | IllegalAccessException e) {
             throw new EasyMVCException(e);
         }

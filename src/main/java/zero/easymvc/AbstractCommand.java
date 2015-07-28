@@ -16,6 +16,24 @@ public class AbstractCommand implements Command {
     }
 
     @Override
+    public boolean isSameCommand(Command command) {
+        if (args.length > command.args().length) {
+            return false;
+        }
+
+        for (int i = 0; i < args.length; i++) {
+            Object myArg = args[i];
+            Object otherArg = command.args()[i];
+
+            if (!myArg.equals(otherArg)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
 
