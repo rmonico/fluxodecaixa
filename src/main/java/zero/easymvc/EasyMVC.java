@@ -203,4 +203,8 @@ public class EasyMVC {
         }
     }
 
+    public void addDependencyManager(DependencyManager manager) {
+
+    }
+
 }
