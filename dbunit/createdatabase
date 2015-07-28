@@ -1,1 +1,0 @@
-sqlite3 dbunit/database "CREATE TABLE conta(id integer primary key autoincrement, nome text, contabilizavel integer);"
