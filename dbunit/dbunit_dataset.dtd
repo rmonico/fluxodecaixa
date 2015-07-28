@@ -1,0 +1,5 @@
+<!ELEMENT dataset (conta*)>
+<!ELEMENT conta (#PCDATA)>
+<!ATTLIST conta id CDATA #REQUIRED>
+<!ATTLIST conta nome CDATA #REQUIRED>
+<!ATTLIST conta contabilizavel CDATA #REQUIRED>
