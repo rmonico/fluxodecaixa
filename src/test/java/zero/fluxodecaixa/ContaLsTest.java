@@ -19,22 +19,23 @@ import org.dbunit.operation.DatabaseOperation;
 import org.junit.Before;
 import org.junit.Test;
 
+import zero.easymvc.EasyMVC;
+import zero.easymvc.EasyMVCException;
+import zero.easymvc.StringArrayCommand;
+import zero.fluxodecaixa.app.ContaLsBean;
+import zero.fluxodecaixa.app.ContaLsCommand;
 import zero.fluxodecaixa.model.Conta;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 public class ContaLsTest {
 
-    private static final String CONNECTION_STRING = "jdbc:sqlite:./dbunit/test_database";
-    private static final String DRIVER_CLASS = "org.sqlite.JDBC";
-    private JdbcConnectionSource connectionSource;
+    private ConnectionManager connectionManager;
 
     private IDatabaseConnection getConnection() throws ClassNotFoundException, SQLException, DatabaseUnitException {
-        Class.forName(DRIVER_CLASS);
-        Connection jdbcConnection = DriverManager.getConnection(CONNECTION_STRING);
+        Class.forName(ConnectionManager.DRIVER_CLASS);
+        Connection jdbcConnection = DriverManager.getConnection(ConnectionManager.CONNECTION_STRING);
 
         return new DatabaseConnection(jdbcConnection);
     }
@@ -50,10 +51,12 @@ public class ContaLsTest {
     }
 
     private void recreateStructure() throws SQLException {
-        connectionSource = new JdbcConnectionSource(CONNECTION_STRING);
+        connectionManager = new ConnectionManager();
 
-        TableUtils.dropTable(connectionSource, Conta.class, true);
-        TableUtils.createTable(connectionSource, Conta.class);
+        ConnectionSource source = connectionManager.getInstance();
+
+        TableUtils.dropTable(source, Conta.class, true);
+        TableUtils.createTable(source, Conta.class);
     }
 
     public void startDBUnit() throws ClassNotFoundException, SQLException, DatabaseUnitException, FileNotFoundException {
@@ -69,10 +72,18 @@ public class ContaLsTest {
     }
 
     @Test
-    public void checkContaMappingIsOk() throws SQLException {
-        Dao<Conta, ?> contaDao = DaoManager.createDao(connectionSource, Conta.class);
+    public void contaLsCommand_should_return_all_available_contas() throws SQLException, EasyMVCException {
+        EasyMVC controller = new EasyMVC();
 
-        List<Conta> contas = contaDao.queryForAll();
+        controller.addDependencyManager(connectionManager);
+
+        controller.registerCommandHandler(ContaLsCommand.class);
+
+        controller.bindPathToRenderer(ContaLsRenderer.class, new StringArrayCommand("conta", "ls"));
+
+        ContaLsBean bean = (ContaLsBean) controller.run("conta", "ls");
+
+        List<Conta> contas = bean.getContas();
 
         assertEquals(3, contas.size());
 
