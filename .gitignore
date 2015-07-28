@@ -2,4 +2,4 @@ target
 .classpath
 bin
 .settings
-dbunit/database
+dbunit/test_database
