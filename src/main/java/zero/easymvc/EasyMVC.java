@@ -40,7 +40,7 @@ public class EasyMVC {
                 return data;
             }
         }
-        
+
         return null;
     }
 
@@ -83,9 +83,11 @@ public class EasyMVC {
 
     private void checkCommandDataIntegrity(Command command, CommandData data) throws EasyMVCException {
         if (data == null) {
-            throw new EasyMVCException("Handler not found for command " + command.toString());
+            throw new EasyMVCException("Command not found: " + command.toString());
         } else if (data.rendererMethod == null) {
             throw new EasyMVCException("Renderer not found for command " + command.toString());
+        } else if (data.handlerMethod == null) {
+            throw new EasyMVCException("Handler data not found for command " + command.toString());
         }
     }
 
