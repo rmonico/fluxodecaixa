@@ -21,7 +21,7 @@ trans ls [--posteriores-a=<data>] [--anteriores-a=<data>]
 trans ch <id> [--data=nova data] [-observacao=observacao]
 trans rm <id>
 
-lanc add <transacao id> <conta origem> <conta destino> <valor> [observacao]
+lanc add <transacao id> <nome conta origem> <nome conta destino> <valor> [observacao]
 lanc ls [--trans-id=<id da transacao>] [--origem=<nome da origem>] [--destino=<nome do destino>] [--valor=<valor>] [--observacao=<regex>]
 lanc ch <lancamento id> [--trans-id=<id da transacao>] [--origem=<nome da origem>] [--destino=<nome do destino>] [--valor=<valor>] [--observacao=<observacao>]
 lanc rm <lancamento id>
