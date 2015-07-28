@@ -26,6 +26,10 @@ public class EasyMVC {
             if (annotation != null) {
                 Command command = new StringArrayCommand(annotation.path());
 
+                checkHandlerParameters(method);
+
+                checkHandlerDependencies(method.getDeclaringClass());
+
                 CommandData data = getCommandDataFor(command);
                 if (data == null) {
                     data = new CommandData(command);
@@ -35,14 +39,30 @@ public class EasyMVC {
                     // anotação.
                     throw new RuntimeException("A command can have just one handler!");
 
-                Class<?>[] parameters = method.getParameterTypes();
-
-                if (parameters.length > 1) {
-                    throw new RuntimeException("Command handlers can have just one parameter.");
-                }
-
                 data.handlerMethod = method;
             }
+        }
+    }
+
+    private void checkHandlerParameters(Method method) {
+        Class<?>[] parameters = method.getParameterTypes();
+
+        if (parameters.length > 1) {
+            throw new RuntimeException("Command handlers can have just one parameter.");
+        }
+    }
+
+    private void checkHandlerDependencies(Class<?> handlerClass) {
+        for (Field field : handlerClass.getDeclaredFields()) {
+            if (field.getAnnotation(Dependency.class) == null)
+                continue;
+
+            Class<?> dependencyClass = field.getType();
+
+            DependencyManager dependencyManager = managers.get(dependencyClass);
+
+            if (dependencyManager == null)
+                throw new RuntimeException(String.format("Dependency \"%s\" on command \"%s\" is not manager by this controller.", field.getName(), handlerClass.getCanonicalName()));
         }
     }
 

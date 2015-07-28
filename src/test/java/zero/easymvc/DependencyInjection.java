@@ -3,9 +3,12 @@ package zero.easymvc;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class DependencyInjection {
+
+    private EasyMVC controller;
 
     public static class TheDependency {
         public boolean configured;
@@ -60,10 +63,18 @@ public class DependencyInjection {
 
     }
 
+    @Before
+    public void before() {
+        controller = new EasyMVC();
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void should_throw_exception_when_a_commands_dependes_on_a_unmanaged_dependency() {
+        controller.registerCommandHandler(Command.class);
+    }
+
     @Test
     public void should_inject_dependency_by_annotation() throws EasyMVCException {
-        EasyMVC controller = new EasyMVC();
-
         DependencyManagerImpl dependencyManager = new DependencyManagerImpl();
 
         controller.addDependencyManager(dependencyManager);
