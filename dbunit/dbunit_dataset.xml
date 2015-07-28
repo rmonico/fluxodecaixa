@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!DOCTYPE dataset SYSTEM "dbunit/dbunit_dataset.dtd">
+<dataset>
+  <conta id="1" nome="carteita" contabilizavel="1" />
+  <conta id="2" nome="casa" contabilizavel="0" />
+  <conta id="3" nome="itau" contabilizavel="1" />
+</dataset>
