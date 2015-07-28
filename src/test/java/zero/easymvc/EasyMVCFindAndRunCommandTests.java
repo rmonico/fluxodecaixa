@@ -3,9 +3,12 @@ package zero.easymvc;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class EasyMVCFindAndRunCommandTests {
+
+    private EasyMVC controller;
 
     public static class TestBean {
 
@@ -46,7 +49,6 @@ public class EasyMVCFindAndRunCommandTests {
 
     @Test(expected = EasyMVCException.class)
     public void should_throw_exception_on_invoking_unknown_command() throws EasyMVCException {
-        EasyMVC controller = new EasyMVC();
         TestBean.reset();
 
         controller.run("unknown", "command");
@@ -54,7 +56,6 @@ public class EasyMVCFindAndRunCommandTests {
 
     @Test(expected = EasyMVCException.class)
     public void should_throw_exception_on_renderer_not_found() throws EasyMVCException {
-        EasyMVC controller = new EasyMVC();
         TestBean.reset();
 
         controller.registerCommandHandler(TestCommand.class);
@@ -72,8 +73,6 @@ public class EasyMVCFindAndRunCommandTests {
 
     @Test(expected = EasyMVCException.class)
     public void command_should_receive_just_one_bean() throws EasyMVCException {
-        EasyMVC controller = new EasyMVC();
-
         controller.registerCommandHandler(InvalidCommand.class);
 
         controller.bindPathToRenderer(TestRenderer.class, new StringArrayCommand("command"));
@@ -81,9 +80,20 @@ public class EasyMVCFindAndRunCommandTests {
         controller.run("command");
     }
 
+    @Before
+    public void before() {
+        controller = new EasyMVC();
+    }
+
+    @Test(expected = EasyMVCException.class)
+    public void should_throw_exception_when_calling_command_with_renderer_but_without_handler() throws EasyMVCException {
+        controller.bindPathToRenderer(TestRenderer.class, new StringArrayCommand("command"));
+
+        controller.run("command");
+    }
+
     @Test
     public void should_find_and_run_command() throws EasyMVCException {
-        EasyMVC controller = new EasyMVC();
         TestBean.reset();
 
         controller.registerCommandHandler(TestCommand.class);
