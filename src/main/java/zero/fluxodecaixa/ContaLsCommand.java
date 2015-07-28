@@ -1,5 +1,5 @@
 package zero.fluxodecaixa;
 
-public class ContaLsCommand extends Command {
+public class ContaLsCommand {
 
 }
