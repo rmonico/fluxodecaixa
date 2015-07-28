@@ -33,13 +33,13 @@ public class EasyMVCTests {
 
     }
 
-    public static class TestsRenderer {
+    public static class TestRenderer {
 
         public static TestBean bean;
 
         @Renderer
         public void render(TestBean bean) {
-            TestsRenderer.bean = bean;
+            TestRenderer.bean = bean;
             bean.rendererRan = true;
         }
     }
@@ -69,12 +69,12 @@ public class EasyMVCTests {
 
         controller.registerCommandHandler(TestCommand.class);
 
-        controller.bindPathToRenderer(TestsRenderer.class, new StringArrayCommand("command", "subcommand"));
+        controller.bindPathToRenderer(TestRenderer.class, new StringArrayCommand("command", "subcommand"));
 
         controller.run("command", "subcommand");
 
-        assertTrue(TestsRenderer.bean.commandRan);
-        assertTrue(TestsRenderer.bean.rendererRan);
+        assertTrue(TestRenderer.bean.commandRan);
+        assertTrue(TestRenderer.bean.rendererRan);
         assertEquals(1, TestBean.instanceCount);
     }
 }
