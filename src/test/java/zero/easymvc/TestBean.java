@@ -2,14 +2,18 @@ package zero.easymvc;
 
 public class TestBean {
 
-    private boolean ok;
+    public static boolean commandRan;
+    public static boolean rendererRan;
+    public static int instanceCount;
 
-    public boolean isOk() {
-        return ok;
+    public TestBean() {
+        instanceCount++;
     }
 
-    public void setOk(boolean ok) {
-        this.ok = ok;
+    public static void reset() {
+        instanceCount = 0;
+        commandRan = false;
+        rendererRan = false;
     }
 
 }

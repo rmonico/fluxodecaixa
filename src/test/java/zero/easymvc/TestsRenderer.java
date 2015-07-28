@@ -4,6 +4,6 @@ public class TestsRenderer {
 
     @Renderer
     public void render(TestBean bean) {
-        bean.setOk(true);
+        TestBean.rendererRan = true;
     }
 }

@@ -1,7 +1,7 @@
 package zero.easymvc;
 
-public @interface Command {
+public interface Command {
 
-    String[] path();
+    public Object[] args();
 
 }
