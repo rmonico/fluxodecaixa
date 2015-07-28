@@ -1,9 +1,27 @@
-package zero.fluxodecaixa;
+package zero.fluxodecaixa.model;
 
-public class ContaAddCommand extends Command {
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
+@DatabaseTable
+public class Conta {
+
+    @DatabaseField(generatedId = true)
+    private int id;
+
+    @DatabaseField
     private String nome;
+
+    @DatabaseField
     private boolean contabilizavel;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
