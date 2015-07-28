@@ -47,6 +47,11 @@ public class EasyMVCFindAndRunCommandTests {
         }
     }
 
+    @Before
+    public void before() {
+        controller = new EasyMVC();
+    }
+
     @Test(expected = EasyMVCException.class)
     public void should_throw_exception_on_invoking_unknown_command() throws EasyMVCException {
         TestBean.reset();
@@ -78,11 +83,6 @@ public class EasyMVCFindAndRunCommandTests {
         controller.bindPathToRenderer(TestRenderer.class, new StringArrayCommand("command"));
 
         controller.run("command");
-    }
-
-    @Before
-    public void before() {
-        controller = new EasyMVC();
     }
 
     @Test(expected = EasyMVCException.class)
