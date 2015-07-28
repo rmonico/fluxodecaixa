@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class DependencyInjection {
 
-    public static class Dependency {
+    public static class TheDependency {
         public boolean configured;
         public boolean used;
         public boolean disposed;
@@ -16,10 +16,15 @@ public class DependencyInjection {
 
     public static class DependencyManagerImpl implements DependencyManager {
 
-        private Dependency dependency;
+        private TheDependency dependency;
 
         public DependencyManagerImpl() {
-            dependency = new Dependency();
+            dependency = new TheDependency();
+        }
+
+        @Override
+        public Class<?> dependencyClass() {
+            return TheDependency.class;
         }
 
         @Override
@@ -28,7 +33,7 @@ public class DependencyInjection {
         }
 
         @Override
-        public Dependency getInstance() {
+        public TheDependency getInstance() {
             return dependency;
         }
 
@@ -40,18 +45,23 @@ public class DependencyInjection {
     }
 
     public static class Command {
-        @Depedency
-        private Dependency dependency;
+        @Dependency
+        private TheDependency dependency;
 
         @CommandHandler(path = { "command" })
         public void execute() {
             dependency.used = true;
         }
 
+        @Renderer
+        public void render() {
+
+        }
+
     }
 
     @Test
-    public void should_inject_dependency_by_annotation() {
+    public void should_inject_dependency_by_annotation() throws EasyMVCException {
         EasyMVC controller = new EasyMVC();
 
         DependencyManagerImpl dependencyManager = new DependencyManagerImpl();
@@ -60,7 +70,11 @@ public class DependencyInjection {
 
         controller.registerCommandHandler(Command.class);
 
-        Dependency dependency = dependencyManager.getInstance();
+        controller.bindPathToRenderer(Command.class, new StringArrayCommand("command"));
+
+        controller.run("command");
+
+        TheDependency dependency = dependencyManager.getInstance();
 
         assertNotNull(dependency);
         assertTrue(dependency.configured);

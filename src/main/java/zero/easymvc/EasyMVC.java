@@ -4,15 +4,19 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class EasyMVC {
 
     private List<CommandData> commands;
+    private Map<Class<?>, DependencyManager> managers;
 
     public EasyMVC() {
         commands = new LinkedList<>();
+        managers = new HashMap<>();
     }
 
     public void registerCommandHandler(Class<?> handlerClass) {
@@ -76,7 +80,11 @@ public class EasyMVC {
             createHandlerInstance(data);
         }
 
+        injectDependenciesIntoHandler(data.handlerInstance);
+
         invokeHandler(data);
+
+        disposeDependencies(data.handlerInstance);
 
         invokeRenderer(data, data.bean);
 
@@ -180,8 +188,31 @@ public class EasyMVC {
             Class<?> handlerClass = data.handlerMethod.getDeclaringClass();
             Object instance = handlerClass.newInstance();
             data.handlerInstance = instance;
+
         } catch (InstantiationException | IllegalAccessException e) {
             throw new EasyMVCException(e);
+        }
+    }
+
+    private void injectDependenciesIntoHandler(Object instance) throws EasyMVCException {
+        for (Field field : instance.getClass().getDeclaredFields()) {
+            if (field.getAnnotation(Dependency.class) == null)
+                continue;
+
+            Class<?> dependencyClass = field.getType();
+
+            DependencyManager dependencyManager = managers.get(dependencyClass);
+
+            dependencyManager.beforeUse();
+
+            Object dependency = dependencyManager.getInstance();
+
+            field.setAccessible(true);
+            try {
+                field.set(instance, dependency);
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                throw new EasyMVCException(e);
+            }
         }
     }
 
@@ -195,6 +226,19 @@ public class EasyMVC {
             throw new EasyMVCException(e);
         } catch (InvocationTargetException ite) {
             throw new EasyMVCException(ite.getCause());
+        }
+    }
+
+    private void disposeDependencies(Object instance) {
+        for (Field field : instance.getClass().getDeclaredFields()) {
+            if (field.getAnnotation(Dependency.class) == null)
+                continue;
+
+            Class<?> dependencyClass = field.getType();
+
+            DependencyManager dependencyManager = managers.get(dependencyClass);
+
+            dependencyManager.afterUse();
         }
     }
 
@@ -226,7 +270,7 @@ public class EasyMVC {
     }
 
     public void addDependencyManager(DependencyManager manager) {
-
+        managers.put(manager.dependencyClass(), manager);
     }
 
 }
