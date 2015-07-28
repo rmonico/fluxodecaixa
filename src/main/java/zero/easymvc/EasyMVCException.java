@@ -2,8 +2,8 @@ package zero.easymvc;
 
 public class EasyMVCException extends Exception {
 
-    public EasyMVCException(Exception e) {
-        super(e);
+    public EasyMVCException(Throwable throwable) {
+        super(throwable);
     }
 
     public EasyMVCException(String message) {

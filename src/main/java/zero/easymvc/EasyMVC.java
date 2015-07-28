@@ -172,8 +172,10 @@ public class EasyMVC {
     private void invokeHandler(CommandData data) throws EasyMVCException {
         try {
             data.handlerMethod.invoke(data.handlerInstance, data.bean);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+        } catch (IllegalAccessException | IllegalArgumentException e) {
             throw new EasyMVCException(e);
+        } catch (InvocationTargetException ite) {
+            throw new EasyMVCException(ite.getCause());
         }
     }
 
@@ -184,8 +186,10 @@ public class EasyMVC {
 
         try {
             data.rendererMethod.invoke(data.rendererInstance, bean);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+        } catch (IllegalAccessException | IllegalArgumentException e) {
             throw new EasyMVCException(e);
+        } catch (InvocationTargetException ite) {
+            throw new EasyMVCException(ite.getCause());
         }
     }
 
