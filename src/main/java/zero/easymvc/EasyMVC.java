@@ -1,7 +1,9 @@
 package zero.easymvc;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,19 +31,15 @@ public class EasyMVC {
                     // anotação.
                     throw new RuntimeException("A command can have just one handler!");
 
+                Class<?>[] parameters = method.getParameterTypes();
+
+                if (parameters.length > 1) {
+                    throw new RuntimeException("Command handlers can have just one parameter.");
+                }
+
                 data.handlerMethod = method;
             }
         }
-    }
-
-    private CommandData getCommandDataFor(Command command) {
-        for (CommandData data : commands) {
-            if (data.command.isSameCommand(command)) {
-                return data;
-            }
-        }
-
-        return null;
     }
 
     public void bindPathToRenderer(Class<?> rendererClass, Command command) {
@@ -70,10 +68,12 @@ public class EasyMVC {
     public void run(Command command) throws EasyMVCException {
         CommandData data = getCommandDataFor(command);
 
-        checkCommandDataIntegrity(command, data);
+        checkCommandDataIntegrity(data, command);
+
+        createBean(data, command);
 
         if (data.handlerInstance == null) {
-            createHandlerInstanceAndBean(data);
+            createHandlerInstance(data);
         }
 
         invokeHandler(data);
@@ -81,7 +81,17 @@ public class EasyMVC {
         invokeRenderer(data, data.bean);
     }
 
-    private void checkCommandDataIntegrity(Command command, CommandData data) throws EasyMVCException {
+    private CommandData getCommandDataFor(Command command) {
+        for (CommandData data : commands) {
+            if (data.command.isSameCommand(command)) {
+                return data;
+            }
+        }
+
+        return null;
+    }
+
+    private void checkCommandDataIntegrity(CommandData data, Command command) throws EasyMVCException {
         if (data == null) {
             throw new EasyMVCException("Command not found: " + command.toString());
         } else if (data.rendererMethod == null) {
@@ -91,29 +101,69 @@ public class EasyMVC {
         }
     }
 
-    private void createHandlerInstanceAndBean(CommandData data) throws EasyMVCException {
-        Method method = data.handlerMethod;
+    private void createBean(CommandData data, Command command) throws EasyMVCException {
+        Object[] extraArgs = getExtraArgs(data, command);
+
+        Class<?> beanClass = data.handlerMethod.getParameterTypes()[0];
+
+        List<Field> fields = getBeanInjectedFields(beanClass);
+
+        if (extraArgs.length > fields.size())
+            throw new EasyMVCException("Extra arguments found. Command: " + command.toString());
+        else if (extraArgs.length < fields.size()) {
+            throw new EasyMVCException("Insuficient arguments. Command: " + command.toString());
+        }
 
         try {
-            Class<?> handlerClass = method.getDeclaringClass();
-            Object instance = handlerClass.newInstance();
-            data.handlerInstance = instance;
+            data.bean = beanClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new EasyMVCException(e);
         }
 
-        Class<?>[] parameters = method.getParameterTypes();
+        injectExtraArgsIntoBeanFields(data.bean, fields, extraArgs);
+    }
 
-        if (parameters.length > 1) {
-            throw new EasyMVCException("Commands can have just one parameter.");
+    private Object[] getExtraArgs(CommandData data, Command command) {
+        Object[] commandArgs = command.args();
+        Object[] dataCommandArgs = data.command.args();
+        int extraArgCount = commandArgs.length - dataCommandArgs.length;
+
+        Object[] extraArgs = Arrays.copyOfRange(commandArgs, commandArgs.length - extraArgCount, commandArgs.length);
+
+        return extraArgs;
+    }
+
+    private List<Field> getBeanInjectedFields(Class<?> beanClass) throws EasyMVCException {
+        List<Field> fields = new LinkedList<>();
+
+        for (Field field : beanClass.getDeclaredFields()) {
+            if (field.getAnnotation(Parameter.class) != null)
+                fields.add(field);
         }
 
-        for (int i = 0; i < parameters.length; i++) {
+        return fields;
+    }
+
+    private void injectExtraArgsIntoBeanFields(Object bean, List<Field> fields, Object[] extraArgs) throws EasyMVCException {
+        for (int i =0;i<fields.size();i++) {
+            Field field = fields.get(i);
+            
             try {
-                data.bean = parameters[i].newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
+                field.setAccessible(true);
+                field.set(bean, extraArgs[i]);
+            } catch (IllegalArgumentException | IllegalAccessException e) {
                 throw new EasyMVCException(e);
             }
+        }
+    }
+
+    private void createHandlerInstance(CommandData data) throws EasyMVCException {
+        try {
+            Class<?> handlerClass = data.handlerMethod.getDeclaringClass();
+            Object instance = handlerClass.newInstance();
+            data.handlerInstance = instance;
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new EasyMVCException(e);
         }
     }
 

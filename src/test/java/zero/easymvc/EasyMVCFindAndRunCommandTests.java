@@ -71,7 +71,7 @@ public class EasyMVCFindAndRunCommandTests {
         }
     }
 
-    @Test(expected = EasyMVCException.class)
+    @Test(expected = RuntimeException.class)
     public void command_should_receive_just_one_bean() throws EasyMVCException {
         controller.registerCommandHandler(InvalidCommand.class);
 
