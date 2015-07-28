@@ -1,4 +1,4 @@
-package zero.fluxodecaixa;
+package zero.fluxodecaixa.app;
 
 public class ContaLsCommand {
 
