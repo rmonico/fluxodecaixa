@@ -9,18 +9,18 @@ public class EasyMVCTests {
 
     public static class TestBean {
 
-        public static boolean commandRan;
-        public static boolean rendererRan;
+        public boolean commandRan;
+        public boolean rendererRan;
         public static int instanceCount;
 
         public TestBean() {
             instanceCount++;
+            commandRan = false;
+            rendererRan = false;
         }
 
         public static void reset() {
             instanceCount = 0;
-            commandRan = false;
-            rendererRan = false;
         }
 
     }
@@ -28,16 +28,19 @@ public class EasyMVCTests {
     public static class TestCommand {
         @CommandHandler(path = { "command", "subcommand" })
         public void execute(TestBean bean) {
-            TestBean.commandRan = true;
+            bean.commandRan = true;
         }
 
     }
 
     public static class TestsRenderer {
 
+        public static TestBean bean;
+
         @Renderer
         public void render(TestBean bean) {
-            TestBean.rendererRan = true;
+            TestsRenderer.bean = bean;
+            bean.rendererRan = true;
         }
     }
 
@@ -70,8 +73,8 @@ public class EasyMVCTests {
 
         controller.run("command", "subcommand");
 
-        assertTrue(TestBean.commandRan);
-        assertTrue(TestBean.rendererRan);
+        assertTrue(TestsRenderer.bean.commandRan);
+        assertTrue(TestsRenderer.bean.rendererRan);
         assertEquals(1, TestBean.instanceCount);
     }
 }
