@@ -62,6 +62,25 @@ public class EasyMVCFindAndRunCommandTests {
         controller.run("command", "subcommand");
     }
 
+    public static class InvalidCommand {
+
+        @CommandHandler(path = "command")
+        public void run(Object firstBean, Object secondBean) {
+
+        }
+    }
+
+    @Test(expected = EasyMVCException.class)
+    public void command_should_receive_just_one_bean() throws EasyMVCException {
+        EasyMVC controller = new EasyMVC();
+
+        controller.registerCommandHandler(InvalidCommand.class);
+
+        controller.bindPathToRenderer(TestRenderer.class, new StringArrayCommand("command"));
+
+        controller.run("command");
+    }
+
     @Test
     public void should_find_and_run_command() throws EasyMVCException {
         EasyMVC controller = new EasyMVC();
