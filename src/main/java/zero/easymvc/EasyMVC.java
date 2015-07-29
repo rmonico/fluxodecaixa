@@ -11,6 +11,7 @@ import java.util.Map;
 
 public class EasyMVC {
 
+    private static final String FIRST_POSITIONAL_PARAMETER_NAME = "<initial>";
     // TODO Create log
     private List<CommandData> commands;
     private Map<Class<?>, DependencyManager> managers;
@@ -30,6 +31,11 @@ public class EasyMVC {
                 checkHandlerParameters(method);
 
                 checkHandlerDependencies(method.getDeclaringClass());
+
+                // TODO Bean must have one or none "<initial>" positional
+                // parameter, all positional parameter after values must be
+                // other field names. Check Positional Pameter cicles
+                // checkHandlerBeanSanity();
 
                 CommandData data = getCommandDataFor(command);
                 if (data == null) {
@@ -146,6 +152,8 @@ public class EasyMVC {
             beanClass = parameterTypes[0];
 
             fields = getBeanInjectedFields(beanClass);
+
+            sortBeanInjectedField(fields);
         } else {
             beanClass = null;
 
@@ -154,9 +162,8 @@ public class EasyMVC {
 
         if (extraArgs.length > fields.size())
             throw new EasyMVCException("Extra arguments found. Command: " + command.toString());
-        else if (extraArgs.length < fields.size()) {
+        else if (extraArgs.length < fields.size())
             throw new EasyMVCException("Insuficient arguments. Command: " + command.toString());
-        }
 
         if (hasBean) {
             try {
@@ -190,6 +197,29 @@ public class EasyMVC {
         }
 
         return fields;
+    }
+
+    private void sortBeanInjectedField(List<Field> fields) {
+        String previousFieldName = FIRST_POSITIONAL_PARAMETER_NAME;
+
+        for (int i = 0; i < fields.size(); i++) {
+            for (int j = i; j < fields.size(); j++) {
+                Field field = fields.get(j);
+
+                PositionalParameter annotation = field.getAnnotation(PositionalParameter.class);
+
+                if (annotation == null)
+                    continue;
+
+                if (annotation.after().equals(previousFieldName)) {
+                    fields.remove(field);
+                    fields.add(i, field);
+
+                    previousFieldName = field.getName();
+                    break;
+                }
+            }
+        }
     }
 
     private void injectExtraArgsIntoBeanFields(Object bean, List<Field> fields, Object[] extraArgs) throws EasyMVCException {
