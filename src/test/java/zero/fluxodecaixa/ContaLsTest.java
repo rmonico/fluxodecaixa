@@ -35,7 +35,6 @@ public class ContaLsTest {
 
     @Test
     public void contaLsCommand_should_return_all_available_contas() throws SQLException, EasyMVCException {
-
         controller.registerCommandHandler(ContaLsCommand.class);
 
         controller.bindPathToRenderer(ContaLsRenderer.class, new StringArrayCommand("conta", "ls"));
