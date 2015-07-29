@@ -21,6 +21,8 @@ public class ContaAddCommand {
 
         conta.setNome(bean.getNome());
 
+        conta.setContabilizavel(bean.isContabilizavel());
+
         Dao<Conta, Integer> dao = DaoManager.createDao(connection, Conta.class);
 
         dao.create(conta);
