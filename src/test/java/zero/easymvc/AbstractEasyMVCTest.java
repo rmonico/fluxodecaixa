@@ -2,7 +2,7 @@ package zero.easymvc;
 
 import org.junit.Before;
 
-public class EasyMVCTest {
+public class AbstractEasyMVCTest {
 
     protected EasyMVC controller;
 

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class TokenizedParameterTests extends EasyMVCTest {
+public class TokenizedParameterTests extends AbstractEasyMVCTest {
 
     public static class Bean {
         @FlagParameter(token = "--token")

@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class ParamInjection extends EasyMVCTest {
+public class ParamInjection extends AbstractEasyMVCTest {
 
     public static class Bean {
         @PositionalParameter

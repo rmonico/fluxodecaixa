@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class BeanInjectionTests extends EasyMVCTest {
+public class BeanInjectionTests extends AbstractEasyMVCTest {
 
     public static class TestBean {
         public boolean commandRan;

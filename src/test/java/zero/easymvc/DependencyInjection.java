@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class DependencyInjection extends EasyMVCTest {
+public class DependencyInjection extends AbstractEasyMVCTest {
 
     public static class TheDependency {
         public boolean configured;
