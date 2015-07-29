@@ -35,6 +35,9 @@ public class AbstractCommand implements Command {
 
     @Override
     public String toString() {
+        if (args.length == 0)
+            return "";
+
         StringBuilder sb = new StringBuilder("[");
 
         for (Object o : args) {
