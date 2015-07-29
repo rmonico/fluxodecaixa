@@ -7,7 +7,7 @@ import org.junit.Test;
 public class ParamInjection extends EasyMVCTest {
 
     public static class Bean {
-        @Parameter
+        @PositionalParameter
         private String name;
 
         public String getName() {
@@ -54,4 +54,38 @@ public class ParamInjection extends EasyMVCTest {
 
         assertEquals("55", Handler.receivedParam);
     }
+
+    public static class TwoParamBean {
+        @PositionalParameter(after = "param1")
+        public String param2;
+
+        @PositionalParameter
+        public String param1;
+
+    }
+
+    public static class Command {
+        @CommandHandler(path = { "command" })
+        public void execute(TwoParamBean bean) {
+
+        }
+
+        @Renderer
+        public void render(TwoParamBean bean) {
+
+        }
+    }
+
+    @Test
+    public void should_populate_both_params() throws EasyMVCException {
+        controller.registerCommandHandler(Command.class);
+
+        controller.bindPathToRenderer(Command.class, new StringArrayCommand("command"));
+
+        TwoParamBean bean = (TwoParamBean) controller.run("command", "param 1", "param 2");
+
+        assertEquals("param 1", bean.param1);
+        assertEquals("param 2", bean.param2);
+    }
+
 }

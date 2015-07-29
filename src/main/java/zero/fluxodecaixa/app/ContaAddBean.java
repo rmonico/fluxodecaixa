@@ -1,11 +1,11 @@
 package zero.fluxodecaixa.app;
 
-import zero.easymvc.Parameter;
+import zero.easymvc.PositionalParameter;
 import zero.fluxodecaixa.model.Conta;
 
 public class ContaAddBean {
 
-    @Parameter
+    @PositionalParameter
     private String nome;
     private Conta conta;
 

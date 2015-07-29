@@ -183,7 +183,9 @@ public class EasyMVC {
         List<Field> fields = new LinkedList<>();
 
         for (Field field : beanClass.getDeclaredFields()) {
-            if (field.getAnnotation(Parameter.class) != null)
+            if (field.getAnnotation(PositionalParameter.class) != null)
+                fields.add(field);
+            else if (field.getAnnotation(FlagParameter.class) != null)
                 fields.add(field);
         }
 
