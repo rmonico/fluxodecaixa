@@ -13,11 +13,11 @@ import com.j256.ormlite.support.ConnectionSource;
 public class ContaLsCommand {
 
     @Dependency
-    private ConnectionSource connectionSource;
+    private ConnectionSource connection;
 
     @CommandHandler(path = { "conta", "ls" })
     public void execute(ContaLsBean bean) throws SQLException {
-        Dao<Conta, Integer> contaDao = DaoManager.createDao(connectionSource, Conta.class);
+        Dao<Conta, Integer> contaDao = DaoManager.createDao(connection, Conta.class);
 
         bean.setContas(contaDao.queryForAll());
     }
