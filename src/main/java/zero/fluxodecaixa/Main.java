@@ -9,6 +9,7 @@ import zero.fluxodecaixa.app.ContaLsCommand;
 
 public class Main {
 
+    // TODO Create a switch to control log verbosity
     public static void main(String[] args) throws SQLException, EasyMVCException {
         Main main = new Main();
 

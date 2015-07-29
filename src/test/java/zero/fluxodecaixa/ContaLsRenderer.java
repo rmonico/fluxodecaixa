@@ -8,6 +8,7 @@ import zero.fluxodecaixa.model.Conta;
 
 public class ContaLsRenderer {
 
+    // TODO Extract a list printer
     private final String ID_HEADER = "ID";
     private final String NOME_HEADER = "Nome";
     private final String CONTABILIZAVEL_HEADER = "Contabilizável";

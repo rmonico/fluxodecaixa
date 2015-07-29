@@ -33,6 +33,7 @@ public class ContaLsTest {
 
     private ConnectionManager connectionManager;
 
+    // TODO Extract this to a TestConnectionManager
     private IDatabaseConnection getConnection() throws ClassNotFoundException, SQLException, DatabaseUnitException {
         Class.forName(ConnectionManager.DRIVER_CLASS);
         Connection jdbcConnection = DriverManager.getConnection(ConnectionManager.CONNECTION_STRING);

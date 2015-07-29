@@ -11,6 +11,7 @@ import java.util.Map;
 
 public class EasyMVC {
 
+    // TODO Create log
     private List<CommandData> commands;
     private Map<Class<?>, DependencyManager> managers;
 
