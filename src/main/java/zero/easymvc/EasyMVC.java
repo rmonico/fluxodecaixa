@@ -3,7 +3,6 @@ package zero.easymvc;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.Map;
 
 public class EasyMVC {
 
-    private static final String FIRST_POSITIONAL_PARAMETER_NAME = "<initial>";
+    static final String FIRST_POSITIONAL_PARAMETER_NAME = "<initial>";
     // TODO Create log
     private List<CommandData> commands;
     private Map<Class<?>, DependencyManager> managers;
@@ -101,7 +100,9 @@ public class EasyMVC {
 
         checkCommandDataIntegrity(data, command);
 
-        createBean(data, command);
+        BeanFactory beanFactory = new BeanFactory(data, command);
+
+        data.bean = beanFactory.create();
 
         if (data.handlerInstance == null) {
             createHandlerInstance(data);
@@ -135,104 +136,6 @@ public class EasyMVC {
             throw new EasyMVCException("Renderer not found for command " + command.toString());
         } else if (data.handlerMethod == null) {
             throw new EasyMVCException("Handler data not found for command " + command.toString());
-        }
-    }
-
-    private void createBean(CommandData data, Command command) throws EasyMVCException {
-        Object[] extraArgs = getExtraArgs(data, command);
-
-        Class<?>[] parameterTypes = data.handlerMethod.getParameterTypes();
-
-        List<Field> fields;
-
-        boolean hasBean = parameterTypes.length > 0;
-        Class<?> beanClass;
-
-        if (hasBean) {
-            beanClass = parameterTypes[0];
-
-            fields = getBeanInjectedFields(beanClass);
-
-            sortBeanInjectedField(fields);
-        } else {
-            beanClass = null;
-
-            fields = new LinkedList<>();
-        }
-
-        if (extraArgs.length > fields.size())
-            throw new EasyMVCException("Extra arguments found. Command: " + command.toString());
-        else if (extraArgs.length < fields.size())
-            throw new EasyMVCException("Insuficient arguments. Command: " + command.toString());
-
-        if (hasBean) {
-            try {
-                data.bean = beanClass.newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
-                throw new EasyMVCException(e);
-            }
-
-            injectExtraArgsIntoBeanFields(data.bean, fields, extraArgs);
-        }
-    }
-
-    private Object[] getExtraArgs(CommandData data, Command command) {
-        Object[] commandArgs = command.args();
-        Object[] dataCommandArgs = data.command.args();
-        int extraArgCount = commandArgs.length - dataCommandArgs.length;
-
-        Object[] extraArgs = Arrays.copyOfRange(commandArgs, commandArgs.length - extraArgCount, commandArgs.length);
-
-        return extraArgs;
-    }
-
-    private List<Field> getBeanInjectedFields(Class<?> beanClass) throws EasyMVCException {
-        List<Field> fields = new LinkedList<>();
-
-        for (Field field : beanClass.getDeclaredFields()) {
-            if (field.getAnnotation(PositionalParameter.class) != null)
-                fields.add(field);
-            else if (field.getAnnotation(FlagParameter.class) != null)
-                fields.add(field);
-        }
-
-        return fields;
-    }
-
-    private void sortBeanInjectedField(List<Field> fields) {
-        String previousFieldName = FIRST_POSITIONAL_PARAMETER_NAME;
-
-        for (int i = 0; i < fields.size(); i++) {
-            for (int j = i; j < fields.size(); j++) {
-                Field field = fields.get(j);
-
-                PositionalParameter annotation = field.getAnnotation(PositionalParameter.class);
-
-                if (annotation == null)
-                    continue;
-
-                if (annotation.after().equals(previousFieldName)) {
-                    fields.remove(field);
-                    fields.add(i, field);
-
-                    previousFieldName = field.getName();
-                    break;
-                }
-            }
-        }
-    }
-
-    private void injectExtraArgsIntoBeanFields(Object bean, List<Field> fields, Object[] extraArgs) throws EasyMVCException {
-        for (int i = 0; i < fields.size(); i++) {
-            Field field = fields.get(i);
-
-            field.setAccessible(true);
-
-            try {
-                field.set(bean, extraArgs[i]);
-            } catch (IllegalArgumentException | IllegalAccessException e) {
-                throw new EasyMVCException(e);
-            }
         }
     }
 
