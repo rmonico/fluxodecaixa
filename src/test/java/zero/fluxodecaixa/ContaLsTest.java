@@ -87,7 +87,7 @@ public class ContaLsTest {
 
         assertEquals(3, contas.size());
 
-        assertConta("carteita", true, contas.get(0));
+        assertConta("carteira", true, contas.get(0));
         assertConta("casa", false, contas.get(1));
         assertConta("itau", true, contas.get(2));
     }
