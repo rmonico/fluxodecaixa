@@ -17,8 +17,8 @@ public class ContaLsCommand {
 
     @CommandHandler(path = { "conta", "ls" })
     public void execute(ContaLsBean bean) throws SQLException {
-        Dao<Conta, Integer> contaDao = DaoManager.createDao(connection, Conta.class);
+        Dao<Conta, Integer> dao = DaoManager.createDao(connection, Conta.class);
 
-        bean.setContas(contaDao.queryForAll());
+        bean.setContas(dao.queryForAll());
     }
 }
