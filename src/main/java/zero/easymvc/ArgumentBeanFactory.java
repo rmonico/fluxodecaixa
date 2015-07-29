@@ -18,23 +18,20 @@ class ArgumentBeanFactory {
         this.command = command;
     }
 
-    public Object create() throws EasyMVCException {
+    public void create() throws EasyMVCException {
         populateArgs();
 
-        Class<?>[] parameterTypes = data.handlerMethod.getParameterTypes();
+        // TODO Check if handler has more than one @ArgumentBean annotation
+        Field beanField = getArgumentBeanClass();
 
-        boolean hasBean = parameterTypes.length > 0;
-
-        if (!hasBean)
+        if (beanField == null)
             if (args.length > 0)
                 // TODO Show which are the extra arguments
                 throw new EasyMVCException("Extra arguments found. Command: " + command.toString());
             else
-                return null;
+                return;
 
-        Class<?> beanClass = parameterTypes[0];
-
-        populateRequiredFields(beanClass);
+        populateRequiredFields(beanField.getType());
 
         sortRequiredFields();
 
@@ -42,11 +39,11 @@ class ArgumentBeanFactory {
             throw new EasyMVCException("Insuficient arguments. Command: " + command.toString());
         }
 
-        populateOptionalFields(beanClass);
+        populateOptionalFields(beanField.getType());
 
         Object bean;
         try {
-            bean = beanClass.newInstance();
+            bean = beanField.getType().newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new EasyMVCException(e);
         }
@@ -54,7 +51,7 @@ class ArgumentBeanFactory {
         injectRequiredArguments(bean);
         injectOptionalArguments(bean);
 
-        return bean;
+        injectArgumentBeanIntoHandler(beanField, bean);
     }
 
     private void populateArgs() {
@@ -63,6 +60,16 @@ class ArgumentBeanFactory {
         int argCount = fullCommand.length - dataCommandArgs.length;
 
         args = Arrays.copyOfRange(fullCommand, fullCommand.length - argCount, fullCommand.length);
+    }
+
+    private Field getArgumentBeanClass() {
+        for (Field field : data.handlerInstance.getClass().getDeclaredFields()) {
+            if (field.getAnnotation(ArgumentBean.class) != null) {
+                return field;
+            }
+        }
+
+        return null;
     }
 
     private void populateRequiredFields(Class<?> beanClass) {
@@ -186,6 +193,19 @@ class ArgumentBeanFactory {
                 throw new EasyMVCException(e);
             }
         }
+    }
+
+    private void injectArgumentBeanIntoHandler(Field field, Object bean) throws EasyMVCException {
+        boolean accessible = field.isAccessible();
+        field.setAccessible(true);
+        
+        try {
+            field.set(data.handlerInstance, bean);
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            throw new EasyMVCException(e);
+        }
+        
+        field.setAccessible(accessible);
     }
 
 }

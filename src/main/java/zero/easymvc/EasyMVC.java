@@ -98,13 +98,13 @@ public class EasyMVC {
 
         checkCommandDataIntegrity(data, command);
 
-        ArgumentBeanFactory beanFactory = new ArgumentBeanFactory(data, command);
-
-        data.argumentBean = beanFactory.create();
-
         if (data.handlerInstance == null) {
             createHandlerInstance(data);
         }
+
+        ArgumentBeanFactory beanFactory = new ArgumentBeanFactory(data, command);
+
+        beanFactory.create();
 
         injectDependenciesIntoHandler(data.handlerInstance);
 
