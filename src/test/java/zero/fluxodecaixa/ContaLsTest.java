@@ -31,7 +31,7 @@ import com.j256.ormlite.table.TableUtils;
 
 public class ContaLsTest {
 
-    private ConnectionManager connectionManager;
+    private EasyMVC controller;
 
     // TODO Extract this to a TestConnectionManager
     private IDatabaseConnection getConnection() throws ClassNotFoundException, SQLException, DatabaseUnitException {
@@ -47,15 +47,16 @@ public class ContaLsTest {
 
     @Before
     public void initializeDatabase() throws ClassNotFoundException, FileNotFoundException, SQLException, DatabaseUnitException {
-        recreateStructure();
+        controller = new EasyMVC();
+
+        ConnectionManager manager = new ConnectionManager();
+        controller.addDependencyManager(manager);
+
+        recreateStructure(manager.getInstance());
         startDBUnit();
     }
 
-    private void recreateStructure() throws SQLException {
-        connectionManager = new ConnectionManager();
-
-        ConnectionSource source = connectionManager.getInstance();
-
+    private void recreateStructure(ConnectionSource source) throws SQLException {
         TableUtils.dropTable(source, Conta.class, true);
         TableUtils.createTable(source, Conta.class);
     }
@@ -74,10 +75,6 @@ public class ContaLsTest {
 
     @Test
     public void contaLsCommand_should_return_all_available_contas() throws SQLException, EasyMVCException {
-        EasyMVC controller = new EasyMVC();
-
-        controller.addDependencyManager(connectionManager);
-
         controller.registerCommandHandler(ContaLsCommand.class);
 
         controller.bindPathToRenderer(ContaLsRenderer.class, new StringArrayCommand("conta", "ls"));
