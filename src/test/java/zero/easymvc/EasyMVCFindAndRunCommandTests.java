@@ -1,7 +1,10 @@
 package zero.easymvc;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.junit.Test;
 
@@ -19,6 +22,8 @@ public class EasyMVCFindAndRunCommandTests extends EasyMVCTest {
 
         @CommandHandler(path = { "command", "subcommand" })
         public void execute() {
+            bean = new TestBean();
+
             bean.commandRan = true;
         }
 
@@ -26,7 +31,6 @@ public class EasyMVCFindAndRunCommandTests extends EasyMVCTest {
 
     public static class TestRenderer {
 
-        @Bean
         private TestBean bean;
 
         @Renderer
@@ -41,7 +45,14 @@ public class EasyMVCFindAndRunCommandTests extends EasyMVCTest {
 
         controller.bindPathToRenderer(TestRenderer.class, new StringArrayCommand("command", "subcommand"));
 
-        TestBean bean = (TestBean) controller.run("command", "subcommand");
+        List<Object> beans = controller.run("command", "subcommand");
+
+        assertNotNull(beans);
+        assertEquals(1, beans.size());
+
+        assertEquals(TestBean.class, beans.get(0).getClass());
+
+        TestBean bean = (TestBean) beans.get(0);
 
         assertNotNull(bean);
         assertTrue(bean.commandRan);

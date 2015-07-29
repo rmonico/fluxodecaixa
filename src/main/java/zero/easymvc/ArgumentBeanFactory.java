@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-class BeanFactory {
+class ArgumentBeanFactory {
 
     private CommandData data;
     private Command command;
@@ -13,7 +13,7 @@ class BeanFactory {
     private List<Field> requiredFields;
     private List<Field> optionalFields;
 
-    public BeanFactory(CommandData data, Command command) {
+    public ArgumentBeanFactory(CommandData data, Command command) {
         this.data = data;
         this.command = command;
     }

@@ -41,8 +41,6 @@ public class EasyMVC {
                     data = new CommandData(command);
                     commands.add(data);
                 } else if (data.handlerMethod != null)
-                    // TODO Depois fazer chamar todas as ocorrências da
-                    // anotação.
                     throw new RuntimeException("A command can have just one handler!");
 
                 data.handlerMethod = method;
@@ -53,8 +51,8 @@ public class EasyMVC {
     private void checkHandlerParameters(Method method) {
         Class<?>[] parameters = method.getParameterTypes();
 
-        if (parameters.length > 1) {
-            throw new RuntimeException("Command handlers can have just one parameter.");
+        if (parameters.length != 0) {
+            throw new RuntimeException("Command handlers cannot have parameters.");
         }
     }
 
@@ -91,18 +89,18 @@ public class EasyMVC {
 
     }
 
-    public Object run(String... args) throws EasyMVCException {
+    public List<Object> run(String... args) throws EasyMVCException {
         return run(new StringArrayCommand(args));
     }
 
-    public Object run(Command command) throws EasyMVCException {
+    public List<Object> run(Command command) throws EasyMVCException {
         CommandData data = getCommandDataFor(command);
 
         checkCommandDataIntegrity(data, command);
 
-        BeanFactory beanFactory = new BeanFactory(data, command);
+        ArgumentBeanFactory beanFactory = new ArgumentBeanFactory(data, command);
 
-        data.bean = beanFactory.create();
+        data.argumentBean = beanFactory.create();
 
         if (data.handlerInstance == null) {
             createHandlerInstance(data);
@@ -114,9 +112,17 @@ public class EasyMVC {
 
         disposeDependencies(data.handlerInstance);
 
-        invokeRenderer(data, data.bean);
+        List<Field> beanFields = getHandlerFieldBeans(data.handlerInstance);
 
-        return data.bean;
+        if (data.rendererInstance == null) {
+            createRendererInstance(data);
+        }
+
+        List<Object> handlerBeans = injectHandlerBeansIntoRenderer(data, beanFields);
+
+        invokeRenderer(data, beanFields);
+
+        return handlerBeans;
     }
 
     private CommandData getCommandDataFor(Command command) {
@@ -167,21 +173,23 @@ public class EasyMVC {
 
             Object dependency = dependencyManager.getInstance();
 
+            boolean accessible = field.isAccessible();
+
             field.setAccessible(true);
             try {
                 field.set(instance, dependency);
             } catch (IllegalArgumentException | IllegalAccessException e) {
                 throw new EasyMVCException(e);
             }
+
+            field.setAccessible(accessible);
         }
     }
 
     private void invokeHandler(CommandData data) throws EasyMVCException {
         try {
-            if (data.bean == null)
-                data.handlerMethod.invoke(data.handlerInstance);
-            else
-                data.handlerMethod.invoke(data.handlerInstance, data.bean);
+            // FIXME Assumo que handlerMethod não tem parâmetros
+            data.handlerMethod.invoke(data.handlerInstance);
         } catch (IllegalAccessException | IllegalArgumentException e) {
             throw new EasyMVCException(e);
         } catch (InvocationTargetException ite) {
@@ -206,16 +214,22 @@ public class EasyMVC {
         }
     }
 
-    private void invokeRenderer(CommandData data, Object bean) throws EasyMVCException {
-        if (data.rendererInstance == null) {
-            createRendererInstance(data);
+    private List<Field> getHandlerFieldBeans(Object handlerInstance) {
+        List<Field> beans = new LinkedList<>();
+
+        for (Field field : handlerInstance.getClass().getDeclaredFields()) {
+            if (field.getAnnotation(Bean.class) == null)
+                continue;
+
+            beans.add(field);
         }
 
+        return beans;
+    }
+
+    private void invokeRenderer(CommandData data, List<Field> beanFields) throws EasyMVCException {
         try {
-            if (bean == null)
-                data.rendererMethod.invoke(data.rendererInstance);
-            else
-                data.rendererMethod.invoke(data.rendererInstance, bean);
+            data.rendererMethod.invoke(data.rendererInstance);
         } catch (IllegalAccessException | IllegalArgumentException e) {
             throw new EasyMVCException(e);
         } catch (InvocationTargetException ite) {
@@ -231,6 +245,42 @@ public class EasyMVC {
         } catch (InstantiationException | IllegalAccessException e) {
             throw new EasyMVCException(e);
         }
+    }
+
+    private List<Object> injectHandlerBeansIntoRenderer(CommandData data, List<Field> beanFields) {
+        List<Object> values = new LinkedList<>();
+
+        for (Field handlerField : beanFields) {
+            String fieldName = handlerField.getName();
+            Field rendererField;
+            try {
+                rendererField = data.rendererInstance.getClass().getDeclaredField(fieldName);
+            } catch (NoSuchFieldException | SecurityException e) {
+                // TODO Check if renderer has corresponding handler bean fields
+                throw new RuntimeException("Should never happen!");
+            }
+
+            boolean handlerFieldAccessible = handlerField.isAccessible();
+            handlerField.setAccessible(true);
+            boolean rendererFieldAccessible = rendererField.isAccessible();
+            rendererField.setAccessible(true);
+            Object value;
+            try {
+                value = handlerField.get(data.handlerInstance);
+
+                rendererField.set(data.rendererInstance, value);
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                // TODO Check if renderer and handler bean classes are the same
+                throw new RuntimeException("Should never happen!");
+            }
+
+            values.add(value);
+
+            handlerField.setAccessible(handlerFieldAccessible);
+            rendererField.setAccessible(rendererFieldAccessible);
+        }
+
+        return values;
     }
 
     public void addDependencyManager(DependencyManager manager) {
