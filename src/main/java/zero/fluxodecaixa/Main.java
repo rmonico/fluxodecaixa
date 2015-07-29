@@ -6,6 +6,7 @@ import zero.easymvc.EasyMVC;
 import zero.easymvc.EasyMVCException;
 import zero.easymvc.StringArrayCommand;
 import zero.fluxodecaixa.app.ContaLsCommand;
+import zero.fluxodecaixa.renderer.ContaLsRenderer;
 
 public class Main {
 
