@@ -2,35 +2,23 @@ package zero.fluxodecaixa;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.dbunit.DatabaseUnitException;
-import org.junit.Before;
 import org.junit.Test;
 
-import zero.easymvc.EasyMVC;
 import zero.easymvc.EasyMVCException;
 import zero.easymvc.StringArrayCommand;
 import zero.fluxodecaixa.app.ContaLsBean;
 import zero.fluxodecaixa.app.ContaLsCommand;
 import zero.fluxodecaixa.model.Conta;
+import zero.fluxodecaixa.renderer.ContaLsRenderer;
 
-public class ContaLsTest {
+public class ContaLsTest extends ContaTest {
 
-    private EasyMVC controller;
-    private TestConnectionManager connectionManager;
-
-    @Before
-    public void initializeDatabase() throws ClassNotFoundException, FileNotFoundException, SQLException, DatabaseUnitException {
-        controller = new EasyMVC();
-
-        connectionManager = new TestConnectionManager();
-
-        controller.addDependencyManager(connectionManager);
-
-        connectionManager.initializeDBUnitDataset("dbunit/contals_dataset.xml");
+    @Override
+    protected String getDatasetFileName() {
+        return "dbunit/contals_dataset.xml";
     }
 
     @Test
@@ -50,8 +38,4 @@ public class ContaLsTest {
         assertConta("itau", true, contas.get(2));
     }
 
-    private void assertConta(String nome, boolean contabilizavel, Conta conta) {
-        assertEquals(nome, conta.getNome());
-        assertEquals(contabilizavel, conta.isContabilizavel());
-    }
 }
