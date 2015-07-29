@@ -9,13 +9,14 @@ import com.j256.ormlite.support.ConnectionSource;
 
 public class ConnectionManager implements DependencyManager {
 
-    public static final String CONNECTION_STRING = "jdbc:sqlite:./dbunit/test_database";
-    public static final String DRIVER_CLASS = "org.sqlite.JDBC";
-
     private ConnectionSource connectionSource;
 
     public ConnectionManager() throws SQLException {
-        connectionSource = new JdbcConnectionSource(CONNECTION_STRING);
+        connectionSource = new JdbcConnectionSource(getConnectionString());
+    }
+
+    protected String getConnectionString() {
+        return "jdbc:sqlite:./dbunit/database";
     }
 
     @Override

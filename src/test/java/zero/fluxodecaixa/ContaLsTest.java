@@ -2,20 +2,11 @@ package zero.fluxodecaixa;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
 import org.dbunit.DatabaseUnitException;
-import org.dbunit.database.DatabaseConnection;
-import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.dataset.DataSetException;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.dbunit.operation.DatabaseOperation;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,55 +17,25 @@ import zero.fluxodecaixa.app.ContaLsBean;
 import zero.fluxodecaixa.app.ContaLsCommand;
 import zero.fluxodecaixa.model.Conta;
 
-import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
-
 public class ContaLsTest {
 
     private EasyMVC controller;
-
-    // TODO Extract this to a TestConnectionManager
-    private IDatabaseConnection getConnection() throws ClassNotFoundException, SQLException, DatabaseUnitException {
-        Class.forName(ConnectionManager.DRIVER_CLASS);
-        Connection jdbcConnection = DriverManager.getConnection(ConnectionManager.CONNECTION_STRING);
-
-        return new DatabaseConnection(jdbcConnection);
-    }
-
-    private IDataSet getDataSet() throws DataSetException, FileNotFoundException {
-        return new FlatXmlDataSetBuilder().build(new FileInputStream("dbunit/dbunit_dataset.xml"));
-    }
+    private TestConnectionManager connectionManager;
 
     @Before
     public void initializeDatabase() throws ClassNotFoundException, FileNotFoundException, SQLException, DatabaseUnitException {
         controller = new EasyMVC();
 
-        ConnectionManager manager = new ConnectionManager();
-        controller.addDependencyManager(manager);
+        connectionManager = new TestConnectionManager();
 
-        recreateStructure(manager.getInstance());
-        startDBUnit();
-    }
+        controller.addDependencyManager(connectionManager);
 
-    private void recreateStructure(ConnectionSource source) throws SQLException {
-        TableUtils.dropTable(source, Conta.class, true);
-        TableUtils.createTable(source, Conta.class);
-    }
-
-    public void startDBUnit() throws ClassNotFoundException, SQLException, DatabaseUnitException, FileNotFoundException {
-        IDatabaseConnection connection = getConnection();
-
-        IDataSet dataSet = getDataSet();
-
-        try {
-            DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
-        } finally {
-            connection.close();
-        }
+        connectionManager.initializeDBUnitDataset("dbunit/contals_dataset.xml");
     }
 
     @Test
     public void contaLsCommand_should_return_all_available_contas() throws SQLException, EasyMVCException {
+
         controller.registerCommandHandler(ContaLsCommand.class);
 
         controller.bindPathToRenderer(ContaLsRenderer.class, new StringArrayCommand("conta", "ls"));
