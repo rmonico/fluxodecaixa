@@ -3,12 +3,9 @@ package zero.easymvc;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
 import org.junit.Test;
 
-public class DependencyInjection {
-
-    private EasyMVC controller;
+public class DependencyInjection extends EasyMVCTest {
 
     public static class TheDependency {
         public boolean configured;
@@ -61,11 +58,6 @@ public class DependencyInjection {
 
         }
 
-    }
-
-    @Before
-    public void before() {
-        controller = new EasyMVC();
     }
 
     @Test(expected = RuntimeException.class)

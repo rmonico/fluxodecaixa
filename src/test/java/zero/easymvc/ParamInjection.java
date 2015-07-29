@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class ParamInjection {
+public class ParamInjection extends EasyMVCTest {
 
     public static class Bean {
         @Parameter
@@ -31,8 +31,6 @@ public class ParamInjection {
 
     @Test(expected = EasyMVCException.class)
     public void should_throw_exception_when_insuficient_params() throws EasyMVCException {
-        EasyMVC controller = new EasyMVC();
-
         controller.registerCommandHandler(Handler.class);
         controller.bindPathToRenderer(Handler.class, new StringArrayCommand("command"));
 
@@ -41,8 +39,6 @@ public class ParamInjection {
 
     @Test(expected = EasyMVCException.class)
     public void should_throw_exception_when_extra_params() throws EasyMVCException {
-        EasyMVC controller = new EasyMVC();
-
         controller.registerCommandHandler(Handler.class);
         controller.bindPathToRenderer(Handler.class, new StringArrayCommand("command"));
 
@@ -51,8 +47,6 @@ public class ParamInjection {
 
     @Test
     public void should_inject_params_via_annotation() throws EasyMVCException {
-        EasyMVC controller = new EasyMVC();
-
         controller.registerCommandHandler(Handler.class);
         controller.bindPathToRenderer(Handler.class, new StringArrayCommand("command"));
 

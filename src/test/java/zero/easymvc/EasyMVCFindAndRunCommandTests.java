@@ -3,12 +3,9 @@ package zero.easymvc;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
 import org.junit.Test;
 
-public class EasyMVCFindAndRunCommandTests {
-
-    private EasyMVC controller;
+public class EasyMVCFindAndRunCommandTests extends EasyMVCTest {
 
     public static class TestBean {
 
@@ -45,11 +42,6 @@ public class EasyMVCFindAndRunCommandTests {
             TestRenderer.bean = bean;
             bean.rendererRan = true;
         }
-    }
-
-    @Before
-    public void before() {
-        controller = new EasyMVC();
     }
 
     @Test(expected = EasyMVCException.class)
