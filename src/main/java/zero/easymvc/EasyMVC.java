@@ -75,6 +75,8 @@ public class EasyMVC {
             Renderer annotation = method.getAnnotation(Renderer.class);
 
             if (annotation != null) {
+                Command command = new StringArrayCommand(annotation.path());
+
                 CommandData data = getCommandDataFor(command);
 
                 if (data == null) {
