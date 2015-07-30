@@ -33,6 +33,8 @@ public class ContaAddCommand {
 
         Dao<Conta, Integer> dao = DaoManager.createDao(connection, Conta.class);
 
+        // TODO Verificar se já existe uma conta com o mesmo nome...
+
         dao.create(conta);
     }
 }
