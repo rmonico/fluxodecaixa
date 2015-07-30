@@ -53,7 +53,7 @@ public class DependencyInjection extends AbstractEasyMVCTest {
             dependency.used = true;
         }
 
-        @Renderer
+        @Renderer(path = { "command" })
         public void render() {
 
         }

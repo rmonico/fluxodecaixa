@@ -32,7 +32,7 @@ public class TokenizedParameterTests extends AbstractEasyMVCTest {
         @SuppressWarnings("unused")
         private Arguments arguments;
 
-        @zero.easymvc.Renderer
+        @zero.easymvc.Renderer(path = { "command" })
         public void render() {
 
         }

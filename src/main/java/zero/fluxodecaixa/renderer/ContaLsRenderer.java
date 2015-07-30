@@ -14,7 +14,7 @@ public class ContaLsRenderer {
 
     private List<Conta> contas;
 
-    @Renderer
+    @Renderer(path = { "conta", "ls" })
     public void render() {
         int idWidth = getIdWidth(contas);
         int nomeWidth = getNomeWidth(contas);

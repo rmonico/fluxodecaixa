@@ -7,7 +7,7 @@ public class ContaAddRenderer {
 
     private Conta conta;
 
-    @Renderer
+    @Renderer(path = { "conta", "add" })
     public void render() {
         System.out.println(String.format("Conta \"%s\" criada com sucesso.", conta.getNome()));
     }

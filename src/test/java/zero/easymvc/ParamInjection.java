@@ -31,7 +31,7 @@ public class ParamInjection extends AbstractEasyMVCTest {
             receivedParam = bean.getName();
         }
 
-        @Renderer
+        @Renderer(path = { "command" })
         public void render() {
 
         }
@@ -86,7 +86,7 @@ public class ParamInjection extends AbstractEasyMVCTest {
 
         }
 
-        @Renderer
+        @Renderer(path = { "command" })
         public void render() {
 
         }
