@@ -33,7 +33,7 @@ public class BeanInjectionTests extends AbstractEasyMVCTest {
 
         private TestBean bean;
 
-        @Renderer
+        @Renderer(path = { "command", "subcommand" })
         public void render() {
             bean.rendererRan = true;
         }
