@@ -16,15 +16,15 @@ conta add <nome> [contabilizavel]
 conta ls
 conta rm <nome>
 
+lanc add <nome conta origem> <nome conta destino> <valor> [--trans-id=transacao id] [observacao]
+lanc ls [--trans-id=<id da transacao>] [--origem=<nome da origem>] [--destino=<nome do destino>] [--valor=<valor>] [--observacao=<regex>]
+lanc ch <lancamento id> [--trans-id=<id da transacao>] [--origem=<nome da origem>] [--destino=<nome do destino>] [--valor=<valor>] [--observacao=<observacao>]
+lanc rm <lancamento id>
+
 trans add <data> [observacao]
 trans ls [--posteriores-a=<data>] [--anteriores-a=<data>]
 trans ch <id> [--data=nova data] [-observacao=observacao]
 trans rm <id>
-
-lanc add <transacao id> <nome conta origem> <nome conta destino> <valor> [observacao]
-lanc ls [--trans-id=<id da transacao>] [--origem=<nome da origem>] [--destino=<nome do destino>] [--valor=<valor>] [--observacao=<regex>]
-lanc ch <lancamento id> [--trans-id=<id da transacao>] [--origem=<nome da origem>] [--destino=<nome do destino>] [--valor=<valor>] [--observacao=<observacao>]
-lanc rm <lancamento id>
 
 
 integer
@@ -32,6 +32,3 @@ string
 boolean
 calendar
 double
-
-index=
-optional?
