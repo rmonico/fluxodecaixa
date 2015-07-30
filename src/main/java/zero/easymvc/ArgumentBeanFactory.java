@@ -172,13 +172,33 @@ class ArgumentBeanFactory {
                 field.setAccessible(true);
 
             try {
-                field.set(bean, args[i]);
+                BeanParser parser = getBeanParserForField(field);
+
+                Object beanValue = parser.parse(args[i]);
+
+                field.set(bean, beanValue);
             } catch (IllegalArgumentException | IllegalAccessException e) {
                 Object handlerInstance = data.handlerInstance;
                 String message = String.format("Error setting value of bean \"%s\" on handler \"%s\".", field.getName(), handlerInstance.getClass().getCanonicalName());
                 throw new EasyMVCException(message, e);
             }
         }
+    }
+
+    private BeanParser getBeanParserForField(Field field) throws EasyMVCException {
+        PositionalParameter annotation = field.getAnnotation(PositionalParameter.class);
+
+        Class<? extends BeanParser> beanParserClass = annotation.parser();
+
+        BeanParser beanParser;
+        try {
+            // TODO Check if beanParserClass has a default constructor
+            beanParser = beanParserClass.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new EasyMVCException("Error creating bean parser.", e);
+        }
+
+        return beanParser;
     }
 
     private void injectOptionalArguments(Object bean) throws EasyMVCException {
@@ -200,13 +220,13 @@ class ArgumentBeanFactory {
     private void injectArgumentBeanIntoHandler(Field field, Object bean) throws EasyMVCException {
         boolean accessible = field.isAccessible();
         field.setAccessible(true);
-        
+
         try {
             field.set(data.handlerInstance, bean);
         } catch (IllegalArgumentException | IllegalAccessException e) {
             throw new EasyMVCException(e);
         }
-        
+
         field.setAccessible(accessible);
     }
 

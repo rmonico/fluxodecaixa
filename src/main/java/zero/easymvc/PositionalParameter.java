@@ -11,4 +11,6 @@ public @interface PositionalParameter {
 
     String after() default "<initial>";
 
+    Class<? extends BeanParser> parser() default BeanParser.class;
+
 }
