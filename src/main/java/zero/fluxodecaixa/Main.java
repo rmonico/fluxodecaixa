@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import zero.easymvc.EasyMVC;
 import zero.easymvc.EasyMVCException;
 import zero.easymvc.StringArrayCommand;
-import zero.fluxodecaixa.app.ContaLsCommand;
-import zero.fluxodecaixa.renderer.ContaLsRenderer;
+import zero.fluxodecaixa.app.ContaListCommand;
+import zero.fluxodecaixa.renderer.ContaListRenderer;
 
 public class Main {
 
@@ -29,7 +29,7 @@ public class Main {
         controller = new EasyMVC();
 
         controller.addDependencyManager(new ConnectionManager());
-        controller.registerCommandHandler(ContaLsCommand.class);
-        controller.registerRenderer(ContaLsRenderer.class);
+        controller.registerCommandHandler(ContaListCommand.class);
+        controller.registerRenderer(ContaListRenderer.class);
     }
 }

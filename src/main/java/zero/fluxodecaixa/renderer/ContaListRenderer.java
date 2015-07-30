@@ -5,7 +5,7 @@ import java.util.List;
 import zero.easymvc.Renderer;
 import zero.fluxodecaixa.model.Conta;
 
-public class ContaLsRenderer {
+public class ContaListRenderer {
 
     // TODO Extract a list printer
     private final String ID_HEADER = "ID";

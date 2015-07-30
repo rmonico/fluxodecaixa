@@ -9,11 +9,11 @@ import org.junit.Test;
 
 import zero.easymvc.AbstractEasyMVCTest;
 import zero.easymvc.EasyMVCException;
-import zero.fluxodecaixa.app.ContaLsCommand;
+import zero.fluxodecaixa.app.ContaListCommand;
 import zero.fluxodecaixa.model.Conta;
-import zero.fluxodecaixa.renderer.ContaLsRenderer;
+import zero.fluxodecaixa.renderer.ContaListRenderer;
 
-public class ContaLsTest extends ContaTest {
+public class ContaListTest extends ContaTest {
 
     @Override
     protected String getDatasetFileName() {
@@ -22,9 +22,9 @@ public class ContaLsTest extends ContaTest {
 
     @Test
     public void contaLsCommand_should_return_all_available_contas() throws SQLException, EasyMVCException {
-        controller.registerCommandHandler(ContaLsCommand.class);
+        controller.registerCommandHandler(ContaListCommand.class);
 
-        controller.registerRenderer(ContaLsRenderer.class);
+        controller.registerRenderer(ContaListRenderer.class);
 
         List<Object> beans = controller.run("conta", "ls");
 
