@@ -15,6 +15,8 @@ import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 
 import zero.fluxodecaixa.model.Conta;
+import zero.fluxodecaixa.model.Lancamento;
+import zero.fluxodecaixa.model.Transacao;
 
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -38,7 +40,11 @@ public class TestConnectionManager extends ConnectionManager {
         ConnectionSource source = getInstance();
 
         TableUtils.dropTable(source, Conta.class, true);
+        TableUtils.dropTable(source, Transacao.class, true);
+        TableUtils.dropTable(source, Lancamento.class, true);
         TableUtils.createTable(source, Conta.class);
+        TableUtils.createTable(source, Transacao.class);
+        TableUtils.createTable(source, Lancamento.class);
     }
 
     public void initializeDBUnitDataset(String datasetFile) throws ClassNotFoundException, SQLException, DatabaseUnitException, FileNotFoundException {
