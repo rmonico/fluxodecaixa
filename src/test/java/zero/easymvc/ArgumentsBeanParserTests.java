@@ -131,16 +131,5 @@ public class ArgumentsBeanParserTests extends AbstractEasyMVCTest {
         assertEquals(2.718, args.primitiveDoubleParam, 0d);
         assertTrue(args.booleanParam);
         assertTrue(args.primitiveBooleanParam);
-
-        // Calendar calendarParam = assertAndGetBean(beans, 5, Calendar.class);
-        // Calendar expectedCalendar = GregorianCalendar.getInstance();
-        // expectedCalendar.set(Calendar.YEAR, 2015);
-        // expectedCalendar.set(Calendar.MONTH, 07);
-        // expectedCalendar.set(Calendar.DAY_OF_MONTH, 30);
-        // expectedCalendar.set(Calendar.HOUR, 19);
-        // expectedCalendar.set(Calendar.MINUTE, 18);
-        // expectedCalendar.set(Calendar.SECOND, 47);
-        // assertEquals(expectedCalendar, calendarParam);
-
     }
 }
