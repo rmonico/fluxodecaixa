@@ -35,7 +35,7 @@ public class ArgumentsBeanParserTests extends AbstractEasyMVCTest {
     }
 
     public static class Handler {
-        @ArgumentBean
+        @ArgumentsBean
         @Bean
         private Arguments args;
 
@@ -93,7 +93,7 @@ public class ArgumentsBeanParserTests extends AbstractEasyMVCTest {
     }
 
     public static class BuiltinParsersHandler {
-        @ArgumentBean
+        @ArgumentsBean
         @Bean
         private BuiltinParsersArguments args;
 

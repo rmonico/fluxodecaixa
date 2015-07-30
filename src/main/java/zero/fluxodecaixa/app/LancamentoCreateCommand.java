@@ -1,13 +1,13 @@
 package zero.fluxodecaixa.app;
 
-import zero.easymvc.ArgumentBean;
+import zero.easymvc.ArgumentsBean;
 import zero.easymvc.Bean;
 import zero.easymvc.CommandHandler;
 import zero.fluxodecaixa.model.Lancamento;
 
 public class LancamentoCreateCommand {
 
-    @ArgumentBean
+    @ArgumentsBean
     private LancamentoCreateArguments args;
 
     @Bean

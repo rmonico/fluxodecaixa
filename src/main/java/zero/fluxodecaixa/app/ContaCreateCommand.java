@@ -2,7 +2,7 @@ package zero.fluxodecaixa.app;
 
 import java.sql.SQLException;
 
-import zero.easymvc.ArgumentBean;
+import zero.easymvc.ArgumentsBean;
 import zero.easymvc.Bean;
 import zero.easymvc.CommandHandler;
 import zero.easymvc.Dependency;
@@ -17,7 +17,7 @@ public class ContaCreateCommand {
     @Dependency
     ConnectionSource connection;
 
-    @ArgumentBean
+    @ArgumentsBean
     private ContaCreateArguments arguments;
 
     @Bean

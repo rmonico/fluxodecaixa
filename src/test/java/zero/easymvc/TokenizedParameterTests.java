@@ -17,7 +17,7 @@ public class TokenizedParameterTests extends AbstractEasyMVCTest {
 
     public static class Command {
 
-        @ArgumentBean
+        @ArgumentsBean
         @Bean
         private Arguments arguments;
 

@@ -7,7 +7,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-// TODO Rename to ArgumentsBean
-public @interface ArgumentBean {
+public @interface ArgumentsBean {
 
 }

@@ -64,7 +64,7 @@ class ArgumentBeanFactory {
 
     private Field getArgumentBeanClass() {
         for (Field field : data.handlerInstance.getClass().getDeclaredFields()) {
-            if (field.getAnnotation(ArgumentBean.class) != null) {
+            if (field.getAnnotation(ArgumentsBean.class) != null) {
                 return field;
             }
         }

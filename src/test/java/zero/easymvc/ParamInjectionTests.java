@@ -20,7 +20,7 @@ public class ParamInjectionTests extends AbstractEasyMVCTest {
 
     public static class Handler {
 
-        @ArgumentBean
+        @ArgumentsBean
         private MyArgumentBean bean;
 
         @Bean
@@ -77,7 +77,7 @@ public class ParamInjectionTests extends AbstractEasyMVCTest {
 
     public static class Command {
 
-        @ArgumentBean
+        @ArgumentsBean
         @Bean
         private TwoParamBean bean;
 

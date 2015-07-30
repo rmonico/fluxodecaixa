@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import zero.easymvc.ArgumentBean;
+import zero.easymvc.ArgumentsBean;
 import zero.easymvc.Bean;
 import zero.easymvc.CommandHandler;
 import zero.easymvc.Dependency;
@@ -20,7 +20,7 @@ public class ContaRemoveCommand {
     @Dependency
     ConnectionSource connection;
 
-    @ArgumentBean
+    @ArgumentsBean
     private ContaRemoveArguments arguments;
 
     @Bean
