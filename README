@@ -16,7 +16,9 @@ conta add <nome> [contabilizavel]
 conta ls
 conta rm <nome>
 
-lanc add <nome conta origem> <nome conta destino> <valor> [--trans-id=transacao id] [observacao]
+lanc add <nome conta origem> <nome conta destino> <valor> [data] [observacao]
+lanc transacaoadd <nome conta origem> <nome conta destino> <valor> [observacao] [--trans-id=transacao id] 
+
 lanc ls [--trans-id=<id da transacao>] [--origem=<nome da origem>] [--destino=<nome do destino>] [--valor=<valor>] [--observacao=<regex>]
 lanc ch <lancamento id> [--trans-id=<id da transacao>] [--origem=<nome da origem>] [--destino=<nome do destino>] [--valor=<valor>] [--observacao=<observacao>]
 lanc rm <lancamento id>
