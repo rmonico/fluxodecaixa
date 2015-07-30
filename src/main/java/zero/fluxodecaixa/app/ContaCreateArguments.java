@@ -3,7 +3,7 @@ package zero.fluxodecaixa.app;
 import zero.easymvc.FlagParameter;
 import zero.easymvc.PositionalParameter;
 
-public class ContaAddArguments {
+public class ContaCreateArguments {
 
     @PositionalParameter
     private String nome;

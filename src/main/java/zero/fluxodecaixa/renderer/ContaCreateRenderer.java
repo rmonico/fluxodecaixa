@@ -3,7 +3,7 @@ package zero.fluxodecaixa.renderer;
 import zero.easymvc.Renderer;
 import zero.fluxodecaixa.model.Conta;
 
-public class ContaAddRenderer {
+public class ContaCreateRenderer {
 
     private Conta conta;
 

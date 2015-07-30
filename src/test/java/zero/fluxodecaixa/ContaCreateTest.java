@@ -7,17 +7,17 @@ import org.junit.Test;
 
 import zero.easymvc.AbstractEasyMVCTest;
 import zero.easymvc.EasyMVCException;
-import zero.fluxodecaixa.app.ContaAddCommand;
+import zero.fluxodecaixa.app.ContaCreateCommand;
 import zero.fluxodecaixa.model.Conta;
-import zero.fluxodecaixa.renderer.ContaAddRenderer;
+import zero.fluxodecaixa.renderer.ContaCreateRenderer;
 
-public class ContaAddTest extends ContaTest {
+public class ContaCreateTest extends ContaTest {
 
     @Before
     public void before() {
-        controller.registerCommandHandler(ContaAddCommand.class);
+        controller.registerCommandHandler(ContaCreateCommand.class);
 
-        controller.registerRenderer(ContaAddRenderer.class);
+        controller.registerRenderer(ContaCreateRenderer.class);
     }
 
     @Test

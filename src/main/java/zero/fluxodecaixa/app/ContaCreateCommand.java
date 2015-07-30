@@ -12,13 +12,13 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 
-public class ContaAddCommand {
+public class ContaCreateCommand {
 
     @Dependency
     ConnectionSource connection;
 
     @ArgumentBean
-    private ContaAddArguments arguments;
+    private ContaCreateArguments arguments;
 
     @Bean
     private Conta conta;
