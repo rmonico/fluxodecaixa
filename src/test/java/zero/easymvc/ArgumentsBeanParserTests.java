@@ -3,8 +3,6 @@ package zero.easymvc;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Test;
@@ -88,9 +86,6 @@ public class ArgumentsBeanParserTests extends AbstractEasyMVCTest {
         private double primitiveDoubleParam;
 
         @PositionalParameter(after = "primitiveDoubleParam")
-        private Calendar calendarParam;
-
-        @PositionalParameter(after = "calendarParam")
         private Boolean booleanParam;
 
         @PositionalParameter(after = "booleanParam")
@@ -123,38 +118,29 @@ public class ArgumentsBeanParserTests extends AbstractEasyMVCTest {
         controller.registerCommandHandler(BuiltinParsersHandler.class);
         controller.registerRenderer(BuildinParsersRenderer.class);
 
-        List<Object> beans = controller.run("command", "string param", "101", "99", "3.14", "2.718", "30/07/2015 19:18:47", "--booleanParam", "--primitiveBooleanParam");
+        List<Object> beans = controller.run("command", "string param", "101", "99", "3.14", "2.718", "--booleanParam", "--primitiveBooleanParam");
 
-        assertBeanList(beans, 8);
-        String stringParam = assertAndGetBean(beans, 0, String.class);
-        assertEquals("string param", stringParam);
+        assertBeanList(beans, 1);
 
-        Integer integerParam = assertAndGetBean(beans, 1, Integer.class);
-        assertEquals(new Integer(101), integerParam);
+        BuiltinParsersArguments args = assertAndGetBean(beans, 0, BuiltinParsersArguments.class);
 
-        int primitiveIntegerParam = assertAndGetBean(beans, 2, Integer.class);
-        assertEquals(99, primitiveIntegerParam);
+        assertEquals("string param", args.stringParam);
+        assertEquals(new Integer(101), args.integerParam);
+        assertEquals(99, args.primitiveIntParam);
+        assertEquals(new Double(3.14), args.doubleParam);
+        assertEquals(2.718, args.primitiveDoubleParam, 0d);
+        assertTrue(args.booleanParam);
+        assertTrue(args.primitiveBooleanParam);
 
-        Double doubleParam = assertAndGetBean(beans, 3, Double.class);
-        assertEquals(new Double(3.14), doubleParam);
+        // Calendar calendarParam = assertAndGetBean(beans, 5, Calendar.class);
+        // Calendar expectedCalendar = GregorianCalendar.getInstance();
+        // expectedCalendar.set(Calendar.YEAR, 2015);
+        // expectedCalendar.set(Calendar.MONTH, 07);
+        // expectedCalendar.set(Calendar.DAY_OF_MONTH, 30);
+        // expectedCalendar.set(Calendar.HOUR, 19);
+        // expectedCalendar.set(Calendar.MINUTE, 18);
+        // expectedCalendar.set(Calendar.SECOND, 47);
+        // assertEquals(expectedCalendar, calendarParam);
 
-        double primitiveDoubleParam = assertAndGetBean(beans, 4, Double.class);
-        assertEquals(2.718, primitiveDoubleParam);
-
-        Calendar calendarParam = assertAndGetBean(beans, 5, Calendar.class);
-        Calendar expectedCalendar = GregorianCalendar.getInstance();
-        expectedCalendar.set(Calendar.YEAR, 2015);
-        expectedCalendar.set(Calendar.MONTH, 07);
-        expectedCalendar.set(Calendar.DAY_OF_MONTH, 30);
-        expectedCalendar.set(Calendar.HOUR, 19);
-        expectedCalendar.set(Calendar.MINUTE, 18);
-        expectedCalendar.set(Calendar.SECOND, 47);
-        assertEquals(expectedCalendar, calendarParam);
-
-        Boolean booleanParam = assertAndGetBean(beans, 6, Boolean.class);
-        assertTrue(booleanParam);
-
-        Boolean primitiveBooleanParam = assertAndGetBean(beans, 7, Boolean.class);
-        assertTrue(primitiveBooleanParam);
     }
 }

@@ -26,6 +26,8 @@ public class AbstractEasyMVCTest {
     public static <T> T assertAndGetBean(List<Object> beans, int index, Class<T> beanClass) {
         Object bean = beans.get(index);
 
+        assertNotNull(bean);
+
         assertTrue(beanClass.isAssignableFrom(bean.getClass()));
 
         return (T) bean;

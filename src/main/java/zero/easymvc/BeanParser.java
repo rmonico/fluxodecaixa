@@ -2,6 +2,6 @@ package zero.easymvc;
 
 public interface BeanParser {
 
-    Object parse(Object value);
+    Object parse(Object value) throws BeanParserException;
 
 }

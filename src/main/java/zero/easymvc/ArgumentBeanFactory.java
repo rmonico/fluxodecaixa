@@ -2,10 +2,8 @@ package zero.easymvc;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 class ArgumentBeanFactory {
 
@@ -173,11 +171,19 @@ class ArgumentBeanFactory {
             if (!field.isAccessible())
                 field.setAccessible(true);
 
+            BeanParser parser = getBeanParserForField(field);
+
+            Object beanValue;
+
             try {
-                BeanParser parser = getBeanParserForField(field);
+                beanValue = parser.parse(args[i]);
+            } catch (BeanParserException e) {
+                Object handlerInstance = data.handlerInstance;
+                String message = String.format("Error parsing value \"%s\" for bean \"%s\" on handler \"%s\".", args[i].toString(), field.getName(), handlerInstance.getClass().getCanonicalName());
+                throw new EasyMVCException(message, e);
+            }
 
-                Object beanValue = parser.parse(args[i]);
-
+            try {
                 field.set(bean, beanValue);
             } catch (IllegalArgumentException | IllegalAccessException e) {
                 Object handlerInstance = data.handlerInstance;
@@ -212,7 +218,7 @@ class ArgumentBeanFactory {
     }
 
     private BeanParser getBuiltinBeanParser(Field field) throws EasyMVCException {
-        Class<?> fieldClass = field.getClass();
+        Class<?> fieldClass = field.getType();
 
         BeanParser beanParser = BuiltinParsers.parsers.get(fieldClass);
 
