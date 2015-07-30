@@ -1,7 +1,9 @@
 package zero.fluxodecaixa.app;
 
 import java.sql.SQLException;
+import java.util.List;
 
+import zero.easymvc.Bean;
 import zero.easymvc.CommandHandler;
 import zero.easymvc.Dependency;
 import zero.fluxodecaixa.model.Conta;
@@ -15,10 +17,13 @@ public class ContaLsCommand {
     @Dependency
     private ConnectionSource connection;
 
+    @Bean
+    private List<Conta> contas;
+
     @CommandHandler(path = { "conta", "ls" })
-    public void execute(ContaLsBean bean) throws SQLException {
+    public void execute() throws SQLException {
         Dao<Conta, Integer> dao = DaoManager.createDao(connection, Conta.class);
 
-        bean.setContas(dao.queryForAll());
+        contas = dao.queryForAll();
     }
 }

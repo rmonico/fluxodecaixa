@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import zero.easymvc.AbstractEasyMVCTest;
 import zero.easymvc.EasyMVCException;
 import zero.easymvc.StringArrayCommand;
-import zero.fluxodecaixa.app.ContaLsBean;
 import zero.fluxodecaixa.app.ContaLsCommand;
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.renderer.ContaLsRenderer;
@@ -27,9 +27,11 @@ public class ContaLsTest extends ContaTest {
 
         controller.bindPathToRenderer(ContaLsRenderer.class, new StringArrayCommand("conta", "ls"));
 
-        ContaLsBean bean = (ContaLsBean) controller.run("conta", "ls");
+        List<Object> beans = controller.run("conta", "ls");
 
-        List<Conta> contas = bean.getContas();
+        AbstractEasyMVCTest.assertBeanList(beans, 1);
+        @SuppressWarnings("unchecked")
+        List<Conta> contas = AbstractEasyMVCTest.assertAndGetBean(beans, 0, List.class);
 
         assertEquals(3, contas.size());
 

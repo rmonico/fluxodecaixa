@@ -1,6 +1,5 @@
 package zero.easymvc;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -47,12 +46,9 @@ public class TokenizedParameterTests extends AbstractEasyMVCTest {
 
         List<Object> beans = controller.run("command", "--token");
 
-        assertNotNull(beans);
-        assertEquals(1, beans.size());
+        assertBeanList(beans, 1);
 
-        assertEquals(Arguments.class, beans.get(0).getClass());
-
-        Arguments bean = (Arguments) beans.get(0);
+        Arguments bean = assertAndGetBean(beans, 0, Arguments.class);
 
         assertNotNull(bean);
         assertTrue(bean.token);
@@ -66,12 +62,9 @@ public class TokenizedParameterTests extends AbstractEasyMVCTest {
 
         List<Object> beans = controller.run("command");
 
-        assertNotNull(beans);
-        assertEquals(1, beans.size());
+        assertBeanList(beans, 1);
 
-        assertEquals(Arguments.class, beans.get(0).getClass());
-
-        Arguments bean = (Arguments) beans.get(0);
+        Arguments bean = assertAndGetBean(beans, 0, Arguments.class);
 
         assertNotNull(bean);
 

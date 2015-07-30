@@ -257,7 +257,7 @@ public class EasyMVC {
                 rendererField = data.rendererInstance.getClass().getDeclaredField(fieldName);
             } catch (NoSuchFieldException | SecurityException e) {
                 // TODO Check if renderer has corresponding handler bean fields
-                throw new RuntimeException("Should never happen!");
+                throw new RuntimeException("Should never happen!", e);
             }
 
             boolean handlerFieldAccessible = handlerField.isAccessible();

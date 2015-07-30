@@ -3,7 +3,6 @@ package zero.fluxodecaixa.renderer;
 import java.util.List;
 
 import zero.easymvc.Renderer;
-import zero.fluxodecaixa.app.ContaLsBean;
 import zero.fluxodecaixa.model.Conta;
 
 public class ContaLsRenderer {
@@ -13,9 +12,10 @@ public class ContaLsRenderer {
     private final String NOME_HEADER = "Nome";
     private final String CONTABILIZAVEL_HEADER = "Contabilizável";
 
+    private List<Conta> contas;
+
     @Renderer
-    public void render(ContaLsBean bean) {
-        List<Conta> contas = bean.getContas();
+    public void render() {
         int idWidth = getIdWidth(contas);
         int nomeWidth = getNomeWidth(contas);
         int contabilizavelWidth = getContabilizavelWidth();
