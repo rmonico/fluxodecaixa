@@ -40,7 +40,7 @@ public class ParamInjection extends AbstractEasyMVCTest {
     @Test(expected = EasyMVCException.class)
     public void should_throw_exception_when_insuficient_params() throws EasyMVCException {
         controller.registerCommandHandler(Handler.class);
-        controller.registerRenderer(Handler.class, new StringArrayCommand("command"));
+        controller.registerRenderer(Handler.class);
 
         controller.run("command");
     }
@@ -48,7 +48,7 @@ public class ParamInjection extends AbstractEasyMVCTest {
     @Test(expected = EasyMVCException.class)
     public void should_throw_exception_when_extra_params() throws EasyMVCException {
         controller.registerCommandHandler(Handler.class);
-        controller.registerRenderer(Handler.class, new StringArrayCommand("command"));
+        controller.registerRenderer(Handler.class);
 
         controller.run("command", "55", "extra argument");
     }
@@ -56,7 +56,7 @@ public class ParamInjection extends AbstractEasyMVCTest {
     @Test
     public void should_inject_params_via_annotation() throws EasyMVCException {
         controller.registerCommandHandler(Handler.class);
-        controller.registerRenderer(Handler.class, new StringArrayCommand("command"));
+        controller.registerRenderer(Handler.class);
 
         List<Object> beans = controller.run("command", "55");
 
@@ -96,7 +96,7 @@ public class ParamInjection extends AbstractEasyMVCTest {
     public void should_populate_both_params() throws EasyMVCException {
         controller.registerCommandHandler(Command.class);
 
-        controller.registerRenderer(Command.class, new StringArrayCommand("command"));
+        controller.registerRenderer(Command.class);
 
         List<Object> beans = controller.run("command", "param 1", "param 2");
 

@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import zero.easymvc.AbstractEasyMVCTest;
 import zero.easymvc.EasyMVCException;
-import zero.easymvc.StringArrayCommand;
 import zero.fluxodecaixa.app.ContaLsCommand;
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.renderer.ContaLsRenderer;
@@ -25,7 +24,7 @@ public class ContaLsTest extends ContaTest {
     public void contaLsCommand_should_return_all_available_contas() throws SQLException, EasyMVCException {
         controller.registerCommandHandler(ContaLsCommand.class);
 
-        controller.registerRenderer(ContaLsRenderer.class, new StringArrayCommand("conta", "ls"));
+        controller.registerRenderer(ContaLsRenderer.class);
 
         List<Object> beans = controller.run("conta", "ls");
 

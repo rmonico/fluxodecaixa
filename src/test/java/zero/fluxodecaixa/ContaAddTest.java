@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import zero.easymvc.AbstractEasyMVCTest;
 import zero.easymvc.EasyMVCException;
-import zero.easymvc.StringArrayCommand;
 import zero.fluxodecaixa.app.ContaAddCommand;
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.renderer.ContaAddRenderer;
@@ -18,7 +17,7 @@ public class ContaAddTest extends ContaTest {
     public void before() {
         controller.registerCommandHandler(ContaAddCommand.class);
 
-        controller.registerRenderer(ContaAddRenderer.class, new StringArrayCommand("conta", "add"));
+        controller.registerRenderer(ContaAddRenderer.class);
     }
 
     @Test
