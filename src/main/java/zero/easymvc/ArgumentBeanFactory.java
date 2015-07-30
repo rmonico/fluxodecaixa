@@ -2,8 +2,10 @@ package zero.easymvc;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 class ArgumentBeanFactory {
 
@@ -190,15 +192,36 @@ class ArgumentBeanFactory {
 
         Class<? extends BeanParser> beanParserClass = annotation.parser();
 
-        BeanParser beanParser;
+        Class<?> beanParserClassInstance = null;
         try {
-            // TODO Check if beanParserClass has a default constructor
-            beanParser = beanParserClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new EasyMVCException("Error creating bean parser.", e);
+            beanParserClassInstance = Class.forName(BeanParser.class.getCanonicalName());
+        } catch (ClassNotFoundException e1) {
+            // Will never happen, JVM exception?
         }
 
-        return beanParser;
+        if (beanParserClassInstance.equals(beanParserClass)) {
+            return getBuiltinBeanParser(field);
+        } else {
+            try {
+                // TODO Check if beanParserClass has a default constructor
+                return beanParserClass.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new EasyMVCException("Error creating bean parser.", e);
+            }
+        }
+    }
+
+    private BeanParser getBuiltinBeanParser(Field field) throws EasyMVCException {
+        Class<?> fieldClass = field.getClass();
+
+        BeanParser beanParser = BuiltinParsers.parsers.get(fieldClass);
+
+        if (beanParser != null)
+            return beanParser;
+
+        Object handlerInstance = data.handlerInstance;
+        String message = String.format("BeanParser not found for field \"%s\" (class \"%s\") on handler \"%s\".", field.getName(), fieldClass.getCanonicalName(), handlerInstance.getClass().getCanonicalName());
+        throw new EasyMVCException(message);
     }
 
     private void injectOptionalArguments(Object bean) throws EasyMVCException {
