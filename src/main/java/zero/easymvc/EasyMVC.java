@@ -70,7 +70,7 @@ public class EasyMVC {
         }
     }
 
-    public void bindPathToRenderer(Class<?> rendererClass, Command command) {
+    public void registerRenderer(Class<?> rendererClass, Command command) {
         for (Method method : rendererClass.getMethods()) {
             Renderer annotation = method.getAnnotation(Renderer.class);
 

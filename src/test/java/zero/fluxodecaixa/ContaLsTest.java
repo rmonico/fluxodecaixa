@@ -25,7 +25,7 @@ public class ContaLsTest extends ContaTest {
     public void contaLsCommand_should_return_all_available_contas() throws SQLException, EasyMVCException {
         controller.registerCommandHandler(ContaLsCommand.class);
 
-        controller.bindPathToRenderer(ContaLsRenderer.class, new StringArrayCommand("conta", "ls"));
+        controller.registerRenderer(ContaLsRenderer.class, new StringArrayCommand("conta", "ls"));
 
         List<Object> beans = controller.run("conta", "ls");
 

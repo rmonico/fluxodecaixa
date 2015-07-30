@@ -30,6 +30,6 @@ public class Main {
 
         controller.addDependencyManager(new ConnectionManager());
         controller.registerCommandHandler(ContaLsCommand.class);
-        controller.bindPathToRenderer(ContaLsRenderer.class, new StringArrayCommand("conta", "ls"));
+        controller.registerRenderer(ContaLsRenderer.class, new StringArrayCommand("conta", "ls"));
     }
 }

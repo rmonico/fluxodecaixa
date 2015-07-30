@@ -42,7 +42,7 @@ public class TokenizedParameterTests extends AbstractEasyMVCTest {
     public void should_inject_flag_parameter() throws EasyMVCException {
         controller.registerCommandHandler(Command.class);
 
-        controller.bindPathToRenderer(Renderer.class, new StringArrayCommand("command"));
+        controller.registerRenderer(Renderer.class, new StringArrayCommand("command"));
 
         List<Object> beans = controller.run("command", "--token");
 
@@ -58,7 +58,7 @@ public class TokenizedParameterTests extends AbstractEasyMVCTest {
     public void should_run_without_optional_parameter() throws EasyMVCException {
         controller.registerCommandHandler(Command.class);
 
-        controller.bindPathToRenderer(Renderer.class, new StringArrayCommand("command"));
+        controller.registerRenderer(Renderer.class, new StringArrayCommand("command"));
 
         List<Object> beans = controller.run("command");
 

@@ -18,7 +18,7 @@ public class ContaAddTest extends ContaTest {
     public void before() {
         controller.registerCommandHandler(ContaAddCommand.class);
 
-        controller.bindPathToRenderer(ContaAddRenderer.class, new StringArrayCommand("conta", "add"));
+        controller.registerRenderer(ContaAddRenderer.class, new StringArrayCommand("conta", "add"));
     }
 
     @Test

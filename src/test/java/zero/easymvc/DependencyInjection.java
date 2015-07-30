@@ -73,7 +73,7 @@ public class DependencyInjection extends AbstractEasyMVCTest {
 
         controller.registerCommandHandler(Command.class);
 
-        controller.bindPathToRenderer(Command.class, new StringArrayCommand("command"));
+        controller.registerRenderer(Command.class, new StringArrayCommand("command"));
 
         controller.run("command");
 

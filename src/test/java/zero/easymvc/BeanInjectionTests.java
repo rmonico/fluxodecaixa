@@ -43,7 +43,7 @@ public class BeanInjectionTests extends AbstractEasyMVCTest {
     public void should_find_and_run_command() throws EasyMVCException {
         controller.registerCommandHandler(TestCommand.class);
 
-        controller.bindPathToRenderer(TestRenderer.class, new StringArrayCommand("command", "subcommand"));
+        controller.registerRenderer(TestRenderer.class, new StringArrayCommand("command", "subcommand"));
 
         List<Object> beans = controller.run("command", "subcommand");
 
@@ -73,7 +73,7 @@ public class BeanInjectionTests extends AbstractEasyMVCTest {
 
     @Test(expected = EasyMVCException.class)
     public void should_throw_exception_when_calling_command_with_renderer_but_without_handler() throws EasyMVCException {
-        controller.bindPathToRenderer(TestRenderer.class, new StringArrayCommand("command"));
+        controller.registerRenderer(TestRenderer.class, new StringArrayCommand("command"));
 
         controller.run("command");
     }
