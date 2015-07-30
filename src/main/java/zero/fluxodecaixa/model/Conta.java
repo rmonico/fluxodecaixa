@@ -6,6 +6,8 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
 public class Conta {
 
+    public static final String NOME_FIELD_NAME = "nome";
+
     @DatabaseField(generatedId = true)
     private int id;
 
