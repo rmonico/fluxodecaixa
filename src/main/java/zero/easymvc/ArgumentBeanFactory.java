@@ -174,7 +174,9 @@ class ArgumentBeanFactory {
             try {
                 field.set(bean, args[i]);
             } catch (IllegalArgumentException | IllegalAccessException e) {
-                throw new EasyMVCException(e);
+                Object handlerInstance = data.handlerInstance;
+                String message = String.format("Error setting value of bean \"%s\" on handler \"%s\".", field.getName(), handlerInstance.getClass().getCanonicalName());
+                throw new EasyMVCException(message, e);
             }
         }
     }
