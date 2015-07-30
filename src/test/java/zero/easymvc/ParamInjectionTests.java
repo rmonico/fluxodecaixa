@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class ParamInjection extends AbstractEasyMVCTest {
+public class ParamInjectionTests extends AbstractEasyMVCTest {
 
     public static class MyArgumentBean {
         @PositionalParameter
