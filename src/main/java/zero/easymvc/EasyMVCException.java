@@ -10,6 +10,10 @@ public class EasyMVCException extends Exception {
         super(message);
     }
 
+    public EasyMVCException(String message, Exception e) {
+        super(message, e);
+    }
+
     /**
      * 
      */
