@@ -2,6 +2,8 @@ package zero.fluxodecaixa.app;
 
 import java.sql.SQLException;
 
+import zero.easymvc.ArgumentBean;
+import zero.easymvc.Bean;
 import zero.easymvc.CommandHandler;
 import zero.easymvc.Dependency;
 import zero.fluxodecaixa.model.Conta;
@@ -15,18 +17,22 @@ public class ContaAddCommand {
     @Dependency
     ConnectionSource connection;
 
+    @ArgumentBean
+    private ContaAddArguments arguments;
+
+    @Bean
+    private Conta conta;
+
     @CommandHandler(path = { "conta", "add" })
-    public void execute(ContaAddBean bean) throws SQLException {
-        Conta conta = new Conta();
+    public void execute() throws SQLException {
+        conta = new Conta();
 
-        conta.setNome(bean.getNome());
+        conta.setNome(arguments.getNome());
 
-        conta.setContabilizavel(bean.isContabilizavel());
+        conta.setContabilizavel(arguments.isContabilizavel());
 
         Dao<Conta, Integer> dao = DaoManager.createDao(connection, Conta.class);
 
         dao.create(conta);
-
-        bean.setConta(conta);
     }
 }

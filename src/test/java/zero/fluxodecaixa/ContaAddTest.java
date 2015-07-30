@@ -1,12 +1,15 @@
 package zero.fluxodecaixa;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import zero.easymvc.AbstractEasyMVCTest;
 import zero.easymvc.EasyMVCException;
 import zero.easymvc.StringArrayCommand;
-import zero.fluxodecaixa.app.ContaAddBean;
 import zero.fluxodecaixa.app.ContaAddCommand;
+import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.renderer.ContaAddRenderer;
 
 public class ContaAddTest extends ContaTest {
@@ -20,15 +23,23 @@ public class ContaAddTest extends ContaTest {
 
     @Test
     public void should_create_a_new_conta() throws EasyMVCException {
-        ContaAddBean bean = (ContaAddBean) controller.run("conta", "add", "nova conta");
+        List<Object> beans = controller.run("conta", "add", "nova conta");
 
-        assertConta("nova conta", false, bean.getConta());
+        AbstractEasyMVCTest.assertBeanList(beans, 1);
+
+        Conta conta = AbstractEasyMVCTest.assertAndGetBean(beans, 0, Conta.class);
+
+        assertConta("nova conta", false, conta);
     }
 
     @Test
     public void should_create_a_new_conta_contabilizavel() throws EasyMVCException {
-        ContaAddBean bean = (ContaAddBean) controller.run("conta", "add", "conta", "--contabilizavel");
+        List<Object> beans = controller.run("conta", "add", "conta", "--contabilizavel");
 
-        assertConta("conta", true, bean.getConta());
+        AbstractEasyMVCTest.assertBeanList(beans, 1);
+
+        Conta conta = AbstractEasyMVCTest.assertAndGetBean(beans, 0, Conta.class);
+
+        assertConta("conta", true, conta);
     }
 }

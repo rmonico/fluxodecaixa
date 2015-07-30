@@ -230,6 +230,7 @@ public class EasyMVC {
     private void invokeRenderer(CommandData data, List<Field> beanFields) throws EasyMVCException {
         try {
             data.rendererMethod.invoke(data.rendererInstance);
+            // TODO Check is renderer has no parameters
         } catch (IllegalAccessException | IllegalArgumentException e) {
             throw new EasyMVCException(e);
         } catch (InvocationTargetException ite) {
