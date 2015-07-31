@@ -22,7 +22,7 @@ class ArgumentBeanFactory {
         populateArgs();
 
         // TODO Check if handler has more than one @ArgumentBean annotation
-        Field beanField = getArgumentBeanClass();
+        Field beanField = getArgumentBeanField();
 
         if (beanField == null)
             if (args.length > 0)
@@ -48,9 +48,7 @@ class ArgumentBeanFactory {
             throw new EasyMVCException(e);
         }
 
-        injectRequiredArguments(bean);
-        injectOptionalArguments(bean);
-
+        injectArguments(bean);
         injectArgumentBeanIntoHandler(beanField, bean);
     }
 
@@ -62,7 +60,7 @@ class ArgumentBeanFactory {
         args = Arrays.copyOfRange(fullCommand, fullCommand.length - argCount, fullCommand.length);
     }
 
-    private Field getArgumentBeanClass() {
+    private Field getArgumentBeanField() {
         for (Field field : data.handlerInstance.getClass().getDeclaredFields()) {
             if (field.getAnnotation(ArgumentsBean.class) != null) {
                 return field;
@@ -129,7 +127,7 @@ class ArgumentBeanFactory {
             String arg = (String) o;
 
             // TODO Check if arg is used more than once
-            Field fieldForArgument = getFieldForArgument(availableFields, arg);
+            Field fieldForArgument = getFieldForArgument(availableFields, beanClass, i);
             if (fieldForArgument == null)
                 throw new EasyMVCException(String.format("Invalid argument \"%s\".", arg));
 
@@ -141,57 +139,106 @@ class ArgumentBeanFactory {
         List<Field> fields = new LinkedList<Field>();
 
         for (Field field : beanClass.getDeclaredFields()) {
-            FlagParameter annotation = field.getAnnotation(FlagParameter.class);
-
-            if (annotation != null) {
+            if (field.getAnnotation(FlagParameter.class) != null) {
                 fields.add(field);
                 continue;
             }
 
+            PositionalParameter annotation = field.getAnnotation(PositionalParameter.class);
+
+            if ((annotation != null) && (!annotation.required())) {
+                fields.add(field);
+            }
         }
         return fields;
     }
 
-    private Field getFieldForArgument(List<Field> availableFields, String arg) {
+    private Field getFieldForArgument(List<Field> availableFields, Class<?> beanClass, int argIndex) {
         for (Field optional : availableFields) {
             FlagParameter annotation = optional.getAnnotation(FlagParameter.class);
 
-            for (String token : annotation.token()) {
-                if (token.equals(arg)) {
-                    return optional;
+            if (annotation != null) {
+                for (String token : annotation.token()) {
+                    if (token.equals(args[argIndex])) {
+                        return optional;
+                    }
                 }
+            } else {
+                int fieldIndex = getFieldIndex(beanClass, optional);
+
+                if (fieldIndex == argIndex)
+                    return optional;
             }
         }
 
         return null;
     }
 
-    private void injectRequiredArguments(Object bean) throws EasyMVCException {
-        for (int i = 0; i < requiredFields.size(); i++) {
-            Field field = requiredFields.get(i);
+    private int getFieldIndex(Class<?> beanClass, Field field) {
+        Field[] fields = beanClass.getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            Field f = fields[i];
 
-            if (!field.isAccessible())
-                field.setAccessible(true);
-
-            BeanParser parser = getBeanParserForField(field);
-
-            Object beanValue;
-
-            try {
-                beanValue = parser.parse(args[i]);
-            } catch (BeanParserException e) {
-                Object handlerInstance = data.handlerInstance;
-                String message = String.format("Error parsing value \"%s\" for bean \"%s\" on handler \"%s\".", args[i].toString(), field.getName(), handlerInstance.getClass().getCanonicalName());
-                throw new EasyMVCException(message, e);
+            if (f.equals(field)) {
+                return i;
             }
+        }
 
-            try {
-                field.set(bean, beanValue);
-            } catch (IllegalArgumentException | IllegalAccessException e) {
-                Object handlerInstance = data.handlerInstance;
-                String message = String.format("Error setting value of bean \"%s\" on handler \"%s\".", field.getName(), handlerInstance.getClass().getCanonicalName());
-                throw new EasyMVCException(message, e);
+        // Should never happen
+        return -1;
+    }
+
+    private void injectArguments(Object bean) throws EasyMVCException {
+        for (int i = 0; i < args.length; i++) {
+
+            if (i < requiredFields.size()) {
+                Field field = requiredFields.get(i);
+
+                if (!field.isAccessible())
+                    field.setAccessible(true);
+
+                injectParsedField(bean, args[i], field);
+            } else {
+                int requiredFieldsSize = requiredFields.size();
+                Field field = optionalFields.get(i - requiredFieldsSize);
+
+                PositionalParameter annotation = field.getAnnotation(PositionalParameter.class);
+
+                if (!field.isAccessible())
+                    field.setAccessible(true);
+
+                if (annotation != null) {
+                    injectParsedField(bean, args[i], field);
+                } else {
+                    try {
+                        field.setBoolean(bean, true);
+                    } catch (IllegalArgumentException | IllegalAccessException e) {
+                        throw new EasyMVCException(e);
+                    }
+                }
             }
+        }
+    }
+
+    private void injectParsedField(Object bean, Object argValue, Field field) throws EasyMVCException {
+        BeanParser parser = getBeanParserForField(field);
+
+        Object beanValue;
+
+        try {
+            beanValue = parser.parse(argValue);
+        } catch (BeanParserException e) {
+            Object handlerInstance = data.handlerInstance;
+            String message = String.format("Error parsing value \"%s\" for bean \"%s\" on handler \"%s\".", argValue.toString(), field.getName(), handlerInstance.getClass().getCanonicalName());
+            throw new EasyMVCException(message, e);
+        }
+
+        try {
+            field.set(bean, beanValue);
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            Object handlerInstance = data.handlerInstance;
+            String message = String.format("Error setting value of bean \"%s\" on handler \"%s\".", field.getName(), handlerInstance.getClass().getCanonicalName());
+            throw new EasyMVCException(message, e);
         }
     }
 
@@ -230,22 +277,6 @@ class ArgumentBeanFactory {
         Object handlerInstance = data.handlerInstance;
         String message = String.format("BeanParser not found for field \"%s\" (class \"%s\") on handler \"%s\".", field.getName(), fieldClass.getCanonicalName(), handlerInstance.getClass().getCanonicalName());
         throw new EasyMVCException(message);
-    }
-
-    private void injectOptionalArguments(Object bean) throws EasyMVCException {
-        int requiredFieldsSize = requiredFields.size();
-        for (int i = requiredFieldsSize; i < requiredFieldsSize + optionalFields.size(); i++) {
-            Field field = optionalFields.get(i - requiredFieldsSize);
-
-            if (!field.isAccessible())
-                field.setAccessible(true);
-
-            try {
-                field.setBoolean(bean, true);
-            } catch (IllegalArgumentException | IllegalAccessException e) {
-                throw new EasyMVCException(e);
-            }
-        }
     }
 
     private void injectArgumentBeanIntoHandler(Field field, Object bean) throws EasyMVCException {
