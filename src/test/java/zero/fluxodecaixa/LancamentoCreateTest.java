@@ -12,7 +12,7 @@ import zero.fluxodecaixa.app.LancamentoCreateCommand;
 import zero.fluxodecaixa.model.Lancamento;
 import zero.fluxodecaixa.renderer.LancamentoCreateRenderer;
 
-public class LancamentoCreateTest extends LancamentoTest {
+public class LancamentoCreateTest extends FluxodecaixaTest {
 
     @Test
     public void should_create_a_lancamento_with_minimal_command_line() throws EasyMVCException {
@@ -28,7 +28,7 @@ public class LancamentoCreateTest extends LancamentoTest {
 
         Calendar today = GregorianCalendar.getInstance();
 
-        assertTransacao(today, null, lancamento.getTransacao());
-        assertLancamento("itau", "carteira", 1.99d, null);
+        Assert.assertTransacao(today, null, lancamento.getTransacao());
+        Assert.assertLancamento("itau", "carteira", 1.99d, null);
     }
 }
