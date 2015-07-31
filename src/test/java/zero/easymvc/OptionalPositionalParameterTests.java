@@ -2,10 +2,17 @@ package zero.easymvc;
 
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class OptionalPositionalParameterTests extends AbstractEasyMVCTest {
+
+    @Override
+    public void before() {
+        super.before();
+
+        controller.registerCommandHandler(MyCommand.class);
+        controller.registerRenderer(MyRenderer.class);
+    }
 
     public static class MyCommandArguments {
         @PositionalParameter(required = false)
@@ -31,14 +38,6 @@ public class OptionalPositionalParameterTests extends AbstractEasyMVCTest {
         public void render() {
 
         }
-    }
-
-    @Before
-    public void before() {
-        super.before();
-
-        controller.registerCommandHandler(MyCommand.class);
-        controller.registerRenderer(MyRenderer.class);
     }
 
     @Test
