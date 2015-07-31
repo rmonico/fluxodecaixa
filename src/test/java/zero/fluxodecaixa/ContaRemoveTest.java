@@ -30,4 +30,6 @@ public class ContaRemoveTest extends ContaTest {
 
         assertConta("carteira", true, removedConta);
     }
+
+    // TODO Test remove a nonexistent conta
 }
