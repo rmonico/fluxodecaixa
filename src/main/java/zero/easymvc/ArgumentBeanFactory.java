@@ -12,6 +12,7 @@ class ArgumentBeanFactory {
     private Object[] args;
     private List<Field> requiredFields;
     private List<Field> optionalFields;
+    private int lastPositionalFieldIndex;
 
     public ArgumentBeanFactory(CommandData data, Command command) {
         this.data = data;
@@ -116,6 +117,8 @@ class ArgumentBeanFactory {
 
         optionalFields = new LinkedList<>();
 
+        lastPositionalFieldIndex = args.length;
+
         for (int i = requiredFields.size(); i < args.length; i++) {
             Object o = args[i];
 
@@ -125,6 +128,11 @@ class ArgumentBeanFactory {
             }
 
             String arg = (String) o;
+
+            if ("--".equals(arg)) {
+                lastPositionalFieldIndex = i - 1;
+                continue;
+            }
 
             // TODO Check if arg is used more than once
             Field fieldForArgument = getFieldForArgument(availableFields, beanClass, i);
@@ -164,6 +172,9 @@ class ArgumentBeanFactory {
                     }
                 }
             } else {
+                if (argIndex > lastPositionalFieldIndex)
+                    continue;
+
                 int fieldIndex = getFieldIndex(beanClass, optional);
 
                 if (fieldIndex == argIndex)
@@ -191,6 +202,9 @@ class ArgumentBeanFactory {
     private void injectArguments(Object bean) throws EasyMVCException {
         for (int i = 0; i < args.length; i++) {
 
+            if (i == lastPositionalFieldIndex + 1)
+                continue;
+
             if (i < requiredFields.size()) {
                 Field field = requiredFields.get(i);
 
@@ -200,7 +214,12 @@ class ArgumentBeanFactory {
                 injectParsedField(bean, args[i], field);
             } else {
                 int requiredFieldsSize = requiredFields.size();
-                Field field = optionalFields.get(i - requiredFieldsSize);
+
+                Field field;
+                if (i > lastPositionalFieldIndex + 1)
+                    field = optionalFields.get(i - requiredFieldsSize - 1);
+                else
+                    field = optionalFields.get(i - requiredFieldsSize);
 
                 PositionalParameter annotation = field.getAnnotation(PositionalParameter.class);
 
