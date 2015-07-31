@@ -129,9 +129,11 @@ class ArgumentBeanFactory {
             String arg = (String) o;
 
             // TODO Check if arg is used more than once
-            if (!isArgumentValid(fields, arg)) {
+            Field fieldForArgument = getFieldForArgument(fields, arg);
+            if (fieldForArgument == null)
                 throw new EasyMVCException(String.format("Invalid argument \"%s\".", arg));
-            }
+
+            optionalFields.add(fieldForArgument);
         }
     }
 
@@ -150,20 +152,18 @@ class ArgumentBeanFactory {
         return fields;
     }
 
-    private boolean isArgumentValid(List<Field> fields, String arg) {
+    private Field getFieldForArgument(List<Field> fields, String arg) {
         for (Field optional : fields) {
             FlagParameter annotation = optional.getAnnotation(FlagParameter.class);
 
             for (String token : annotation.token()) {
                 if (token.equals(arg)) {
-                    optionalFields.add(optional);
-
-                    return true;
+                    return optional;
                 }
             }
         }
 
-        return false;
+        return null;
     }
 
     private void injectRequiredArguments(Object bean) throws EasyMVCException {
