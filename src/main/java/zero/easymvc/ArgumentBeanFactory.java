@@ -7,12 +7,13 @@ import java.util.List;
 
 class ArgumentBeanFactory {
 
+    private static final String POSITIONAL_ARGUMENT_FINISHER = "--";
     private CommandData data;
     private Command command;
     private Object[] args;
     private List<Field> requiredFields;
     private List<Field> optionalFields;
-    private int lastPositionalFieldIndex;
+    private int positionalFinisherArgIndex;
 
     public ArgumentBeanFactory(CommandData data, Command command) {
         this.data = data;
@@ -117,7 +118,7 @@ class ArgumentBeanFactory {
 
         optionalFields = new LinkedList<>();
 
-        lastPositionalFieldIndex = args.length;
+        positionalFinisherArgIndex = args.length;
 
         for (int i = requiredFields.size(); i < args.length; i++) {
             Object o = args[i];
@@ -129,8 +130,8 @@ class ArgumentBeanFactory {
 
             String arg = (String) o;
 
-            if ("--".equals(arg)) {
-                lastPositionalFieldIndex = i - 1;
+            if (POSITIONAL_ARGUMENT_FINISHER.equals(arg)) {
+                positionalFinisherArgIndex = i - 1;
                 continue;
             }
 
@@ -172,7 +173,7 @@ class ArgumentBeanFactory {
                     }
                 }
             } else {
-                if (argIndex > lastPositionalFieldIndex)
+                if (argIndex > positionalFinisherArgIndex)
                     continue;
 
                 int fieldIndex = getFieldIndex(beanClass, optional);
@@ -202,7 +203,7 @@ class ArgumentBeanFactory {
     private void injectArguments(Object bean) throws EasyMVCException {
         for (int i = 0; i < args.length; i++) {
 
-            if (i == lastPositionalFieldIndex + 1)
+            if (i == positionalFinisherArgIndex + 1)
                 continue;
 
             if (i < requiredFields.size()) {
@@ -216,7 +217,7 @@ class ArgumentBeanFactory {
                 int requiredFieldsSize = requiredFields.size();
 
                 Field field;
-                if (i > lastPositionalFieldIndex + 1)
+                if (i > positionalFinisherArgIndex + 1)
                     field = optionalFields.get(i - requiredFieldsSize - 1);
                 else
                     field = optionalFields.get(i - requiredFieldsSize);
