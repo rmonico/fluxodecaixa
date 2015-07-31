@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Test;
@@ -22,6 +23,14 @@ public class DateTimeParsersTests extends AbstractEasyMVCTest {
         @PositionalParameter(after = "dateParam", parser = TimeParser.class)
         private Calendar timeParam;
 
+        @PositionalParameter(after = "timeParam", parser = DateParser.class)
+        private Calendar yesterdayParam;
+
+        @PositionalParameter(after = "yesterdayParam", parser = DateParser.class)
+        private Calendar todayParam;
+
+        @PositionalParameter(after = "todayParam", parser = DateParser.class)
+        private Calendar tomorrowParam;
     }
 
     public static class MyCommand {
@@ -50,7 +59,7 @@ public class DateTimeParsersTests extends AbstractEasyMVCTest {
         controller.registerCommandHandler(MyCommand.class);
         controller.registerRenderer(MyRenderer.class);
 
-        List<Object> beans = controller.run("command", "1984-jun-08 17:40:12.345", "30/jul/2015", "20:40");
+        List<Object> beans = controller.run("command", "1984-jun-08 17:40:12.345", "30/jul/2015", "20:40", "ontem", "hoje", "amanhã");
 
         EasyMVCAssert.assertBeanList(beans, 1);
 
@@ -65,6 +74,20 @@ public class DateTimeParsersTests extends AbstractEasyMVCTest {
         assertNotNull(args.timeParam);
         assertEquals("20:40:00.000", TimeUtils.timeToString(args.timeParam));
 
+        assertNotNull(args.yesterdayParam);
+
+        Calendar today = GregorianCalendar.getInstance();
+
+        Calendar yesterday = (Calendar) today.clone();
+        yesterday.add(Calendar.DAY_OF_MONTH, -1);
+
+        assertEquals(TimeUtils.dateToString(yesterday), TimeUtils.timeToString(args.yesterdayParam));
+        assertEquals(TimeUtils.dateToString(today), TimeUtils.timeToString(args.todayParam));
+
+        Calendar tomorrow = (Calendar) today.clone();
+        tomorrow.add(Calendar.DAY_OF_MONTH, +1);
+
+        assertEquals(TimeUtils.dateToString(tomorrow), TimeUtils.timeToString(args.tomorrowParam));
     }
 
 }
