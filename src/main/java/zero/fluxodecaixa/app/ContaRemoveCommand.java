@@ -1,9 +1,6 @@
 package zero.fluxodecaixa.app;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import zero.easymvc.ArgumentsBean;
 import zero.easymvc.Bean;
@@ -29,17 +26,11 @@ public class ContaRemoveCommand {
     public void execute() throws SQLException {
         ContaDao dao = ContaDao.getInstance(connection);
 
-        Map<String, Object> map = new HashMap<>();
+        removedConta = dao.getContaByNome(arguments.getNome());
 
-        map.put(Conta.NOME_FIELD_NAME, arguments.getNome());
-
-        List<Conta> queryForFieldValues = dao.queryForFieldValues(map);
-
-        if (queryForFieldValues.size() == 0) {
+        if (removedConta == null)
             removedConta = null;
-        } else {
-            removedConta = queryForFieldValues.get(0);
-
+        else {
             dao.delete(removedConta);
         }
     }

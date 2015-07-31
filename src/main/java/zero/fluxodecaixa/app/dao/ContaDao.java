@@ -1,6 +1,9 @@
 package zero.fluxodecaixa.app.dao;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import zero.fluxodecaixa.model.Conta;
 
@@ -16,7 +19,16 @@ public class ContaDao extends AbstractDao<Conta> {
         return (ContaDao) AbstractDao.getInstance(connection, Conta.class);
     }
 
-    public Conta getContaByNome(String nomeConta) {
-        return null;
+    public Conta getContaByNome(String nomeConta) throws SQLException {
+        Map<String, Object> map = new HashMap<>();
+
+        map.put(Conta.NOME_FIELD_NAME, nomeConta);
+
+        List<Conta> contas = queryForFieldValues(map);
+
+        if (contas.isEmpty())
+            return null;
+        else
+            return contas.get(0);
     }
 }
