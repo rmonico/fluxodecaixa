@@ -1,9 +1,15 @@
 package zero.easymvc;
 
+import java.text.ParseException;
+
 public class BeanParserException extends Exception {
 
     public BeanParserException(String message) {
         super(message);
+    }
+
+    public BeanParserException(ParseException e) {
+        super(e);
     }
 
     /**

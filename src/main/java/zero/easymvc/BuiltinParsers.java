@@ -70,7 +70,7 @@ public class BuiltinParsers {
 
     }
 
-    private static String convertToString(Object value) throws BeanParserException {
+    static String convertToString(Object value) throws BeanParserException {
         if (!(value instanceof String))
             throw new BeanParserException("Builtin parsers just support string values.");
 
