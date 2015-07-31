@@ -14,6 +14,10 @@ import zero.fluxodecaixa.renderer.LancamentoCreateRenderer;
 
 public class LancamentoCreateTest extends FluxodecaixaTest {
 
+    public LancamentoCreateTest() {
+        super("dbunit/contals_dataset.xml");
+    }
+
     @Test
     public void should_create_a_lancamento_with_minimal_command_line() throws EasyMVCException {
         controller.registerCommandHandler(LancamentoCreateCommand.class);
@@ -28,7 +32,6 @@ public class LancamentoCreateTest extends FluxodecaixaTest {
 
         Calendar today = GregorianCalendar.getInstance();
 
-        Assert.assertTransacao(today, null, lancamento.getTransacao());
-        Assert.assertLancamento("itau", "carteira", 1.99d, null);
+        Assert.assertLancamento(today, "itau", "carteira", 1.99d, null, lancamento);
     }
 }
