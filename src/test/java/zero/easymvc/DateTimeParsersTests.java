@@ -81,13 +81,13 @@ public class DateTimeParsersTests extends AbstractEasyMVCTest {
         Calendar yesterday = (Calendar) today.clone();
         yesterday.add(Calendar.DAY_OF_MONTH, -1);
 
-        assertEquals(TimeUtils.dateToString(yesterday), TimeUtils.timeToString(args.yesterdayParam));
-        assertEquals(TimeUtils.dateToString(today), TimeUtils.timeToString(args.todayParam));
+        assertEquals(TimeUtils.dateToString(yesterday), TimeUtils.dateToString(args.yesterdayParam));
+        assertEquals(TimeUtils.dateToString(today), TimeUtils.dateToString(args.todayParam));
 
         Calendar tomorrow = (Calendar) today.clone();
         tomorrow.add(Calendar.DAY_OF_MONTH, +1);
 
-        assertEquals(TimeUtils.dateToString(tomorrow), TimeUtils.timeToString(args.tomorrowParam));
+        assertEquals(TimeUtils.dateToString(tomorrow), TimeUtils.dateToString(args.tomorrowParam));
     }
 
 }
