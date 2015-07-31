@@ -19,6 +19,10 @@ public class ConnectionManager implements DependencyManager {
         return "jdbc:sqlite:./dbunit/database";
     }
 
+    public String getDriverClassName() {
+        return "org.sqlite.JDBC";
+    }
+
     @Override
     public Class<?> dependencyClass() {
         return ConnectionSource.class;

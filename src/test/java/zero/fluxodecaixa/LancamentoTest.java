@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
 
-public class LancamentoTest extends DatabaseTest {
+public class LancamentoTest extends FluxodecaixaTest {
 
     protected void assertTransacao(Calendar date, String observacao, Transacao transacao) {
         assertNotNull(transacao);

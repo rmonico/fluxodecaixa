@@ -13,7 +13,7 @@ import zero.fluxodecaixa.app.ContaListCommand;
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.renderer.ContaListRenderer;
 
-public class ContaListTest extends DatabaseTest {
+public class ContaListTest extends FluxodecaixaTest {
 
     @Override
     protected String getDatasetFileName() {

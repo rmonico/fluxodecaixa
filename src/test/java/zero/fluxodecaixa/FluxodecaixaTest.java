@@ -7,8 +7,9 @@ import org.dbunit.DatabaseUnitException;
 import org.junit.Before;
 
 import zero.easymvc.EasyMVC;
+import zero.utils.test.DBUnitTest;
 
-public class DatabaseTest {
+public class FluxodecaixaTest {
 
     protected EasyMVC controller;
     protected TestConnectionManager connectionManager;
@@ -23,8 +24,11 @@ public class DatabaseTest {
 
         String datasetFileName = getDatasetFileName();
 
-        if (datasetFileName != null)
-            connectionManager.initializeDBUnitDataset(datasetFileName);
+        if (datasetFileName != null) {
+            DBUnitTest dbUnitTest = new DBUnitTest(datasetFileName, connectionManager.getConnectionString(), connectionManager.getDriverClassName());
+
+            dbUnitTest.initializeDBUnit();
+        }
     }
 
     protected String getDatasetFileName() {

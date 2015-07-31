@@ -10,7 +10,7 @@ import zero.fluxodecaixa.app.ContaRemoveCommand;
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.renderer.ContaRemoveRenderer;
 
-public class ContaRemoveTest extends DatabaseTest {
+public class ContaRemoveTest extends FluxodecaixaTest {
 
     @Override
     protected String getDatasetFileName() {

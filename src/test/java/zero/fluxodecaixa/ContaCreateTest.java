@@ -11,7 +11,7 @@ import zero.fluxodecaixa.app.ContaCreateCommand;
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.renderer.ContaCreateRenderer;
 
-public class ContaCreateTest extends DatabaseTest {
+public class ContaCreateTest extends FluxodecaixaTest {
 
     @Before
     public void before() {
