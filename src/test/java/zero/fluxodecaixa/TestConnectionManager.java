@@ -17,7 +17,7 @@ public class TestConnectionManager extends ConnectionManager {
         recreateStructure();
     }
 
-    public static String getConnectionString() {
+    public String getConnectionString() {
         return "jdbc:sqlite:./dbunit/test_database";
     }
 

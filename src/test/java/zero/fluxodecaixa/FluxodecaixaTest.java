@@ -34,7 +34,7 @@ public class FluxodecaixaTest {
         controller.addDependencyManager(connectionManager);
 
         if (datasetFileName != null) {
-            DBUnitTest dbUnitTest = new DBUnitTest(TestConnectionManager.getConnectionString(), TestConnectionManager.getDriverClassName());
+            DBUnitTest dbUnitTest = new DBUnitTest(connectionManager.getConnectionString(), connectionManager.getDriverClassName());
 
             dbUnitTest.initializeDBUnit(datasetFileName);
         }
