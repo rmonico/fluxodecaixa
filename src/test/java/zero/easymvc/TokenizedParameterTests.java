@@ -11,7 +11,7 @@ import org.junit.Test;
 public class TokenizedParameterTests extends AbstractEasyMVCTest {
 
     public static class Arguments {
-        @FlagParameter(token = "--token")
+        @TokenParameter(token = "--token")
         public boolean token;
     }
 

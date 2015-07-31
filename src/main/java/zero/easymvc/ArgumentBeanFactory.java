@@ -147,7 +147,7 @@ class ArgumentBeanFactory {
         List<Field> fields = new LinkedList<Field>();
 
         for (Field field : beanClass.getDeclaredFields()) {
-            if (field.getAnnotation(FlagParameter.class) != null) {
+            if (field.getAnnotation(TokenParameter.class) != null) {
                 fields.add(field);
                 continue;
             }
@@ -163,7 +163,7 @@ class ArgumentBeanFactory {
 
     private Field getFieldForArgument(List<Field> availableFields, Class<?> beanClass, int argIndex) {
         for (Field optional : availableFields) {
-            FlagParameter annotation = optional.getAnnotation(FlagParameter.class);
+            TokenParameter annotation = optional.getAnnotation(TokenParameter.class);
 
             if (annotation != null) {
                 for (String token : annotation.token()) {

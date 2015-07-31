@@ -72,7 +72,7 @@ public class OptionalPositionalParameterTests extends AbstractEasyMVCTest {
         @PositionalParameter(after = "p2", required = false)
         public String p3;
 
-        @FlagParameter(token = "--token")
+        @TokenParameter(token = "--token")
         public boolean token;
     }
 

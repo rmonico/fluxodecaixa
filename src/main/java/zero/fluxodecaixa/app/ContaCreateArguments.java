@@ -1,13 +1,13 @@
 package zero.fluxodecaixa.app;
 
-import zero.easymvc.FlagParameter;
+import zero.easymvc.TokenParameter;
 import zero.easymvc.PositionalParameter;
 
 public class ContaCreateArguments {
 
     @PositionalParameter
     private String nome;
-    @FlagParameter(token = { "-c", "--contabilizavel" })
+    @TokenParameter(token = { "-c", "--contabilizavel" })
     private boolean contabilizavel;
 
     public String getNome() {
