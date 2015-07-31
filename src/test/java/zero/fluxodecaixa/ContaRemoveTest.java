@@ -12,9 +12,8 @@ import zero.fluxodecaixa.renderer.ContaRemoveRenderer;
 
 public class ContaRemoveTest extends FluxodecaixaTest {
 
-    @Override
-    protected String getDatasetFileName() {
-        return "dbunit/contals_dataset.xml";
+    public ContaRemoveTest(String datasetFileName) {
+        super("dbunit/contals_dataset.xml");
     }
 
     @Test

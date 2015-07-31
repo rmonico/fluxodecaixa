@@ -15,11 +15,11 @@ public class ConnectionManager implements DependencyManager {
         connectionSource = new JdbcConnectionSource(getConnectionString());
     }
 
-    protected String getConnectionString() {
+    public static String getConnectionString() {
         return "jdbc:sqlite:./dbunit/database";
     }
 
-    public String getDriverClassName() {
+    public static String getDriverClassName() {
         return "org.sqlite.JDBC";
     }
 

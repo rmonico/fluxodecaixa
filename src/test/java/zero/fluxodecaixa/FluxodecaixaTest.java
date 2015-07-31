@@ -12,7 +12,18 @@ import zero.utils.test.DBUnitTest;
 public class FluxodecaixaTest {
 
     protected EasyMVC controller;
+    private String datasetFileName;
     protected TestConnectionManager connectionManager;
+
+    public FluxodecaixaTest() {
+        this(null);
+    }
+
+    public FluxodecaixaTest(String datasetFileName) {
+        super();
+
+        this.datasetFileName = datasetFileName;
+    }
 
     @Before
     public void initializeDatabase() throws ClassNotFoundException, FileNotFoundException, SQLException, DatabaseUnitException {
@@ -22,17 +33,11 @@ public class FluxodecaixaTest {
 
         controller.addDependencyManager(connectionManager);
 
-        String datasetFileName = getDatasetFileName();
-
         if (datasetFileName != null) {
-            DBUnitTest dbUnitTest = new DBUnitTest(datasetFileName, connectionManager.getConnectionString(), connectionManager.getDriverClassName());
+            DBUnitTest dbUnitTest = new DBUnitTest(TestConnectionManager.getConnectionString(), TestConnectionManager.getDriverClassName());
 
-            dbUnitTest.initializeDBUnit();
+            dbUnitTest.initializeDBUnit(datasetFileName);
         }
-    }
-
-    protected String getDatasetFileName() {
-        return null;
     }
 
 }

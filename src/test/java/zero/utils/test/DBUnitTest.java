@@ -14,24 +14,30 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.TestName;
 
 public class DBUnitTest {
 
-    private String datasetFile;
+    @Rule
+    public TestName name = new TestName();
     private String jdbcDriverClassName;
     private String connectionString;
 
-    public DBUnitTest(String datasetFile, String connectionString, String driverClassName) {
-        this.datasetFile = datasetFile;
+    public DBUnitTest(String connectionString, String driverClassName) {
         this.connectionString = connectionString;
         this.jdbcDriverClassName = driverClassName;
     }
 
     @Before
-    public void initializeDBUnit() throws ClassNotFoundException, SQLException, DatabaseUnitException, FileNotFoundException {
+    public void setup() throws ClassNotFoundException, FileNotFoundException, SQLException, DatabaseUnitException {
+        initializeDBUnit(null);
+    }
+
+    public void initializeDBUnit(String datasetFileName) throws ClassNotFoundException, SQLException, DatabaseUnitException, FileNotFoundException {
         IDatabaseConnection connection = getDBUnitConnection();
 
-        IDataSet dataSet = getDataSet(datasetFile);
+        IDataSet dataSet = getDataSet(datasetFileName, name.getMethodName());
 
         try {
             DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
@@ -48,8 +54,19 @@ public class DBUnitTest {
         return new DatabaseConnection(jdbcConnection);
     }
 
-    private IDataSet getDataSet(String datasetFile) throws DataSetException, FileNotFoundException {
-        return new FlatXmlDataSetBuilder().build(new FileInputStream(datasetFile));
+    protected IDataSet getDataSet(String datasetFileName, String currentTest) throws DataSetException, FileNotFoundException {
+        FileInputStream fis;
+
+        if (datasetFileName == null)
+            fis = new FileInputStream(getDatasetFileName(currentTest));
+        else
+            fis = new FileInputStream(datasetFileName);
+
+        return new FlatXmlDataSetBuilder().build(fis);
+    }
+
+    protected String getDatasetFileName(String currentTest) {
+        return null;
     }
 
 }
