@@ -9,10 +9,9 @@ import zero.easymvc.ArgumentsBean;
 import zero.easymvc.Bean;
 import zero.easymvc.CommandHandler;
 import zero.easymvc.Dependency;
+import zero.fluxodecaixa.app.dao.ContaDao;
 import zero.fluxodecaixa.model.Conta;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 
 public class ContaRemoveCommand {
@@ -28,7 +27,7 @@ public class ContaRemoveCommand {
 
     @CommandHandler(path = { "conta", "rm" })
     public void execute() throws SQLException {
-        Dao<Conta, Integer> dao = DaoManager.createDao(connection, Conta.class);
+        ContaDao dao = ContaDao.getInstance(connection);
 
         Map<String, Object> map = new HashMap<>();
 

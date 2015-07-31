@@ -6,10 +6,9 @@ import java.util.List;
 import zero.easymvc.Bean;
 import zero.easymvc.CommandHandler;
 import zero.easymvc.Dependency;
+import zero.fluxodecaixa.app.dao.ContaDao;
 import zero.fluxodecaixa.model.Conta;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 
 public class ContaListCommand {
@@ -22,7 +21,7 @@ public class ContaListCommand {
 
     @CommandHandler(path = { "conta", "ls" })
     public void execute() throws SQLException {
-        Dao<Conta, Integer> dao = DaoManager.createDao(connection, Conta.class);
+        ContaDao dao = ContaDao.getInstance(connection);
 
         contas = dao.queryForAll();
     }

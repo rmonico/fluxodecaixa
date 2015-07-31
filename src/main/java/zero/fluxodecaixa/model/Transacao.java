@@ -35,6 +35,9 @@ public class Transacao {
     }
 
     public Calendar getData() {
+        if (data == null)
+            return null;
+
         Calendar calendar = GregorianCalendar.getInstance();
 
         calendar.setTime(data);
@@ -43,7 +46,10 @@ public class Transacao {
     }
 
     public void setData(Calendar data) {
-        this.data = data.getTime();
+        if (data == null)
+            this.data = null;
+        else
+            this.data = data.getTime();
     }
 
     public String getObservacao() {
