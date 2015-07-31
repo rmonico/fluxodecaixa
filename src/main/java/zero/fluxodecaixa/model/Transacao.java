@@ -4,11 +4,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import zero.fluxodecaixa.app.dao.TransacaoDao;
+
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable
+@DatabaseTable(daoClass = TransacaoDao.class)
 public class Transacao {
 
     public static final String ID_FIELD_NAME = "id";

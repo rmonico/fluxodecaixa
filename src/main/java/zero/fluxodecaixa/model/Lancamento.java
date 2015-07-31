@@ -1,9 +1,11 @@
 package zero.fluxodecaixa.model;
 
+import zero.fluxodecaixa.app.dao.LancamentoDao;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable
+@DatabaseTable(daoClass = LancamentoDao.class)
 public class Lancamento {
 
     public static final String ID_FIELD_NAME = "id";
