@@ -7,12 +7,12 @@ import zero.easymvc.PositionalParameter;
 
 public class LancamentoCreateArguments {
     @PositionalParameter
-    private String origemNome;
+    private String nomeOrigem;
 
-    @PositionalParameter(after = "origemNome")
-    private String destinoNome;
+    @PositionalParameter(after = "nomeOrigem")
+    private String nomeDestino;
 
-    @PositionalParameter(after = "valor")
+    @PositionalParameter(after = "nomeDestino")
     private Double valor;
 
     @FlagParameter(token = { "-d", "--data" })
@@ -20,4 +20,45 @@ public class LancamentoCreateArguments {
 
     @FlagParameter(token = { "-o", "--observacao" })
     private String observacao;
+
+    public String getNomeOrigem() {
+        return nomeOrigem;
+    }
+
+    public void setNomeOrigem(String nomeOrigem) {
+        this.nomeOrigem = nomeOrigem;
+    }
+
+    public String getNomeDestino() {
+        return nomeDestino;
+    }
+
+    public void setNomeDestino(String nomeDestino) {
+        this.nomeDestino = nomeDestino;
+    }
+
+    public Double getValor() {
+        return valor;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+
+    public Calendar getData() {
+        return data;
+    }
+
+    public void setData(Calendar data) {
+        this.data = data;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
 }
