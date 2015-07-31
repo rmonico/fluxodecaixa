@@ -41,7 +41,7 @@ public class LancamentoCreateTest extends FluxodecaixaTest {
 
     @Test
     public void should_create_a_lancamento_with_observacao() throws EasyMVCException {
-        List<Object> beans = controller.run("lanc", "add", "itau", "carteira", "1.99", "--observacao=Note field on lancamento");
+        List<Object> beans = controller.run("lanc", "add", "itau", "carteira", "1.99", "Note field on lancamento");
 
         EasyMVCAssert.assertBeanList(beans, 1);
 

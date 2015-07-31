@@ -15,11 +15,11 @@ public class LancamentoCreateArguments {
     @PositionalParameter(after = "nomeDestino")
     private Double valor;
 
+    @PositionalParameter(after = "valor", optional = true)
+    private String observacao;
+
     @FlagParameter(token = { "-d", "--data" })
     private Calendar data;
-
-    @FlagParameter(token = { "-o", "--observacao" })
-    private String observacao;
 
     public String getNomeOrigem() {
         return nomeOrigem;

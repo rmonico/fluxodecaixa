@@ -49,6 +49,8 @@ public class LancamentoCreateCommand {
 
         lancamento.setValor(args.getValor());
 
+        lancamento.setObservacao(args.getObservacao());
+
         LancamentoDao dao = LancamentoDao.getInstance(connection);
 
         dao.create(lancamento);
@@ -63,8 +65,6 @@ public class LancamentoCreateCommand {
             data = GregorianCalendar.getInstance();
 
         transacao.setData(data);
-
-        transacao.setObservacao(args.getObservacao());
 
         TransacaoDao dao = TransacaoDao.getInstance(connection);
 
