@@ -9,6 +9,7 @@ import java.util.Calendar;
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.model.Lancamento;
 import zero.fluxodecaixa.model.Transacao;
+import zero.utils.TimeUtils;
 
 class Assert {
 
@@ -19,7 +20,13 @@ class Assert {
 
     public static void assertTransacao(Calendar date, String observacao, Transacao transacao) {
         assertNotNull(transacao);
-        assertEquals(date, transacao.getData());
+        if (date == null)
+            assertNull(transacao.getData());
+        else {
+            assertNotNull(transacao.getData());
+            assertEquals(TimeUtils.dateToString(date), TimeUtils.dateToString(transacao.getData()));
+        }
+
         assertEquals(observacao, transacao.getObservacao());
     }
 
