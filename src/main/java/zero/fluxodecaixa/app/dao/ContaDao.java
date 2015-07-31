@@ -15,4 +15,8 @@ public class ContaDao extends AbstractDao<Conta> {
     public static ContaDao getInstance(ConnectionSource connection) throws SQLException {
         return (ContaDao) AbstractDao.getInstance(connection, Conta.class);
     }
+
+    public Conta getContaByNome(String nomeConta) {
+        return null;
+    }
 }
