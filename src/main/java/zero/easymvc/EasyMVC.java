@@ -35,6 +35,7 @@ public class EasyMVC {
                 // parameter, all positional parameter after values must be
                 // other field names. Check Positional Pameter cicles
                 // checkHandlerBeanSanity();
+                // TODO Check if theres some required argument after a optional
 
                 CommandData data = getCommandDataFor(command);
                 if (data == null) {
