@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import zero.easymvc.AbstractEasyMVCTest;
+import zero.easymvc.EasyMVCAssert;
 import zero.easymvc.EasyMVCException;
 import zero.fluxodecaixa.app.LancamentoCreateCommand;
 import zero.fluxodecaixa.model.Lancamento;
@@ -22,9 +22,9 @@ public class LancamentoCreateTest extends LancamentoTest {
 
         List<Object> beans = controller.run("lanc", "add", "itau", "carteira", "1.99");
 
-        AbstractEasyMVCTest.assertBeanList(beans, 1);
+        EasyMVCAssert.assertBeanList(beans, 1);
 
-        Lancamento lancamento = AbstractEasyMVCTest.assertAndGetBean(beans, 0, Lancamento.class);
+        Lancamento lancamento = EasyMVCAssert.assertAndGetBean(beans, 0, Lancamento.class);
 
         Calendar today = GregorianCalendar.getInstance();
 

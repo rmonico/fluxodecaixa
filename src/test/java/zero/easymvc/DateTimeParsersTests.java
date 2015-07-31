@@ -54,9 +54,9 @@ public class DateTimeParsersTests extends AbstractEasyMVCTest {
 
         List<Object> beans = controller.run("command", "1984-jun-08 17:40:12.345", "30/jul/2015", "20:40");
 
-        assertBeanList(beans, 1);
+        EasyMVCAssert.assertBeanList(beans, 1);
 
-        MyCommandArguments args = assertAndGetBean(beans, 0, MyCommandArguments.class);
+        MyCommandArguments args = EasyMVCAssert.assertAndGetBean(beans, 0, MyCommandArguments.class);
 
         formatter = new SimpleDateFormat("dd/MM/yyyy kk:mm:ss.SSS");
 

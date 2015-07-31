@@ -62,9 +62,9 @@ public class ArgumentsBeanParserTests extends AbstractEasyMVCTest {
 
         List<Object> beans = controller.run("command", "55");
 
-        assertBeanList(beans, 1);
+        EasyMVCAssert.assertBeanList(beans, 1);
 
-        Arguments bean = assertAndGetBean(beans, 0, Arguments.class);
+        Arguments bean = EasyMVCAssert.assertAndGetBean(beans, 0, Arguments.class);
 
         assertEquals(55, bean.object.value);
     }
@@ -120,9 +120,9 @@ public class ArgumentsBeanParserTests extends AbstractEasyMVCTest {
 
         List<Object> beans = controller.run("command", "string param", "101", "99", "3.14", "2.718", "--booleanParam", "--primitiveBooleanParam");
 
-        assertBeanList(beans, 1);
+        EasyMVCAssert.assertBeanList(beans, 1);
 
-        BuiltinParsersArguments args = assertAndGetBean(beans, 0, BuiltinParsersArguments.class);
+        BuiltinParsersArguments args = EasyMVCAssert.assertAndGetBean(beans, 0, BuiltinParsersArguments.class);
 
         assertEquals("string param", args.stringParam);
         assertEquals(new Integer(101), args.integerParam);

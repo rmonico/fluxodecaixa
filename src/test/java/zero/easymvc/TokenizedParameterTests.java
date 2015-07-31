@@ -46,9 +46,9 @@ public class TokenizedParameterTests extends AbstractEasyMVCTest {
 
         List<Object> beans = controller.run("command", "--token");
 
-        assertBeanList(beans, 1);
+        EasyMVCAssert.assertBeanList(beans, 1);
 
-        Arguments bean = assertAndGetBean(beans, 0, Arguments.class);
+        Arguments bean = EasyMVCAssert.assertAndGetBean(beans, 0, Arguments.class);
 
         assertNotNull(bean);
         assertTrue(bean.token);
@@ -62,9 +62,9 @@ public class TokenizedParameterTests extends AbstractEasyMVCTest {
 
         List<Object> beans = controller.run("command");
 
-        assertBeanList(beans, 1);
+        EasyMVCAssert.assertBeanList(beans, 1);
 
-        Arguments bean = assertAndGetBean(beans, 0, Arguments.class);
+        Arguments bean = EasyMVCAssert.assertAndGetBean(beans, 0, Arguments.class);
 
         assertNotNull(bean);
 
