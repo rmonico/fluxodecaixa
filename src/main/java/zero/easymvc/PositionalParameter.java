@@ -13,6 +13,6 @@ public @interface PositionalParameter {
 
     Class<? extends BeanParser> parser() default BeanParser.class;
 
-    boolean optional() default true;
+    boolean required() default true;
 
 }

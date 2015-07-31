@@ -11,7 +11,7 @@ import java.util.Map;
 public class EasyMVC {
 
     static final String FIRST_POSITIONAL_PARAMETER_NAME = "<initial>";
-    // TODO Create log
+    // TODO Log stuff
     private List<CommandData> commands;
     private Map<Class<?>, DependencyManager> managers;
 

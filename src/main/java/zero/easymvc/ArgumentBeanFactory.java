@@ -76,7 +76,9 @@ class ArgumentBeanFactory {
         requiredFields = new LinkedList<>();
 
         for (Field field : beanClass.getDeclaredFields()) {
-            if (field.getAnnotation(PositionalParameter.class) == null) {
+            PositionalParameter annotation = field.getAnnotation(PositionalParameter.class);
+
+            if ((annotation == null) || (!annotation.required())) {
                 continue;
             }
 

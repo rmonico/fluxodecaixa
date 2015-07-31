@@ -15,7 +15,7 @@ public class LancamentoCreateArguments {
     @PositionalParameter(after = "nomeDestino")
     private Double valor;
 
-    @PositionalParameter(after = "valor", optional = true)
+    @PositionalParameter(after = "valor", required = false)
     private String observacao;
 
     @FlagParameter(token = { "-d", "--data" })
