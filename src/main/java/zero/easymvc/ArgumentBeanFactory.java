@@ -114,7 +114,7 @@ class ArgumentBeanFactory {
     }
 
     private void populateOptionalFields(Class<?> beanClass) throws EasyMVCException {
-        List<Field> fields = getFlagParameterFields(beanClass);
+        List<Field> availableFields = getAvailableOptionalFields(beanClass);
 
         optionalFields = new LinkedList<>();
 
@@ -129,7 +129,7 @@ class ArgumentBeanFactory {
             String arg = (String) o;
 
             // TODO Check if arg is used more than once
-            Field fieldForArgument = getFieldForArgument(fields, arg);
+            Field fieldForArgument = getFieldForArgument(availableFields, arg);
             if (fieldForArgument == null)
                 throw new EasyMVCException(String.format("Invalid argument \"%s\".", arg));
 
@@ -137,23 +137,23 @@ class ArgumentBeanFactory {
         }
     }
 
-    private List<Field> getFlagParameterFields(Class<?> beanClass) {
+    private List<Field> getAvailableOptionalFields(Class<?> beanClass) {
         List<Field> fields = new LinkedList<Field>();
 
         for (Field field : beanClass.getDeclaredFields()) {
             FlagParameter annotation = field.getAnnotation(FlagParameter.class);
 
-            if (annotation == null) {
+            if (annotation != null) {
+                fields.add(field);
                 continue;
             }
 
-            fields.add(field);
         }
         return fields;
     }
 
-    private Field getFieldForArgument(List<Field> fields, String arg) {
-        for (Field optional : fields) {
+    private Field getFieldForArgument(List<Field> availableFields, String arg) {
+        for (Field optional : availableFields) {
             FlagParameter annotation = optional.getAnnotation(FlagParameter.class);
 
             for (String token : annotation.token()) {
