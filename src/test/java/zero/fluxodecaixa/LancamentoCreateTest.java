@@ -1,10 +1,12 @@
 package zero.fluxodecaixa;
 
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.junit.Before;
+import org.dbunit.DatabaseUnitException;
 import org.junit.Test;
 
 import zero.easymvc.EasyMVCAssert;
@@ -19,8 +21,10 @@ public class LancamentoCreateTest extends FluxodecaixaTest {
         super("dbunit/contals_dataset.xml");
     }
 
-    @Before
-    public void before() {
+    @Override
+    public void before() throws ClassNotFoundException, FileNotFoundException, SQLException, DatabaseUnitException {
+        super.before();
+
         controller.registerCommandHandler(LancamentoCreateCommand.class);
 
         controller.registerRenderer(LancamentoCreateRenderer.class);

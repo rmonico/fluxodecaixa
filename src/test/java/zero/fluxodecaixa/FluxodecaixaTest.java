@@ -26,7 +26,7 @@ public class FluxodecaixaTest {
     }
 
     @Before
-    public void initializeDatabase() throws ClassNotFoundException, FileNotFoundException, SQLException, DatabaseUnitException {
+    public void before() throws ClassNotFoundException, FileNotFoundException, SQLException, DatabaseUnitException {
         controller = new EasyMVC();
 
         connectionManager = new TestConnectionManager();
