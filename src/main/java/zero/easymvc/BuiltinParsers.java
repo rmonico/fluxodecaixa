@@ -40,7 +40,7 @@ public class BuiltinParsers {
 
         @Override
         public Integer parse(Object value) throws BeanParserException {
-            // Just support string values now
+            // Just support string values for now
             String stringValue = convertToString(value);
 
             return Integer.parseInt(stringValue);
@@ -52,7 +52,7 @@ public class BuiltinParsers {
 
         @Override
         public Double parse(Object value) throws BeanParserException {
-            // Just support string values now
+            // Just support string values for now
             String stringValue = convertToString(value);
 
             return Double.parseDouble(stringValue);
