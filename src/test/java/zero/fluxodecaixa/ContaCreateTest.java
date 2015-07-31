@@ -11,7 +11,7 @@ import zero.fluxodecaixa.app.ContaCreateCommand;
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.renderer.ContaCreateRenderer;
 
-public class ContaCreateTest extends ContaTest {
+public class ContaCreateTest extends DatabaseTest {
 
     @Before
     public void before() {
@@ -28,7 +28,7 @@ public class ContaCreateTest extends ContaTest {
 
         Conta conta = EasyMVCAssert.assertAndGetBean(beans, 0, Conta.class);
 
-        assertConta("nova conta", false, conta);
+        Assert.assertConta("nova conta", false, conta);
     }
 
     @Test
@@ -39,6 +39,6 @@ public class ContaCreateTest extends ContaTest {
 
         Conta conta = EasyMVCAssert.assertAndGetBean(beans, 0, Conta.class);
 
-        assertConta("conta", true, conta);
+        Assert.assertConta("conta", true, conta);
     }
 }

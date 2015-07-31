@@ -10,7 +10,7 @@ import zero.fluxodecaixa.app.ContaRemoveCommand;
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.renderer.ContaRemoveRenderer;
 
-public class ContaRemoveTest extends ContaTest {
+public class ContaRemoveTest extends DatabaseTest {
 
     @Override
     protected String getDatasetFileName() {
@@ -28,7 +28,7 @@ public class ContaRemoveTest extends ContaTest {
         EasyMVCAssert.assertBeanList(beans, 1);
         Conta removedConta = EasyMVCAssert.assertAndGetBean(beans, 0, Conta.class);
 
-        assertConta("carteira", true, removedConta);
+        Assert.assertConta("carteira", true, removedConta);
     }
 
     // TODO Test remove a nonexistent conta

@@ -13,7 +13,7 @@ import zero.fluxodecaixa.app.ContaListCommand;
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.renderer.ContaListRenderer;
 
-public class ContaListTest extends ContaTest {
+public class ContaListTest extends DatabaseTest {
 
     @Override
     protected String getDatasetFileName() {
@@ -34,9 +34,9 @@ public class ContaListTest extends ContaTest {
 
         assertEquals(3, contas.size());
 
-        assertConta("carteira", true, contas.get(0));
-        assertConta("casa", false, contas.get(1));
-        assertConta("itau", true, contas.get(2));
+        Assert.assertConta("carteira", true, contas.get(0));
+        Assert.assertConta("casa", false, contas.get(1));
+        Assert.assertConta("itau", true, contas.get(2));
     }
 
 }
