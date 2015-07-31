@@ -21,6 +21,9 @@ public class LancamentoCreateArguments {
     @TokenParameter(token = { "-d", "--data" })
     private Calendar data;
 
+    @TokenParameter(token = { "-t", "--transacao-id" })
+    private int transactionId;
+
     public String getNomeOrigem() {
         return nomeOrigem;
     }
@@ -45,6 +48,14 @@ public class LancamentoCreateArguments {
         this.valor = valor;
     }
 
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
+    }
+
     public Calendar getData() {
         return data;
     }
@@ -53,12 +64,12 @@ public class LancamentoCreateArguments {
         this.data = data;
     }
 
-    public String getObservacao() {
-        return observacao;
+    public int getTransactionId() {
+        return transactionId;
     }
 
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
+    public void setTransactionId(int transactionId) {
+        this.transactionId = transactionId;
     }
 
 }
