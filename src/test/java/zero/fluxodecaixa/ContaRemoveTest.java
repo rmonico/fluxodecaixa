@@ -13,7 +13,7 @@ import zero.fluxodecaixa.renderer.ContaRemoveRenderer;
 public class ContaRemoveTest extends FluxodecaixaTest {
 
     public ContaRemoveTest(){
-        super("dbunit/contals_dataset.xml");
+        super("dbunit/contatests_dataset.xml");
     }
 
     @Test

@@ -16,7 +16,7 @@ import zero.fluxodecaixa.renderer.ContaListRenderer;
 public class ContaListTest extends FluxodecaixaTest {
 
     public ContaListTest() {
-        super("dbunit/contals_dataset.xml");
+        super("dbunit/contatests_dataset.xml");
     }
 
     @Test
