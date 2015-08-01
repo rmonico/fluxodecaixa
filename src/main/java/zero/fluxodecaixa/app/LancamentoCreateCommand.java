@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import zero.easymvc.ArgumentsBean;
 import zero.easymvc.Bean;
 import zero.easymvc.CommandHandler;
+import zero.easymvc.CommandLineParsingException;
 import zero.easymvc.Dependency;
 import zero.fluxodecaixa.app.dao.ContaDao;
 import zero.fluxodecaixa.app.dao.LancamentoDao;
@@ -30,7 +31,9 @@ public class LancamentoCreateCommand {
     private Lancamento lancamento;
 
     @CommandHandler(path = { "lanc", "add" })
-    public void run() throws SQLException {
+    public void run() throws SQLException, CommandLineParsingException {
+        checkCommandLine();
+
         Transacao transacao = createOrGetTransacao();
 
         lancamento = new Lancamento();
@@ -54,6 +57,12 @@ public class LancamentoCreateCommand {
         LancamentoDao dao = LancamentoDao.getInstance(connection);
 
         dao.create(lancamento);
+    }
+
+    private void checkCommandLine() throws CommandLineParsingException {
+        if ((args.getData() != null) && (args.getTransacaoId() != null)) {
+            throw new CommandLineParsingException("Os parâmetros --data e --transacao-id não podem ser informados simultâneamente.");
+        }
     }
 
     private Transacao createOrGetTransacao() throws SQLException {

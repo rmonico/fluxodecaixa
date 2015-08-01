@@ -7,7 +7,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.dbunit.DatabaseUnitException;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import zero.easymvc.EasyMVCAssert;
@@ -15,6 +14,7 @@ import zero.easymvc.EasyMVCException;
 import zero.fluxodecaixa.app.LancamentoCreateCommand;
 import zero.fluxodecaixa.model.Lancamento;
 import zero.fluxodecaixa.renderer.LancamentoCreateRenderer;
+import zero.utils.TimeUtils;
 
 public class LancamentoCreateTest extends FluxodecaixaTest {
 
@@ -41,7 +41,7 @@ public class LancamentoCreateTest extends FluxodecaixaTest {
 
         Calendar today = GregorianCalendar.getInstance();
 
-        Assert.assertLancamento(today, "itau", "carteira", 1.99d, null, lancamento);
+        Assert.assertLancamento(TimeUtils.dateToString(today), "itau", "carteira", 1.99d, null, lancamento);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class LancamentoCreateTest extends FluxodecaixaTest {
 
         Calendar today = GregorianCalendar.getInstance();
 
-        Assert.assertLancamento(today, "itau", "carteira", 1.99d, "Note field on lancamento", lancamento);
+        Assert.assertLancamento(TimeUtils.dateToString(today), "itau", "carteira", 1.99d, "Note field on lancamento", lancamento);
     }
 
     @Test
@@ -65,27 +65,22 @@ public class LancamentoCreateTest extends FluxodecaixaTest {
 
         Lancamento lancamento = EasyMVCAssert.assertAndGetBean(beans, 0, Lancamento.class);
 
-        Calendar expectedDate = GregorianCalendar.getInstance();
-
-        expectedDate.set(Calendar.YEAR, 2015);
-        expectedDate.set(Calendar.MONTH, Calendar.JUNE);
-        expectedDate.set(Calendar.DAY_OF_MONTH, 15);
-
-        Assert.assertLancamento(expectedDate, "carteira", "casa", 500d, null, lancamento);
+        Assert.assertLancamento("15/Jun/2015", "carteira", "casa", 500d, null, lancamento);
     }
 
-    // Make previous test pass first
-    @Ignore
     @Test
-    public void should_throw_exception_when_pass_data_and_transaction_id() throws EasyMVCException {
-        List<Object> beans = controller.run("lanc", "add", "itau", "carteira", "1.99", "--", "--data=30/04/2015", "--trans-id=4");
+    public void should_create_a_lancamento_to_a_specific_date() throws EasyMVCException {
+        List<Object> beans = controller.run("lanc", "add", "carteira", "casa", "15", "--", "--data=30/Abr/2015");
 
         EasyMVCAssert.assertBeanList(beans, 1);
 
         Lancamento lancamento = EasyMVCAssert.assertAndGetBean(beans, 0, Lancamento.class);
 
-        Calendar today = GregorianCalendar.getInstance();
+        Assert.assertLancamento("30/Abr/2015", "carteira", "casa", 15d, null, lancamento);
+    }
 
-        Assert.assertLancamento(today, "itau", "carteira", 1.99d, "Note field on lancamento", lancamento);
+    @Test(expected = EasyMVCException.class)
+    public void should_throw_exception_when_pass_data_and_transaction_id() throws EasyMVCException {
+        controller.run("lanc", "add", "carteira", "casa", "1.99", "--", "--data=30/Abr/2015", "--transacao-id=4");
     }
 }

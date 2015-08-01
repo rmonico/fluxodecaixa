@@ -3,9 +3,6 @@ package zero.fluxodecaixa;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-
-import java.util.Calendar;
-
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.model.Lancamento;
 import zero.fluxodecaixa.model.Transacao;
@@ -19,19 +16,19 @@ class Assert {
         assertEquals(contabilizavel, conta.isContabilizavel());
     }
 
-    public static void assertTransacao(Calendar date, String observacao, Transacao transacao) {
+    public static void assertTransacao(String date, String observacao, Transacao transacao) {
         assertNotNull(transacao);
         if (date == null)
             assertNull(transacao.getData());
         else {
             assertNotNull(transacao.getData());
-            assertEquals(TimeUtils.dateToString(date), TimeUtils.dateToString(transacao.getData()));
+            assertEquals(date, TimeUtils.dateToString(transacao.getData()));
         }
 
         assertEquals(observacao, transacao.getObservacao());
     }
 
-    public static void assertLancamento(Calendar date, String nomeOrigem, String nomeDestino, double valor, String observacao, Lancamento lancamento) {
+    public static void assertLancamento(String date, String nomeOrigem, String nomeDestino, double valor, String observacao, Lancamento lancamento) {
         if (date == null)
             assertNull(lancamento.getTransacao());
         else {

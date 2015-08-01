@@ -5,8 +5,8 @@ import java.util.Calendar;
 
 public class TimeUtils {
 
-    private static SimpleDateFormat timestampFormatter = new SimpleDateFormat("dd/MM/yyyy kk:mm:ss.SSS");
-    private static SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+    private static SimpleDateFormat timestampFormatter = new SimpleDateFormat("dd/MMM/yyyy kk:mm:ss.SSS");
+    private static SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MMM/yyyy");
     private static SimpleDateFormat timeFormatter = new SimpleDateFormat("kk:mm:ss.SSS");
 
     public static String timestampToString(Calendar timestamp) {

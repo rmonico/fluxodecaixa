@@ -2,8 +2,9 @@ package zero.fluxodecaixa.app;
 
 import java.util.Calendar;
 
-import zero.easymvc.TokenParameter;
+import zero.easymvc.DateParser;
 import zero.easymvc.PositionalParameter;
+import zero.easymvc.TokenParameter;
 
 public class LancamentoCreateArguments {
     @PositionalParameter
@@ -18,7 +19,7 @@ public class LancamentoCreateArguments {
     @PositionalParameter(after = "valor", required = false)
     private String observacao;
 
-    @TokenParameter(token = { "-d", "--data" })
+    @TokenParameter(token = { "-d", "--data" }, parser = DateParser.class)
     private Calendar data;
 
     @TokenParameter(token = { "-t", "--transacao-id" })
