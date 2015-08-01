@@ -22,7 +22,7 @@ public class LancamentoCreateArguments {
     private Calendar data;
 
     @TokenParameter(token = { "-t", "--transacao-id" })
-    private int transactionId;
+    private Integer transactionId;
 
     public String getNomeOrigem() {
         return nomeOrigem;
@@ -64,11 +64,11 @@ public class LancamentoCreateArguments {
         this.data = data;
     }
 
-    public int getTransactionId() {
+    public Integer getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(int transactionId) {
+    public void setTransactionId(Integer transactionId) {
         this.transactionId = transactionId;
     }
 
