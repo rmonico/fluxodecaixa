@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"  ?>
-<!DOCTYPE dataset SYSTEM "dbunit/contals_dataset.dtd">
+<!DOCTYPE dataset SYSTEM "dbunit/fluxodecaixa.dtd">
 <dataset>
   <conta id="1" nome="carteira" contabilizavel="1" />
   <conta id="2" nome="casa" contabilizavel="0" />
