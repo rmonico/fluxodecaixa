@@ -11,4 +11,6 @@ public @interface TokenParameter {
 
     String[] token();
 
+    Class<? extends BeanParser> parser() default BeanParser.class;
+
 }

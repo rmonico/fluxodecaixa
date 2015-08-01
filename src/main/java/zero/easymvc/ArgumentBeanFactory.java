@@ -168,9 +168,14 @@ class ArgumentBeanFactory {
 
             if (annotation != null) {
                 for (String token : annotation.token()) {
-                    if (token.equals(args[argIndex])) {
+                    // TODO Handling only string params
+                    String arg = (String) args[argIndex];
+
+                    if (isBooleanField(optional)) {
+                        if (token.equals(arg))
+                            return optional;
+                    } else if (arg.startsWith(token + "="))
                         return optional;
-                    }
                 }
             } else {
                 if (argIndex > positionalFinisherArgIndex)
@@ -222,18 +227,26 @@ class ArgumentBeanFactory {
                 else
                     field = optionalFields.get(i - requiredFieldsSize);
 
-                PositionalParameter annotation = field.getAnnotation(PositionalParameter.class);
-
                 if (!field.isAccessible())
                     field.setAccessible(true);
+
+                PositionalParameter annotation = field.getAnnotation(PositionalParameter.class);
 
                 if (annotation != null) {
                     injectParsedField(bean, args[i], field);
                 } else {
-                    try {
-                        field.setBoolean(bean, true);
-                    } catch (IllegalArgumentException | IllegalAccessException e) {
-                        throw new EasyMVCException(e);
+                    // TokenParameter
+
+                    if (isBooleanField(field)) {
+                        try {
+                            field.setBoolean(bean, true);
+                        } catch (IllegalArgumentException | IllegalAccessException e) {
+                            throw new EasyMVCException(e);
+                        }
+                    } else {
+                        String argValue = getValueFromTokenArg((String) args[i]);
+
+                        injectParsedField(bean, argValue, field);
                     }
                 }
             }
@@ -262,10 +275,31 @@ class ArgumentBeanFactory {
         }
     }
 
+    private boolean isBooleanField(Field optional) {
+        Class<?> fieldType = optional.getType();
+
+        return fieldType.equals(boolean.class) || optional.getType().equals(Boolean.class);
+    }
+
+    private String getValueFromTokenArg(String arg) {
+        int indexOfSeparator = arg.indexOf("=");
+
+        String value = arg.substring(indexOfSeparator + 1);
+
+        return value;
+    }
+
     private BeanParser getBeanParserForField(Field field) throws EasyMVCException {
         PositionalParameter annotation = field.getAnnotation(PositionalParameter.class);
 
-        Class<? extends BeanParser> beanParserClass = annotation.parser();
+        Class<? extends BeanParser> beanParserClass;
+
+        if (annotation == null) {
+            TokenParameter tokenAnnotation = field.getAnnotation(TokenParameter.class);
+
+            beanParserClass = tokenAnnotation.parser();
+        } else
+            beanParserClass = annotation.parser();
 
         Class<?> beanParserClassInstance = null;
         try {
