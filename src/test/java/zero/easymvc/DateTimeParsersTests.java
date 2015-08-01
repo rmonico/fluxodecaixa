@@ -66,10 +66,10 @@ public class DateTimeParsersTests extends AbstractEasyMVCTest {
         MyCommandArguments args = EasyMVCAssert.assertAndGetBean(beans, 0, MyCommandArguments.class);
 
         assertNotNull(args.timestampParam);
-        assertEquals("08/06/1984 17:40:12.345", TimeUtils.timestampToString(args.timestampParam));
+        assertEquals("08/Jun/1984 17:40:12.345", TimeUtils.timestampToString(args.timestampParam));
 
         assertNotNull(args.dateParam);
-        assertEquals("30/07/2015", TimeUtils.dateToString(args.dateParam));
+        assertEquals("30/Jul/2015", TimeUtils.dateToString(args.dateParam));
 
         assertNotNull(args.timeParam);
         assertEquals("20:40:00.000", TimeUtils.timeToString(args.timeParam));
