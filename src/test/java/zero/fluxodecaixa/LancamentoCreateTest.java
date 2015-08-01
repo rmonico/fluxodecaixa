@@ -19,7 +19,7 @@ import zero.fluxodecaixa.renderer.LancamentoCreateRenderer;
 public class LancamentoCreateTest extends FluxodecaixaTest {
 
     public LancamentoCreateTest() {
-        super("dbunit/contals_dataset.xml");
+        super("dbunit/lancamentotests_dataset.xml");
     }
 
     @Override
@@ -68,10 +68,10 @@ public class LancamentoCreateTest extends FluxodecaixaTest {
         Calendar expectedDate = GregorianCalendar.getInstance();
 
         expectedDate.set(Calendar.YEAR, 2015);
-        expectedDate.set(Calendar.MONTH, Calendar.AUGUST);
+        expectedDate.set(Calendar.MONTH, Calendar.JUNE);
         expectedDate.set(Calendar.DAY_OF_MONTH, 15);
 
-        Assert.assertLancamento(expectedDate, "itau", "carteira", 1.99d, "Note field on lancamento", lancamento);
+        Assert.assertLancamento(expectedDate, "carteira", "casa", 500d, null, lancamento);
     }
 
     // Make previous test pass first

@@ -9,9 +9,9 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Lancamento {
 
     public static final String ID_FIELD_NAME = "id";
-    public static final String TRANSACAO_FIELD_NAME = "transacaoid";
-    public static final String ORIGEM_FIELD_NAME = "origemid";
-    public static final String DESTINO_FIELD_NAME = "destinoid";
+    public static final String TRANSACAO_FIELD_NAME = "transacao_id";
+    public static final String ORIGEM_FIELD_NAME = "origem_id";
+    public static final String DESTINO_FIELD_NAME = "destino_id";
     public static final String VALOR_FIELD_NAME = "valor";
     public static final String OBSERVACAO_FIELD_NAME = "observacao";
 

@@ -1,14 +1,19 @@
-<!ELEMENT dataset (conta*,lancamento*)>
+<!ELEMENT dataset (conta*,transacao*, lancamento*)>
 
 <!ELEMENT conta (#PCDATA)>
 <!ATTLIST conta id CDATA #REQUIRED>
 <!ATTLIST conta nome CDATA #REQUIRED>
 <!ATTLIST conta contabilizavel CDATA #REQUIRED>
 
+<!ELEMENT transacao (#PCDATA)>
+<!ATTLIST transacao id CDATA #REQUIRED>
+<!ATTLIST transacao data CDATA #REQUIRED>
+<!ATTLIST transacao observacao CDATA #REQUIRED>
+
 <!ELEMENT lancamento (#PCDATA)>
 <!ATTLIST lancamento id CDATA #REQUIRED>
-<!ATTLIST lancamento transacaoid CDATA #REQUIRED>
-<!ATTLIST lancamento origemid CDATA #REQUIRED>
-<!ATTLIST lancamento destinoid CDATA #REQUIRED>
+<!ATTLIST lancamento transacao_id CDATA #REQUIRED>
+<!ATTLIST lancamento origem_id CDATA #REQUIRED>
+<!ATTLIST lancamento destino_id CDATA #REQUIRED>
 <!ATTLIST lancamento valor CDATA #REQUIRED>
 <!ATTLIST lancamento observacao CDATA #REQUIRED>

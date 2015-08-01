@@ -39,8 +39,8 @@ class Assert {
             Assert.assertTransacao(date, null, lancamento.getTransacao());
         }
 
-        assertContaByNome(nomeOrigem, lancamento.getOrigem());
-        assertContaByNome(nomeDestino, lancamento.getDestino());
+        assertContaByNome("Conta origem", nomeOrigem, lancamento.getOrigem());
+        assertContaByNome("Conta destino", nomeDestino, lancamento.getDestino());
 
         assertEquals(valor, lancamento.getValor(), 0d);
 
@@ -52,9 +52,9 @@ class Assert {
         }
     }
 
-    private static void assertContaByNome(String nomeConta, Conta conta) {
-        assertNotNull(conta);
-        assertEquals(nomeConta, conta.getNome());
+    private static void assertContaByNome(String mensagem, String nomeConta, Conta conta) {
+        assertNotNull(mensagem, conta);
+        assertEquals(mensagem, nomeConta, conta.getNome());
     }
 
 }

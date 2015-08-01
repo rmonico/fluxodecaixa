@@ -31,7 +31,7 @@ public class LancamentoCreateCommand {
 
     @CommandHandler(path = { "lanc", "add" })
     public void run() throws SQLException {
-        Transacao transacao = createTransacao();
+        Transacao transacao = createOrGetTransacao();
 
         lancamento = new Lancamento();
 
@@ -56,6 +56,17 @@ public class LancamentoCreateCommand {
         dao.create(lancamento);
     }
 
+    private Transacao createOrGetTransacao() throws SQLException {
+        Integer transactionId = args.getTransacaoId();
+
+        if (transactionId == null)
+            return createTransacao();
+        else {
+            TransacaoDao dao = TransacaoDao.getInstance(connection);
+            return dao.queryForId(transactionId);
+        }
+    }
+
     private Transacao createTransacao() throws SQLException {
         Transacao transacao = new Transacao();
 
@@ -71,6 +82,5 @@ public class LancamentoCreateCommand {
         dao.create(transacao);
 
         return transacao;
-
     }
 }
