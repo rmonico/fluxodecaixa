@@ -23,8 +23,8 @@ public class DependencyInjectionTests extends AbstractEasyMVCTest {
         }
 
         @Override
-        public Class<?> dependencyClass() {
-            return TheDependency.class;
+        public Class<?>[] dependencyClass() {
+            return new Class<?>[] { TheDependency.class };
         }
 
         @Override
