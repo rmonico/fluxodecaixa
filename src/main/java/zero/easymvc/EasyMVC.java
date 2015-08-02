@@ -169,7 +169,7 @@ public class EasyMVC {
             DependencyManager dependencyManager = managers.get(dependencyClass);
 
             try {
-                dependencyManager.beforeUse();
+                dependencyManager.beforeUse(dependencyClass);
             } catch (Exception e1) {
                 throw new EasyMVCException(e1);
             }
@@ -210,7 +210,7 @@ public class EasyMVC {
             DependencyManager dependencyManager = managers.get(dependencyClass);
 
             try {
-                dependencyManager.afterUse();
+                dependencyManager.afterUse(dependencyClass);
             } catch (Exception e) {
                 throw new EasyMVCException(e);
             }

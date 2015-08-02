@@ -28,7 +28,7 @@ public class DependencyInjectionTests extends AbstractEasyMVCTest {
         }
 
         @Override
-        public void beforeUse() {
+        public void beforeUse(Class<?> dependencyClass) {
             dependency.configured = true;
         }
 
@@ -38,7 +38,7 @@ public class DependencyInjectionTests extends AbstractEasyMVCTest {
         }
 
         @Override
-        public void afterUse() {
+        public void afterUse(Class<?> dependencyClass) {
             dependency.disposed = true;
         }
 

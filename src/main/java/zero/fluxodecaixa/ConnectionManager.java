@@ -29,7 +29,7 @@ public class ConnectionManager implements DependencyManager {
     }
 
     @Override
-    public void beforeUse() {
+    public void beforeUse(Class<?> dependencyClass) {
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ConnectionManager implements DependencyManager {
     }
 
     @Override
-    public void afterUse() throws SQLException {
+    public void afterUse(Class<?> dependencyClass) throws SQLException {
         connectionSource.close();
     }
 
