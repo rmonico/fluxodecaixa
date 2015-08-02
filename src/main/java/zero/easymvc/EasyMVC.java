@@ -288,7 +288,7 @@ public class EasyMVC {
     }
 
     public void addDependencyManager(DependencyManager manager) {
-        Class<?>[] managedClasses = manager.dependencyClass();
+        Class<?>[] managedClasses = manager.managedClasses();
 
         for (Class<?> managedClass : managedClasses)
             managers.put(managedClass, manager);

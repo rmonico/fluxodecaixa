@@ -24,7 +24,7 @@ public class ConnectionManager implements DependencyManager {
     }
 
     @Override
-    public Class<?>[] dependencyClass() {
+    public Class<?>[] managedClasses() {
         return new Class<?>[] { ConnectionSource.class };
     }
 

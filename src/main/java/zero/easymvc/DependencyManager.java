@@ -2,7 +2,7 @@ package zero.easymvc;
 
 public interface DependencyManager {
 
-    public Class<?>[] dependencyClass();
+    public Class<?>[] managedClasses();
 
     public void beforeUse() throws Exception;
 
