@@ -9,12 +9,10 @@ import zero.easymvc.Dependency;
 import zero.fluxodecaixa.app.dao.ContaDao;
 import zero.fluxodecaixa.model.Conta;
 
-import com.j256.ormlite.support.ConnectionSource;
-
 public class ContaCreateCommand {
 
     @Dependency
-    ConnectionSource connection;
+    private ContaDao dao;
 
     @ArgumentsBean
     private ContaCreateArguments arguments;
@@ -29,8 +27,6 @@ public class ContaCreateCommand {
         conta.setNome(arguments.getNome());
 
         conta.setContabilizavel(arguments.isContabilizavel());
-
-        ContaDao dao = ContaDao.getInstance(connection);
 
         // TODO Verificar se já existe uma conta com o mesmo nome...
 

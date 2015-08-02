@@ -8,7 +8,6 @@ import org.junit.Test;
 public class DependencyInjectionTests extends AbstractEasyMVCTest {
 
     public static class TheDependency {
-        public boolean configured;
         public boolean used;
         public boolean disposed;
 
@@ -28,12 +27,7 @@ public class DependencyInjectionTests extends AbstractEasyMVCTest {
         }
 
         @Override
-        public void beforeUse(Class<?> dependencyClass) {
-            dependency.configured = true;
-        }
-
-        @Override
-        public TheDependency getInstance() {
+        public TheDependency getInstance(Class<?> dependencyClass) {
             return dependency;
         }
 
@@ -77,10 +71,9 @@ public class DependencyInjectionTests extends AbstractEasyMVCTest {
 
         controller.run("command");
 
-        TheDependency dependency = dependencyManager.getInstance();
+        TheDependency dependency = dependencyManager.getInstance(TheDependency.class);
 
         assertNotNull(dependency);
-        assertTrue(dependency.configured);
         assertTrue(dependency.used);
         assertTrue(dependency.disposed);
     }

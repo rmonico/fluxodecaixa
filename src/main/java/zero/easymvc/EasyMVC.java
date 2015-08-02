@@ -168,13 +168,12 @@ public class EasyMVC {
 
             DependencyManager dependencyManager = managers.get(dependencyClass);
 
+            Object dependency;
             try {
-                dependencyManager.beforeUse(dependencyClass);
+                dependency = dependencyManager.getInstance(dependencyClass);
             } catch (Exception e1) {
                 throw new EasyMVCException(e1);
             }
-
-            Object dependency = dependencyManager.getInstance();
 
             boolean accessible = field.isAccessible();
 
