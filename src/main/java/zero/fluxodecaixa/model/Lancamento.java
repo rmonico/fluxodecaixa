@@ -18,13 +18,13 @@ public class Lancamento {
     @DatabaseField(generatedId = true)
     private int id;
 
-    @DatabaseField(foreign = true, canBeNull = true)
+    @DatabaseField(foreign = true, canBeNull = true, foreignAutoRefresh = true)
     private Transacao transacao;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Conta origem;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Conta destino;
 
     @DatabaseField
