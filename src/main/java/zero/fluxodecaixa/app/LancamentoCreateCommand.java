@@ -16,13 +16,16 @@ import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.model.Lancamento;
 import zero.fluxodecaixa.model.Transacao;
 
-import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.support.ConnectionSource;
-
 public class LancamentoCreateCommand {
 
     @Dependency
-    ConnectionSource connection;
+    private LancamentoDao lancamentoDao;
+
+    @Dependency
+    private TransacaoDao transacaoDao;
+
+    @Dependency
+    private ContaDao contaDao;
 
     @ArgumentsBean
     private LancamentoCreateArguments args;
@@ -40,8 +43,6 @@ public class LancamentoCreateCommand {
 
         lancamento.setTransacao(transacao);
 
-        ContaDao contaDao = DaoManager.createDao(connection, Conta.class);
-
         Conta origem = contaDao.getContaByNome(args.getNomeOrigem());
 
         lancamento.setOrigem(origem);
@@ -54,9 +55,7 @@ public class LancamentoCreateCommand {
 
         lancamento.setObservacao(args.getObservacao());
 
-        LancamentoDao dao = LancamentoDao.getInstance(connection);
-
-        dao.create(lancamento);
+        lancamentoDao.create(lancamento);
     }
 
     private void checkCommandLine() throws CommandLineParsingException {
@@ -71,8 +70,7 @@ public class LancamentoCreateCommand {
         if (transactionId == null)
             return createTransacao();
         else {
-            TransacaoDao dao = TransacaoDao.getInstance(connection);
-            return dao.queryForId(transactionId);
+            return transacaoDao.queryForId(transactionId);
         }
     }
 
@@ -86,9 +84,7 @@ public class LancamentoCreateCommand {
 
         transacao.setData(data);
 
-        TransacaoDao dao = TransacaoDao.getInstance(connection);
-
-        dao.create(transacao);
+        transacaoDao.create(transacao);
 
         return transacao;
     }
