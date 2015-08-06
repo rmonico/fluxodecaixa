@@ -13,6 +13,8 @@ public class EasyMVC {
     static final String FIRST_POSITIONAL_PARAMETER_NAME = "<initial>";
     // TODO Log stuff
     private List<CommandData> commands;
+    // TODO Manage dependency of dependencies too, useful when dependencies
+    // needs log and DAOs need connection
     private Map<Class<?>, DependencyManager> managers;
 
     public EasyMVC() {
