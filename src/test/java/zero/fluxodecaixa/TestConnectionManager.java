@@ -22,7 +22,7 @@ public class TestConnectionManager extends ConnectionManager {
     }
 
     private void recreateStructure() throws SQLException {
-        ConnectionSource source = (ConnectionSource) getInstance(ConnectionSource.class);
+        ConnectionSource source = getConnection();
 
         TableUtils.dropTable(source, Conta.class, true);
         TableUtils.dropTable(source, Transacao.class, true);

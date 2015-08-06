@@ -17,8 +17,6 @@ import zero.fluxodecaixa.renderer.ContaListRenderer;
 import zero.fluxodecaixa.renderer.ContaRemoveRenderer;
 import zero.fluxodecaixa.renderer.LancamentoCreateRenderer;
 
-import com.j256.ormlite.support.ConnectionSource;
-
 public class Main {
 
     // TODO Create a switch to control log verbosity
@@ -41,9 +39,8 @@ public class Main {
 
         ConnectionManager connectionManager = new ConnectionManager();
 
-        controller.addDependencyManager(connectionManager);
+        DependencyManager daoManager = new DaoManager(connectionManager.getConnection());
 
-        DependencyManager daoManager = new DaoManager((ConnectionSource) connectionManager.getInstance(ConnectionSource.class));
         controller.addDependencyManager(daoManager);
 
         controller.registerCommandHandler(ContaCreateCommand.class);

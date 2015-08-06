@@ -2,12 +2,10 @@ package zero.fluxodecaixa;
 
 import java.sql.SQLException;
 
-import zero.easymvc.DependencyManager;
-
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 
-public class ConnectionManager implements DependencyManager {
+public class ConnectionManager {
 
     private ConnectionSource connectionSource;
 
@@ -23,19 +21,8 @@ public class ConnectionManager implements DependencyManager {
         return "org.sqlite.JDBC";
     }
 
-    @Override
-    public Class<?>[] managedClasses() {
-        return new Class<?>[] { ConnectionSource.class };
-    }
-
-    @Override
-    public Object getInstance(Class<?> dependencyClass) throws SQLException {
+    public ConnectionSource getConnection() {
         return connectionSource;
-    }
-
-    @Override
-    public void afterUse(Class<?> dependencyClass) throws SQLException {
-        connectionSource.close();
     }
 
 }

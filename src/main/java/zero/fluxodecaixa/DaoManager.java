@@ -42,6 +42,7 @@ public class DaoManager implements DependencyManager {
 
     @Override
     public void afterUse(Class<?> daoClass) throws Exception {
+        connection.close();
     }
 
 }

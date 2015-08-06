@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import org.dbunit.DatabaseUnitException;
 import org.junit.Before;
 
-import com.j256.ormlite.support.ConnectionSource;
-
 import zero.easymvc.DependencyManager;
 import zero.easymvc.EasyMVC;
 import zero.utils.test.DBUnitTest;
@@ -34,9 +32,7 @@ public class FluxodecaixaTest {
 
         connectionManager = new TestConnectionManager();
 
-        controller.addDependencyManager(connectionManager);
-
-        DependencyManager daoManager = new DaoManager((ConnectionSource) connectionManager.getInstance(ConnectionSource.class));
+        DependencyManager daoManager = new DaoManager(connectionManager.getConnection());
         controller.addDependencyManager(daoManager);
 
         if (datasetFileName != null) {
