@@ -1,34 +1,20 @@
 package zero.fluxodecaixa;
 
-import java.io.FileNotFoundException;
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.dbunit.DatabaseUnitException;
 import org.junit.Test;
 
 import zero.easymvc.EasyMVCAssert;
 import zero.easymvc.EasyMVCException;
-import zero.fluxodecaixa.app.LancamentoCreateCommand;
 import zero.fluxodecaixa.model.Lancamento;
-import zero.fluxodecaixa.renderer.LancamentoCreateRenderer;
 import zero.utils.TimeUtils;
 
 public class LancamentoCreateTest extends FluxodecaixaTest {
 
     public LancamentoCreateTest() {
         super("dbunit/lancamentotests_dataset.xml");
-    }
-
-    @Override
-    public void before() throws ClassNotFoundException, FileNotFoundException, SQLException, DatabaseUnitException {
-        super.before();
-
-        controller.registerCommandHandler(LancamentoCreateCommand.class);
-
-        controller.registerRenderer(LancamentoCreateRenderer.class);
     }
 
     @Test

@@ -9,9 +9,7 @@ import org.junit.Test;
 
 import zero.easymvc.EasyMVCAssert;
 import zero.easymvc.EasyMVCException;
-import zero.fluxodecaixa.app.ContaListCommand;
 import zero.fluxodecaixa.model.Conta;
-import zero.fluxodecaixa.renderer.ContaListRenderer;
 
 public class ContaListTest extends FluxodecaixaTest {
 
@@ -21,10 +19,6 @@ public class ContaListTest extends FluxodecaixaTest {
 
     @Test
     public void contaLsCommand_should_return_all_available_contas() throws SQLException, EasyMVCException {
-        controller.registerCommandHandler(ContaListCommand.class);
-
-        controller.registerRenderer(ContaListRenderer.class);
-
         List<Object> beans = controller.run("conta", "ls");
 
         EasyMVCAssert.assertBeanList(beans, 1);

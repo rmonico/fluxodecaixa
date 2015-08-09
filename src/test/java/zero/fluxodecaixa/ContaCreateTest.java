@@ -1,28 +1,14 @@
 package zero.fluxodecaixa;
 
-import java.io.FileNotFoundException;
-import java.sql.SQLException;
 import java.util.List;
 
-import org.dbunit.DatabaseUnitException;
 import org.junit.Test;
 
 import zero.easymvc.EasyMVCAssert;
 import zero.easymvc.EasyMVCException;
-import zero.fluxodecaixa.app.ContaCreateCommand;
 import zero.fluxodecaixa.model.Conta;
-import zero.fluxodecaixa.renderer.ContaCreateRenderer;
 
 public class ContaCreateTest extends FluxodecaixaTest {
-
-    @Override
-    public void before() throws ClassNotFoundException, FileNotFoundException, SQLException, DatabaseUnitException {
-        super.before();
-
-        controller.registerCommandHandler(ContaCreateCommand.class);
-
-        controller.registerRenderer(ContaCreateRenderer.class);
-    }
 
     @Test
     public void should_create_a_new_conta() throws EasyMVCException {

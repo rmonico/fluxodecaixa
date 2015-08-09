@@ -1,6 +1,7 @@
 package zero.fluxodecaixa;
 
 import java.sql.SQLException;
+import java.util.Properties;
 
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
@@ -8,16 +9,33 @@ import com.j256.ormlite.support.ConnectionSource;
 public class ConnectionManager {
 
     private ConnectionSource connectionSource;
+    private Properties props;
 
-    public ConnectionManager() throws SQLException {
+    public ConnectionManager(Properties props) throws SQLException {
+        this.props = props;
         connectionSource = new JdbcConnectionSource(getConnectionString());
     }
 
     public String getConnectionString() {
-        return "jdbc:sqlite:./dbunit/database";
+        String jdbcUrl = props.getProperty("jdbc_url");
+
+        if (jdbcUrl != null)
+            return jdbcUrl;
+
+        String database = props.getProperty("database");
+
+        if (database != null)
+            return String.format("jdbc:sqlite:%s", database);
+
+        return "jdbc:sqlite:database";
     }
 
     public String getDriverClassName() {
+        String jdbcDriverClass = props.getProperty("jdbc_driver_class");
+
+        if (jdbcDriverClass != null)
+            return jdbcDriverClass;
+
         return "org.sqlite.JDBC";
     }
 

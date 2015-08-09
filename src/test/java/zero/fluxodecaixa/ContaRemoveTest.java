@@ -6,22 +6,16 @@ import org.junit.Test;
 
 import zero.easymvc.EasyMVCAssert;
 import zero.easymvc.EasyMVCException;
-import zero.fluxodecaixa.app.ContaRemoveCommand;
 import zero.fluxodecaixa.model.Conta;
-import zero.fluxodecaixa.renderer.ContaRemoveRenderer;
 
 public class ContaRemoveTest extends FluxodecaixaTest {
 
-    public ContaRemoveTest(){
+    public ContaRemoveTest() {
         super("dbunit/contatests_dataset.xml");
     }
 
     @Test
     public void should_remove_a_conta() throws EasyMVCException {
-        controller.registerCommandHandler(ContaRemoveCommand.class);
-
-        controller.registerRenderer(ContaRemoveRenderer.class);
-
         List<Object> beans = controller.run("conta", "rm", "carteira");
 
         EasyMVCAssert.assertBeanList(beans, 1);

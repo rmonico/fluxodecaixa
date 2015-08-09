@@ -1,7 +1,12 @@
 package zero.fluxodecaixa;
 
 import java.sql.SQLException;
+import java.util.Properties;
 
+import org.slf4j.LoggerFactory;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import zero.easymvc.DependencyManager;
 import zero.easymvc.EasyMVC;
 import zero.fluxodecaixa.app.ContaCreateCommand;
@@ -17,16 +22,34 @@ import zero.fluxodecaixa.renderer.LancamentoCreateRenderer;
 
 public class ControllerFactory {
     private EasyMVC controller;
+    protected ConnectionManager connectionManager;
+    private Properties props;
 
-    public EasyMVC createAndSetupController() throws SQLException {
+    public ControllerFactory(Properties props) {
+        this.props = props;
+    }
+
+    public EasyMVC createAndSetupController() throws Exception {
         controller = new EasyMVC();
 
-        ConnectionManager connectionManager = new ConnectionManager();
+        registerDependencies();
+
+        registerCommandsAndRenderers();
+
+        setupLogger();
+
+        return controller;
+    }
+
+    private void registerDependencies() throws SQLException {
+        connectionManager = new ConnectionManager(props);
 
         DependencyManager daoManager = new DaoManager(connectionManager.getConnection());
 
         controller.addDependencyManager(daoManager);
+    }
 
+    private void registerCommandsAndRenderers() {
         controller.registerCommandHandler(ContaCreateCommand.class);
         controller.registerRenderer(ContaCreateRenderer.class);
         controller.registerCommandHandler(ContaListCommand.class);
@@ -37,7 +60,11 @@ public class ControllerFactory {
         controller.registerRenderer(LancamentoCreateRenderer.class);
         controller.registerCommandHandler(LancamentoListCommand.class);
         controller.registerRenderer(LancamentoListRenderer.class);
-
-        return controller;
     }
+
+    private void setupLogger() {
+        Logger root = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        root.setLevel(Level.OFF);
+    }
+
 }
