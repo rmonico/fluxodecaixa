@@ -1,20 +1,41 @@
 package zero.fluxodecaixa.app;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import zero.easymvc.Bean;
 import zero.easymvc.CommandHandler;
 import zero.easymvc.Renderer;
 
 public class VersionCommand {
 
-    private static final String MAJOR_VERSION = "0";
-    private static final String MINOR_VERSION = "1";
-    private static final String STAGE = " - beta";
+    @Bean
+    private AppVersion version;
 
     @CommandHandler(path = { "version" })
-    public void execute() {
+    public void execute() throws IOException {
+        Properties props = new Properties();
+
+        File file = new File("version.properties");
+
+        InputStream fis = new FileInputStream(file);
+
+        props.load(fis);
+
+        fis.close();
+
+        String majorVersion = props.getProperty("major_version");
+        String minorVersion = props.getProperty("minor_version");
+        String projectPhase = props.getProperty("project_phase");
+
+        version = new AppVersion(majorVersion, minorVersion, projectPhase);
     }
 
     @Renderer(path = { "version" })
     public void render() {
-        System.out.println(String.format("Fluxo de Caixa version %s.%s%s", MAJOR_VERSION, MINOR_VERSION, STAGE));
+        System.out.println(String.format("Fluxo de Caixa version %s.%s%s", version.getMajor(), version.getMinor(), version.getPhase()));
     }
 }
