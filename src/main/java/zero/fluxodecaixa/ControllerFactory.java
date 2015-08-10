@@ -15,6 +15,7 @@ import zero.fluxodecaixa.app.ContaRemoveCommand;
 import zero.fluxodecaixa.app.LancamentoCreateCommand;
 import zero.fluxodecaixa.app.LancamentoListCommand;
 import zero.fluxodecaixa.app.LancamentoListRenderer;
+import zero.fluxodecaixa.app.VersionCommand;
 import zero.fluxodecaixa.renderer.ContaCreateRenderer;
 import zero.fluxodecaixa.renderer.ContaListRenderer;
 import zero.fluxodecaixa.renderer.ContaRemoveRenderer;
@@ -60,6 +61,8 @@ public class ControllerFactory {
         controller.registerRenderer(LancamentoCreateRenderer.class);
         controller.registerCommandHandler(LancamentoListCommand.class);
         controller.registerRenderer(LancamentoListRenderer.class);
+        controller.registerCommandHandler(VersionCommand.class);
+        controller.registerRenderer(VersionCommand.class);
     }
 
     private void setupLogger() {
