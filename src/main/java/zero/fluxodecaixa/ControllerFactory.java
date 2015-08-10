@@ -30,13 +30,13 @@ public class ControllerFactory {
     }
 
     public EasyMVC createAndSetupController() throws Exception {
+        setupLogger();
+
         controller = new EasyMVC();
 
         registerDependencies();
 
         registerCommandsAndRenderers();
-
-        setupLogger();
 
         return controller;
     }
@@ -64,7 +64,49 @@ public class ControllerFactory {
 
     private void setupLogger() {
         Logger root = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-        root.setLevel(Level.OFF);
+
+        String verbosity = props.getProperty("logger_verbosity");
+
+        Level loggerLevel;
+
+        if (verbosity == null)
+            loggerLevel = Level.ERROR;
+        else {
+            switch (verbosity) {
+            case "off":
+                loggerLevel = Level.OFF;
+                break;
+
+            case "error":
+                loggerLevel = Level.ERROR;
+                break;
+
+            case "warning":
+                loggerLevel = Level.WARN;
+                break;
+
+            case "info":
+                loggerLevel = Level.INFO;
+                break;
+
+            case "trace":
+                loggerLevel = Level.TRACE;
+                break;
+
+            case "debug":
+                loggerLevel = Level.DEBUG;
+                break;
+
+            case "all":
+                loggerLevel = Level.ALL;
+                break;
+
+            default:
+                loggerLevel = Level.ERROR;
+            }
+        }
+
+        root.setLevel(loggerLevel);
     }
 
 }
