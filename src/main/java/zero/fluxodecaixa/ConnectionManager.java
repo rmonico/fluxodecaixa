@@ -8,6 +8,8 @@ import com.j256.ormlite.support.ConnectionSource;
 
 public class ConnectionManager {
 
+    public static final String DEFAULT_JDBC_DRIVER = "org.sqlite.JDBC";
+
     private ConnectionSource connectionSource;
     private Properties props;
 
@@ -25,9 +27,9 @@ public class ConnectionManager {
         String database = props.getProperty("database");
 
         if (database != null)
-            return String.format("jdbc:sqlite:%s", database);
+            return getDefaultDatabaseURL(database);
 
-        return "jdbc:sqlite:database";
+        return getDefaultDatabaseURL(getDefaultDatabaseFileName());
     }
 
     public String getDriverClassName() {
@@ -36,11 +38,34 @@ public class ConnectionManager {
         if (jdbcDriverClass != null)
             return jdbcDriverClass;
 
-        return "org.sqlite.JDBC";
+        return DEFAULT_JDBC_DRIVER;
     }
 
     public ConnectionSource getConnection() {
         return connectionSource;
+    }
+
+    public static String getDefaultDatabaseURL() {
+        return getDefaultDatabaseURL(getDefaultDatabaseFileName());
+    }
+
+    private static String getDefaultDatabaseFileName() {
+        return getFluxodecaixaHome() + "database.sqlite";
+    }
+
+    // FIXME Its not a good place to put this.... May be a good idea create a
+    // Defaults class to this and other static stuff of this and Main classes
+    static String getFluxodecaixaHome() {
+        String fluxodecaixahome = System.getenv("FLUXODECAIXA_HOME");
+
+        if (fluxodecaixahome == null)
+            fluxodecaixahome = System.getenv("HOME") + "/.config/fluxodecaixa/";
+
+        return fluxodecaixahome;
+    }
+
+    public static String getDefaultDatabaseURL(String database) {
+        return String.format("jdbc:sqlite:%s", database);
     }
 
 }
