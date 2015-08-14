@@ -3,8 +3,12 @@ package zero.fluxodecaixa;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
+import java.math.BigDecimal;
+
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.model.Lancamento;
+import zero.fluxodecaixa.model.Saldo;
 import zero.fluxodecaixa.model.Transacao;
 import zero.utils.TimeUtils;
 
@@ -52,6 +56,21 @@ class Assert {
     private static void assertContaByNome(String mensagem, String nomeConta, Conta conta) {
         assertNotNull(mensagem, conta);
         assertEquals(mensagem, nomeConta, conta.getNome());
+    }
+
+    public static void assertSaldo(String data, String nomeConta, String valor, Saldo actual) {
+        assertNotNull(actual);
+
+        if (data == null)
+            assertNull("data should be null", actual.getData());
+        else {
+            assertNotNull("data cant be null", actual.getData());
+            assertEquals("data", data, TimeUtils.dateToString(actual.getData()));
+        }
+
+        assertContaByNome("Saldo", nomeConta, actual.getConta());
+
+        assertEquals("saldo value", new BigDecimal(valor), actual.getValor());
     }
 
 }

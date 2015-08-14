@@ -15,11 +15,13 @@ import zero.fluxodecaixa.app.ContaRemoveCommand;
 import zero.fluxodecaixa.app.LancamentoCreateCommand;
 import zero.fluxodecaixa.app.LancamentoListCommand;
 import zero.fluxodecaixa.app.LancamentoListRenderer;
+import zero.fluxodecaixa.app.SaldoCommand;
 import zero.fluxodecaixa.app.VersionCommand;
 import zero.fluxodecaixa.renderer.ContaCreateRenderer;
 import zero.fluxodecaixa.renderer.ContaListRenderer;
 import zero.fluxodecaixa.renderer.ContaRemoveRenderer;
 import zero.fluxodecaixa.renderer.LancamentoCreateRenderer;
+import zero.fluxodecaixa.renderer.SaldoRenderer;
 
 public class ControllerFactory {
     private EasyMVC controller;
@@ -63,6 +65,8 @@ public class ControllerFactory {
         controller.registerRenderer(LancamentoListRenderer.class);
         controller.registerCommandHandler(VersionCommand.class);
         controller.registerRenderer(VersionCommand.class);
+        controller.registerCommandHandler(SaldoCommand.class);
+        controller.registerRenderer(SaldoRenderer.class);
     }
 
     private void setupLogger() {

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!DOCTYPE dataset SYSTEM "dbunit/fluxodecaixa.dtd">
+<dataset>
+  <conta id="1" nome="salário" contabilizavel="0" />
+  <conta id="2" nome="itau" contabilizavel="1" />
+  <conta id="3" nome="bradesco" contabilizavel="1" />
+  <conta id="4" nome="casa" contabilizavel="0" />
+
+  <!-- 03/ago, salário -> itau 1000 -->
+  <transacao id="1" data="2015-08-03 00:00:00.000000" />
+  <lancamento id="1" transacao_id="1" origem_id="1" destino_id="2" valor="1000" />
+
+  <!-- 03/ago, salário -> bradesco 1000 -->
+  <transacao id="2" data="2015-08-03 00:00:00.000000" />
+  <lancamento id="2" transacao_id="2" origem_id="1" destino_id="3" valor="1000" />
+
+  <!-- 03/ago, itau -> casa 55 -->
+  <transacao id="3" data="2015-08-03 00:00:00.000000" />
+  <lancamento id="3" transacao_id="3" origem_id="2" destino_id="4" valor="55" />
+
+  <!-- 03/ago, bradesco -> casa 75 -->
+  <transacao id="4" data="2015-08-03 00:00:00.000000" />
+  <lancamento id="4" transacao_id="4" origem_id="3" destino_id="4" valor="75" />
+
+  <!-- 04/ago, itau -> casa 100 -->
+  <transacao id="5" data="2015-08-04 00:00:00.000000" />
+  <lancamento id="5" transacao_id="5" origem_id="2" destino_id="4" valor="100" />
+
+  <!-- 04/ago, bradesco -> casa 80 -->
+  <transacao id="6" data="2015-08-04 00:00:00.000000" />
+  <lancamento id="6" transacao_id="6" origem_id="3" destino_id="4" valor="80" />
+
+  <!-- 04/ago, itau -> casa 10 -->
+  <transacao id="7" data="2015-08-04 00:00:00.000000" />
+  <lancamento id="7" transacao_id="7" origem_id="2" destino_id="4" valor="10" />
+
+  <!-- 04/ago, bradesco -> casa 12 -->
+  <transacao id="8" data="2015-08-04 00:00:00.000000" />
+  <lancamento id="8" transacao_id="8" origem_id="3" destino_id="4" valor="12" />
+
+</dataset>
+
+<!--
+Para duas contabilizaveis diferentes
+2 lançamentos em dois dias diferentes
+2 lançamentos em semanas diferentes - definir que dia a semana começa
+2 lançamentos em meses diferentes
+
+Ter dois lancamentos de saldo 
+Lançamentos de saldo
+ -->
