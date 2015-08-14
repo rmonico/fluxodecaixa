@@ -17,7 +17,7 @@ public class LancamentoListTests extends FluxodecaixaTest {
     }
 
     @Test
-    public void should_return_all_lancamentos() throws EasyMVCException {
+    public void should_return_all_lancamentos_sorted_by_date() throws EasyMVCException {
         List<Object> beans = controller.run("lanc", "ls");
 
         EasyMVCAssert.assertBeanList(beans, 1);
@@ -27,8 +27,8 @@ public class LancamentoListTests extends FluxodecaixaTest {
 
         assertEquals(3, lancamentos.size());
 
-        Assert.assertLancamento("15/Jun/2015", "itau", "carteira", 50d, "Dinheiro sacado", lancamentos.get(0));
-        Assert.assertLancamento("15/Jun/2015", "carteira", "casa", 25.5d, "Dinheiro da feira", lancamentos.get(1));
-        Assert.assertLancamento("15/Jun/2015", "carteira", "casa", 10d, "Pão", lancamentos.get(2));
+        Assert.assertLancamento("15/Jun/2015", "carteira", "casa", 10d, "Pão", lancamentos.get(0));
+        Assert.assertLancamento("16/Jun/2015", "itau", "carteira", 50d, "Dinheiro sacado", lancamentos.get(1));
+        Assert.assertLancamento("16/Jun/2015", "carteira", "casa", 25.5d, "Dinheiro da feira", lancamentos.get(2));
     }
 }

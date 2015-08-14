@@ -5,10 +5,10 @@
   <conta id="2" nome="casa" contabilizavel="0" />
   <conta id="3" nome="itau" contabilizavel="1" />
 
-  <transacao id="1" data="2015-06-15 00:00:00.000000" />
+  <transacao id="1" data="2015-06-16 00:00:00.000000" />
   <lancamento id="1" transacao_id="1" origem_id="3" destino_id="1" valor="50" observacao="Dinheiro sacado"/>
 
-  <transacao id="2" data="2015-06-15 00:00:00.000000" />
+  <transacao id="2" data="2015-06-16 00:00:00.000000" />
   <lancamento id="2" transacao_id="2" origem_id="1" destino_id="2" valor="25.5" observacao="Dinheiro da feira"/>
 
   <transacao id="3" data="2015-06-15 00:00:00.000000" />
