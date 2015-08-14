@@ -94,19 +94,19 @@ public class ListPrinter {
     }
 
     private void printEverything(List<List<StringBuilder>> formattedData) {
-        boolean headerPrinted = false;
+        boolean printingHeader = true;
 
         for (List<StringBuilder> line : formattedData) {
-            if (!headerPrinted)
+            if (printingHeader)
                 printRuler();
 
             StringBuilder stringLine = createBodyString(line);
 
             System.out.println(stringLine.toString());
 
-            if (!headerPrinted) {
+            if (printingHeader) {
                 printRuler();
-                headerPrinted = true;
+                printingHeader = false;
             }
         }
 
