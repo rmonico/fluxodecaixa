@@ -5,10 +5,6 @@ public class Column {
     private String fieldName;
     private Formatter formatter;
 
-    public Column(String title, String fieldName) {
-        this(title, fieldName, null);
-    }
-
     public Column(String title, String fieldName, Formatter formatter) {
         this.title = title;
         this.fieldName = fieldName;
