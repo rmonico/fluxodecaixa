@@ -36,3 +36,5 @@ Command Sintax
 *   trans ch <id> [--data=nova data] [-observacao=observacao]
 
 *   trans rm <id>
+
+*   saldo [ --contas=<nomes das contas separados por ,> ] [ --por-lancamento | --diario | --semanal | --mensal | --atual ]
