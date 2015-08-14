@@ -9,23 +9,23 @@ import zero.easymvc.EasyMVC;
 public class FluxodecaixaTest {
 
     protected EasyMVC controller;
-    private String datasetFileName;
+    private String[] datasetFileNames;
 
     public FluxodecaixaTest() {
-        this(null);
+        this((String[]) null);
     }
 
-    public FluxodecaixaTest(String datasetFileName) {
+    public FluxodecaixaTest(String... datasetFileNames) {
         super();
 
-        this.datasetFileName = datasetFileName;
+        this.datasetFileNames = datasetFileNames;
     }
 
     @Before
     public void before() throws Exception {
         Properties props = createTestProperties();
 
-        ControllerFactory factory = new TestControllerFactory(props, datasetFileName);
+        ControllerFactory factory = new TestControllerFactory(props, datasetFileNames);
 
         controller = factory.createAndSetupController();
     }

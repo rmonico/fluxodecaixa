@@ -32,18 +32,20 @@ public class DBUnitTest {
 
     @Before
     public void setup() throws ClassNotFoundException, SQLException, DatabaseUnitException, IOException {
-        initializeDBUnit(null);
+        initializeDBUnit();
     }
 
-    public void initializeDBUnit(String datasetFileName) throws ClassNotFoundException, SQLException, DatabaseUnitException, IOException {
+    public void initializeDBUnit(String... datasetFileNames) throws ClassNotFoundException, SQLException, DatabaseUnitException, IOException {
         IDatabaseConnection connection = getDBUnitConnection();
 
-        IDataSet dataSet = getDataSet(datasetFileName, name.getMethodName());
+        for (String datasetFileName : datasetFileNames) {
+            IDataSet dataSet = getDataSet(datasetFileName, name.getMethodName());
 
-        try {
-            DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
-        } finally {
-            connection.close();
+            try {
+                DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
+            } finally {
+                connection.close();
+            }
         }
     }
 

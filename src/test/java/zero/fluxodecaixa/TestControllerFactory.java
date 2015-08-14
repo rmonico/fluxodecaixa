@@ -13,12 +13,12 @@ import zero.fluxodecaixa.model.Transacao;
 import zero.utils.test.DBUnitTest;
 
 public class TestControllerFactory extends ControllerFactory {
-    private String datasetFileName;
+    private String[] datasetFileNames;
 
-    public TestControllerFactory(Properties props, String datasetFileName) {
+    public TestControllerFactory(Properties props, String[] datasetFileNames) {
         super(props);
 
-        this.datasetFileName = datasetFileName;
+        this.datasetFileNames = datasetFileNames;
     }
 
     @Override
@@ -27,10 +27,10 @@ public class TestControllerFactory extends ControllerFactory {
 
         recreateStructure();
 
-        if (datasetFileName != null) {
+        if (datasetFileNames != null) {
             DBUnitTest dbUnitTest = new DBUnitTest(connectionManager.getConnectionString(), connectionManager.getDriverClassName());
 
-            dbUnitTest.initializeDBUnit(datasetFileName);
+            dbUnitTest.initializeDBUnit(datasetFileNames);
         }
 
         return controller;
