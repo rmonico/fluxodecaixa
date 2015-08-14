@@ -37,4 +37,4 @@ Command Sintax
 
 *   trans rm <id>
 
-*   saldo [ --contas=<nomes das contas separados por ,> ] [ --por-lancamento | --diario | --semanal | --mensal | --atual ]
+*   saldo [ --contas=<nomes das contas separados por ,> ] [ --diario | --semanal | --mensal | --atual ]
