@@ -1,8 +1,6 @@
-package zero.fluxodecaixa.app;
+package zero.listprinter;
 
 import java.text.NumberFormat;
-
-import zero.fluxodecaixa.renderer.Formatter;
 
 public class MoneyFormatter implements Formatter {
 

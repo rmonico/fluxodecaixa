@@ -1,7 +1,7 @@
 package zero.fluxodecaixa.app;
 
 import zero.fluxodecaixa.model.Conta;
-import zero.fluxodecaixa.renderer.Formatter;
+import zero.listprinter.Formatter;
 
 public class ContaFormatter implements Formatter {
 

@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import zero.fluxodecaixa.model.Transacao;
-import zero.fluxodecaixa.renderer.Formatter;
+import zero.listprinter.Formatter;
 
 public class TransacaoFormatter implements Formatter {
 

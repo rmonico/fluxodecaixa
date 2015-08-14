@@ -1,4 +1,4 @@
-package zero.fluxodecaixa.renderer;
+package zero.listprinter;
 
 public class NullFormatter implements Formatter {
 
