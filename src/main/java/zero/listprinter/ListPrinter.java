@@ -44,7 +44,9 @@ public class ListPrinter {
             List<StringBuilder> formattedLine = new LinkedList<StringBuilder>();
 
             for (Column column : columns) {
-                StringBuilder cellData = new StringBuilder(column.getData(line));
+                Object rawData = column.getData(line);
+
+                StringBuilder cellData = new StringBuilder(rawData.toString());
 
                 formattedLine.add(cellData);
             }

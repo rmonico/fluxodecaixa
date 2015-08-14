@@ -1,18 +1,20 @@
 package zero.listprinter;
 
-public abstract class AbstractColumn implements Column {
+public class FormattedColumn extends SimpleColumn {
 
-    private String title;
     private Formatter formatter;
 
-    public AbstractColumn(String title, Formatter formatter) {
-        this.title = title;
+    public FormattedColumn(String title, DataExtractor extractor, Formatter formatter) {
+        super(title, extractor);
+
         this.formatter = formatter;
     }
 
     @Override
-    public String getTitle() {
-        return title;
+    public String getData(Object line) throws ListPrinterException {
+        Object theData = super.getData(line);
+
+        return formatData(theData);
     }
 
     protected String formatData(Object theData) {

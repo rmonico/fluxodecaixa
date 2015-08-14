@@ -10,7 +10,8 @@ import zero.listprinter.IDFormatter;
 import zero.listprinter.ListPrinter;
 import zero.listprinter.ListPrinterException;
 import zero.listprinter.MoneyFormatter;
-import zero.listprinter.ReflectionFieldColumn;
+import zero.listprinter.FormattedColumn;
+import zero.listprinter.ReflectionFieldExtractor;
 import zero.listprinter.StringFormatter;
 
 public class LancamentoListRenderer {
@@ -33,12 +34,12 @@ public class LancamentoListRenderer {
     private List<Column> createColumnDefinitions() {
         List<Column> defs = new LinkedList<Column>();
 
-        defs.add(new ReflectionFieldColumn("ID", "id", IDFormatter.getInstance()));
-        defs.add(new ReflectionFieldColumn("Data", "transacao", TransacaoFormatter.getInstance()));
-        defs.add(new ReflectionFieldColumn("Origem", "origem", ContaFormatter.getInstance()));
-        defs.add(new ReflectionFieldColumn("Destino", "destino", ContaFormatter.getInstance()));
-        defs.add(new ReflectionFieldColumn("Valor", "valor", MoneyFormatter.getInstance()));
-        defs.add(new ReflectionFieldColumn("Observacao", "observacao", StringFormatter.getInstance()));
+        defs.add(new FormattedColumn("ID", new ReflectionFieldExtractor("id"), IDFormatter.getInstance()));
+        defs.add(new FormattedColumn("Data", new ReflectionFieldExtractor("transacao"), TransacaoFormatter.getInstance()));
+        defs.add(new FormattedColumn("Origem", new ReflectionFieldExtractor("origem", new ReflectionFieldExtractor("nome")), StringFormatter.getInstance()));
+        defs.add(new FormattedColumn("Destino", new ReflectionFieldExtractor("destino", new ReflectionFieldExtractor("nome")), StringFormatter.getInstance()));
+        defs.add(new FormattedColumn("Valor", new ReflectionFieldExtractor("valor"), MoneyFormatter.getInstance()));
+        defs.add(new FormattedColumn("Observacao", new ReflectionFieldExtractor("observacao"), StringFormatter.getInstance()));
 
         return defs;
     }

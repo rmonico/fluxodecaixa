@@ -2,18 +2,22 @@ package zero.listprinter;
 
 import java.lang.reflect.Field;
 
-public class ReflectionFieldColumn extends AbstractColumn {
+public class ReflectionFieldExtractor implements DataExtractor {
 
     private String fieldName;
+    private DataExtractor subExtractor;
 
-    public ReflectionFieldColumn(String title, String fieldName, Formatter formatter) {
-        super(title, formatter);
+    public ReflectionFieldExtractor(String fieldName) {
+        this(fieldName, null);
+    }
 
+    public ReflectionFieldExtractor(String fieldName, DataExtractor subExtractor) {
         this.fieldName = fieldName;
+        this.subExtractor = subExtractor;
     }
 
     @Override
-    public String getData(Object line) throws ListPrinterException {
+    public Object extract(Object line) throws ListPrinterException {
         Field field;
         try {
             field = line.getClass().getDeclaredField(fieldName.toString());
@@ -31,7 +35,10 @@ public class ReflectionFieldColumn extends AbstractColumn {
         }
         field.setAccessible(accessible);
 
-        return formatData(theData);
+        if (subExtractor != null)
+            return subExtractor.extract(theData);
+        else
+            return theData;
     }
 
 }
