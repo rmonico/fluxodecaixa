@@ -1,6 +1,5 @@
 package zero.fluxodecaixa.renderer;
 
-import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class ListPrinter {
         this.dataList = dataList;
     }
 
-    public void print() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    public void print() throws ListPrinterException {
         List<List<StringBuilder>> formattedData = formatData();
 
         calculateWidths(formattedData);
@@ -33,7 +32,7 @@ public class ListPrinter {
         printEverything(formattedData);
     }
 
-    private List<List<StringBuilder>> formatData() throws NoSuchFieldException, IllegalAccessException {
+    private List<List<StringBuilder>> formatData() throws ListPrinterException {
         List<List<StringBuilder>> formattedDataList = new LinkedList<List<StringBuilder>>();
 
         List<StringBuilder> headerLine = new LinkedList<StringBuilder>();
@@ -45,23 +44,9 @@ public class ListPrinter {
             List<StringBuilder> formattedLine = new LinkedList<StringBuilder>();
 
             for (Column column : columns) {
-                Field field = line.getClass().getDeclaredField(column.getFieldName().toString());
+                StringBuilder cellData = new StringBuilder(column.getData(line));
 
-                boolean accessible = field.isAccessible();
-                field.setAccessible(true);
-                Object theData = field.get(line);
-                field.setAccessible(accessible);
-
-                Formatter formatter;
-
-                if (theData == null)
-                    formatter = NullFormatter.getInstance();
-                else
-                    formatter = column.getFormatter();
-
-                StringBuilder stringData = formatter.format(theData);
-
-                formattedLine.add(stringData);
+                formattedLine.add(cellData);
             }
 
             formattedDataList.add(formattedLine);

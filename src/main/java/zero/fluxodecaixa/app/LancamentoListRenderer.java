@@ -8,6 +8,8 @@ import zero.fluxodecaixa.model.Lancamento;
 import zero.fluxodecaixa.renderer.Column;
 import zero.fluxodecaixa.renderer.IDFormatter;
 import zero.fluxodecaixa.renderer.ListPrinter;
+import zero.fluxodecaixa.renderer.ListPrinterException;
+import zero.fluxodecaixa.renderer.ReflectionFieldColumn;
 import zero.fluxodecaixa.renderer.StringFormatter;
 
 public class LancamentoListRenderer {
@@ -15,7 +17,7 @@ public class LancamentoListRenderer {
     private List<Lancamento> lancamentos;
 
     @Renderer(path = { "lanc", "ls" })
-    public void render() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    public void render() throws ListPrinterException {
         ListPrinter printer = new ListPrinter();
 
         printer.setEntityName("Lançamento", "Lançamentos");
@@ -30,12 +32,12 @@ public class LancamentoListRenderer {
     private List<Column> createColumnDefinitions() {
         List<Column> defs = new LinkedList<Column>();
 
-        defs.add(new Column("ID", "id", IDFormatter.getInstance()));
-        defs.add(new Column("Data", "transacao", TransacaoFormatter.getInstance()));
-        defs.add(new Column("Origem", "origem", ContaFormatter.getInstance()));
-        defs.add(new Column("Destino", "destino", ContaFormatter.getInstance()));
-        defs.add(new Column("Valor", "valor", MoneyFormatter.getInstance()));
-        defs.add(new Column("Observacao", "observacao", StringFormatter.getInstance()));
+        defs.add(new ReflectionFieldColumn("ID", "id", IDFormatter.getInstance()));
+        defs.add(new ReflectionFieldColumn("Data", "transacao", TransacaoFormatter.getInstance()));
+        defs.add(new ReflectionFieldColumn("Origem", "origem", ContaFormatter.getInstance()));
+        defs.add(new ReflectionFieldColumn("Destino", "destino", ContaFormatter.getInstance()));
+        defs.add(new ReflectionFieldColumn("Valor", "valor", MoneyFormatter.getInstance()));
+        defs.add(new ReflectionFieldColumn("Observacao", "observacao", StringFormatter.getInstance()));
 
         return defs;
     }

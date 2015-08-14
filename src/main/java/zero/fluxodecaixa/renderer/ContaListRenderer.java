@@ -11,7 +11,7 @@ public class ContaListRenderer {
     private List<Conta> contas;
 
     @Renderer(path = { "conta", "ls" })
-    public void render() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    public void render() throws ListPrinterException {
         ListPrinter printer = new ListPrinter();
 
         printer.setEntityName("Conta", "Contas");
@@ -24,11 +24,11 @@ public class ContaListRenderer {
     }
 
     private List<Column> createColumnDefinitions() {
-        List<Column> defs = new LinkedList<Column>();
+        List<Column> defs = new LinkedList<>();
 
-        defs.add(new Column("ID", "id", IDFormatter.getInstance()));
-        defs.add(new Column("Nome", "nome", StringFormatter.getInstance()));
-        defs.add(new Column("Contabilizável", "contabilizavel", BooleanFormatter.getInstance()));
+        defs.add(new ReflectionFieldColumn("ID", "id", IDFormatter.getInstance()));
+        defs.add(new ReflectionFieldColumn("Nome", "nome", StringFormatter.getInstance()));
+        defs.add(new ReflectionFieldColumn("Contabilizável", "contabilizavel", BooleanFormatter.getInstance()));
 
         return defs;
     }
