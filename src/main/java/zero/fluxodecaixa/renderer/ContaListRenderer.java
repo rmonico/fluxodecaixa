@@ -23,12 +23,12 @@ public class ContaListRenderer {
         printer.print();
     }
 
-    private List<ColumnDefinition> createColumnDefinitions() {
-        List<ColumnDefinition> defs = new LinkedList<ColumnDefinition>();
+    private List<Column> createColumnDefinitions() {
+        List<Column> defs = new LinkedList<Column>();
 
-        defs.add(new ColumnDefinition("ID", "id", IDFormatter.getInstance()));
-        defs.add(new ColumnDefinition("Nome", "nome", StringFormatter.getInstance()));
-        defs.add(new ColumnDefinition("Contabilizável", "contabilizavel", BooleanFormatter.getInstance()));
+        defs.add(new Column("ID", "id", IDFormatter.getInstance()));
+        defs.add(new Column("Nome", "nome", StringFormatter.getInstance()));
+        defs.add(new Column("Contabilizável", "contabilizavel", BooleanFormatter.getInstance()));
 
         return defs;
     }

@@ -1,15 +1,15 @@
 package zero.fluxodecaixa.renderer;
 
-public class ColumnDefinition {
+public class Column {
     private String title;
     private String fieldName;
     private Formatter formatter;
 
-    public ColumnDefinition(String title, String fieldName) {
+    public Column(String title, String fieldName) {
         this(title, fieldName, null);
     }
 
-    public ColumnDefinition(String title, String fieldName, Formatter formatter) {
+    public Column(String title, String fieldName, Formatter formatter) {
         this.title = title;
         this.fieldName = fieldName;
         this.formatter = formatter;
