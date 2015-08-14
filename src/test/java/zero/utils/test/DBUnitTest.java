@@ -1,7 +1,7 @@
 package zero.utils.test;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,6 +11,7 @@ import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Before;
@@ -30,11 +31,11 @@ public class DBUnitTest {
     }
 
     @Before
-    public void setup() throws ClassNotFoundException, FileNotFoundException, SQLException, DatabaseUnitException {
+    public void setup() throws ClassNotFoundException, SQLException, DatabaseUnitException, IOException {
         initializeDBUnit(null);
     }
 
-    public void initializeDBUnit(String datasetFileName) throws ClassNotFoundException, SQLException, DatabaseUnitException, FileNotFoundException {
+    public void initializeDBUnit(String datasetFileName) throws ClassNotFoundException, SQLException, DatabaseUnitException, IOException {
         IDatabaseConnection connection = getDBUnitConnection();
 
         IDataSet dataSet = getDataSet(datasetFileName, name.getMethodName());
@@ -54,7 +55,7 @@ public class DBUnitTest {
         return new DatabaseConnection(jdbcConnection);
     }
 
-    protected IDataSet getDataSet(String datasetFileName, String currentTest) throws DataSetException, FileNotFoundException {
+    protected IDataSet getDataSet(String datasetFileName, String currentTest) throws DataSetException, IOException {
         FileInputStream fis;
 
         if (datasetFileName == null)
@@ -62,7 +63,11 @@ public class DBUnitTest {
         else
             fis = new FileInputStream(datasetFileName);
 
-        return new FlatXmlDataSetBuilder().build(fis);
+        FlatXmlDataSet dataset = new FlatXmlDataSetBuilder().build(fis);
+
+        fis.close();
+
+        return dataset;
     }
 
     protected String getDatasetFileName(String currentTest) {
