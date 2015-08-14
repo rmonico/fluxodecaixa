@@ -12,8 +12,8 @@ public class StringFormatter implements Formatter {
     }
 
     @Override
-    public StringBuilder format(Object data) {
-        return new StringBuilder(data.toString());
+    public String format(Object data) {
+        return data.toString();
     }
 
 }

@@ -12,13 +12,13 @@ public class IDFormatter implements Formatter {
     }
 
     @Override
-    public StringBuilder format(Object data) {
+    public String format(Object data) {
         StringBuilder formatted = new StringBuilder();
 
         formatted.append("#");
         formatted.append(data.toString());
 
-        return formatted;
+        return formatted.toString();
     }
 
 }

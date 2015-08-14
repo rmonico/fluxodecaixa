@@ -21,12 +21,12 @@ public class TransacaoFormatter implements Formatter {
     DateFormat formatter = new SimpleDateFormat("dd/MMM");
 
     @Override
-    public StringBuilder format(Object data) {
+    public String format(Object data) {
         Transacao transacao = (Transacao) data;
 
         Date date = transacao.getData().getTime();
 
-        return new StringBuilder(formatter.format(date));
+        return formatter.format(date);
     }
 
 }

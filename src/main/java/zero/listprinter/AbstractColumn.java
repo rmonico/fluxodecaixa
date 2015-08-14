@@ -23,8 +23,7 @@ public abstract class AbstractColumn implements Column {
         else
             dataFormatter = formatter;
 
-        // FIXME
-        return dataFormatter.format(theData).toString();
+        return dataFormatter.format(theData);
     }
 
 }

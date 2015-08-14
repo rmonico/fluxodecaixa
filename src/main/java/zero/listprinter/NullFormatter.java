@@ -12,8 +12,8 @@ public class NullFormatter implements Formatter {
     }
 
     @Override
-    public StringBuilder format(Object data) {
-        return new StringBuilder("<null>");
+    public String format(Object data) {
+        return "<null>";
     }
 
 }

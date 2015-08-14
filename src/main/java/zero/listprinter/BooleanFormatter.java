@@ -12,10 +12,10 @@ public class BooleanFormatter implements Formatter {
     }
 
     @Override
-    public StringBuilder format(Object data) {
+    public String format(Object data) {
         Boolean booleanData = (Boolean) data;
 
-        return booleanData ? new StringBuilder("True") : new StringBuilder("False");
+        return booleanData ? "True" : "False";
     }
 
 }

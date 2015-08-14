@@ -14,12 +14,12 @@ public class MoneyFormatter implements Formatter {
     }
 
     @Override
-    public StringBuilder format(Object data) {
+    public String format(Object data) {
         double value = (double) data;
 
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
 
-        return new StringBuilder(formatter.format(value));
+        return formatter.format(value);
     }
 
 }

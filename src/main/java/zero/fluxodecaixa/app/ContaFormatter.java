@@ -15,10 +15,10 @@ public class ContaFormatter implements Formatter {
     }
 
     @Override
-    public StringBuilder format(Object data) {
+    public String format(Object data) {
         Conta conta = (Conta) data;
 
-        return new StringBuilder(conta.getNome());
+        return conta.getNome();
     }
 
 }
