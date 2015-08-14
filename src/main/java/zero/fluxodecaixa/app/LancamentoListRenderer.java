@@ -6,6 +6,7 @@ import java.util.List;
 import zero.easymvc.Renderer;
 import zero.fluxodecaixa.model.Lancamento;
 import zero.listprinter.Column;
+import zero.listprinter.DateFormatter;
 import zero.listprinter.IDFormatter;
 import zero.listprinter.ListPrinter;
 import zero.listprinter.ListPrinterException;
@@ -35,7 +36,7 @@ public class LancamentoListRenderer {
         List<Column> defs = new LinkedList<Column>();
 
         defs.add(new FormattedColumn("ID", new ReflectionFieldExtractor("id"), IDFormatter.getInstance()));
-        defs.add(new FormattedColumn("Data", new ReflectionFieldExtractor("transacao"), TransacaoFormatter.getInstance()));
+        defs.add(new FormattedColumn("Data", new ReflectionFieldExtractor("transacao", new ReflectionFieldExtractor("data")), DateFormatter.getInstance()));
         defs.add(new FormattedColumn("Origem", new ReflectionFieldExtractor("origem", new ReflectionFieldExtractor("nome")), StringFormatter.getInstance()));
         defs.add(new FormattedColumn("Destino", new ReflectionFieldExtractor("destino", new ReflectionFieldExtractor("nome")), StringFormatter.getInstance()));
         defs.add(new FormattedColumn("Valor", new ReflectionFieldExtractor("valor"), MoneyFormatter.getInstance()));
