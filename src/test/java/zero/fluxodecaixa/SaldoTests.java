@@ -2,7 +2,9 @@ package zero.fluxodecaixa;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -28,13 +30,19 @@ public class SaldoTests extends FluxodecaixaTest {
         @SuppressWarnings("unchecked")
         List<Saldo> saldos = EasyMVCAssert.assertAndGetBean(beans, 0, List.class);
 
-        assertEquals(4, saldos.size());
+        assertEquals(2, saldos.size());
 
-        Assert.assertSaldo("03/Ago/2015", "bradesco", "925", saldos.get(0));
-        Assert.assertSaldo("03/Ago/2015", "itau", "945", saldos.get(1));
+        Map<String, String> expectedValores = new HashMap<String, String>();
+        expectedValores.put("bradesco", "925");
+        expectedValores.put("itau", "945");
 
-        Assert.assertSaldo("04/Ago/2015", "bradesco", "833", saldos.get(2));
-        Assert.assertSaldo("04/Ago/2015", "itau", "835", saldos.get(3));
+        Assert.assertSaldo("03/Ago/2015", expectedValores, saldos.get(0));
+
+        expectedValores = new HashMap<String, String>();
+        expectedValores.put("bradesco", "833");
+        expectedValores.put("itau", "835");
+
+        Assert.assertSaldo("04/Ago/2015", expectedValores, saldos.get(1));
     }
 
 }

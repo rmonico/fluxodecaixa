@@ -4,11 +4,8 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import zero.easymvc.Bean;
 import zero.easymvc.CommandHandler;
@@ -32,7 +29,7 @@ public class SaldoCommand {
     @Bean
     private List<Saldo> saldos;
 
-    private Map<Conta, Saldo> currentSaldos;
+    private Saldo currentSaldo;
 
     private Calendar currentDay;
 
@@ -47,35 +44,31 @@ public class SaldoCommand {
         if (lancamentos.isEmpty())
             return;
 
-        currentSaldos = new HashMap<>();
-
         currentDay = lancamentos.get(0).getTransacao().getData();
 
+        currentSaldo = new Saldo(currentDay);
+
         for (Lancamento lancamento : lancamentos) {
-            if (dayChanged(lancamento))
-                postSaldosOfTheDay();
+            if (dayChanged(lancamento)) {
+                saldos.add(currentSaldo);
+
+                currentDay = lancamento.getTransacao().getData();
+
+                currentSaldo = new Saldo(currentDay, currentSaldo);
+            }
 
             makeAccount(lancamento, true);
 
             makeAccount(lancamento, false);
-
-            currentDay = lancamento.getTransacao().getData();
         }
 
-        postSaldosOfTheDay();
+        saldos.add(currentSaldo);
     }
 
-    private void postSaldosOfTheDay() {
-        for (Entry<Conta, Saldo> entry : currentSaldos.entrySet()) {
-            Saldo saldo = entry.getValue();
+    private boolean dayChanged(Lancamento lancamento) {
+        Calendar lancamentoDay = lancamento.getTransacao().getData();
 
-            Saldo newSaldo = new Saldo();
-            newSaldo.setData(currentDay);
-            newSaldo.setConta(saldo.getConta());
-            newSaldo.setValor(saldo.getValor());
-
-            saldos.add(newSaldo);
-        }
+        return !lancamentoDay.equals(currentDay);
     }
 
     private void makeAccount(Lancamento lancamento, boolean origem) {
@@ -84,9 +77,11 @@ public class SaldoCommand {
         if (!conta.isContabilizavel())
             return;
 
-        Saldo saldo = getOrCreateSaldoForConta(conta);
+        BigDecimal oldSaldoValor = currentSaldo.getValores().get(conta);
 
-        BigDecimal oldSaldoValor = saldo.getValor();
+        if (oldSaldoValor == null)
+            oldSaldoValor = BigDecimal.ZERO;
+
         BigDecimal lancamentoValor = new BigDecimal(lancamento.getValor());
 
         BigDecimal newSaldoValor;
@@ -96,26 +91,7 @@ public class SaldoCommand {
         else
             newSaldoValor = oldSaldoValor.add(lancamentoValor);
 
-        saldo.setValor(newSaldoValor);
+        currentSaldo.getValores().put(conta, newSaldoValor);
     }
 
-    private Saldo getOrCreateSaldoForConta(Conta conta) {
-        Saldo saldo = currentSaldos.get(conta);
-
-        if (saldo == null) {
-            saldo = new Saldo();
-            saldo.setConta(conta);
-            saldo.setValor(BigDecimal.ZERO);
-
-            currentSaldos.put(conta, saldo);
-        }
-
-        return saldo;
-    }
-
-    private boolean dayChanged(Lancamento lancamento) {
-        Calendar lancamentoDay = lancamento.getTransacao().getData();
-
-        return !lancamentoDay.equals(currentDay);
-    }
 }

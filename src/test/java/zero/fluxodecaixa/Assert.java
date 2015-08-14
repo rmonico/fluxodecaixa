@@ -5,6 +5,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.model.Lancamento;
@@ -22,12 +25,8 @@ class Assert {
 
     public static void assertTransacao(String date, String observacao, Transacao transacao) {
         assertNotNull(transacao);
-        if (date == null)
-            assertNull(transacao.getData());
-        else {
-            assertNotNull(transacao.getData());
-            assertEquals(date, TimeUtils.dateToString(transacao.getData()));
-        }
+
+        assertData(date, transacao.getData());
 
         assertEquals(observacao, transacao.getObservacao());
     }
@@ -58,19 +57,30 @@ class Assert {
         assertEquals(mensagem, nomeConta, conta.getNome());
     }
 
-    public static void assertSaldo(String data, String nomeConta, String valor, Saldo actual) {
+    public static void assertSaldo(String expectedData, Map<String, String> expectedValores, Saldo actual) {
         assertNotNull(actual);
 
-        if (data == null)
-            assertNull("data should be null", actual.getData());
-        else {
-            assertNotNull("data cant be null", actual.getData());
-            assertEquals("data", data, TimeUtils.dateToString(actual.getData()));
+        assertData(expectedData, actual.getData());
+
+        assertEquals("Keyset", expectedValores.keySet().size(), actual.getValores().keySet().size());
+
+        for (Entry<Conta, BigDecimal> entry : actual.getValores().entrySet()) {
+            Conta actualConta = entry.getKey();
+
+            String expectedSaldoValor = expectedValores.get(actualConta.getNome());
+            assertNotNull("nome conta", expectedSaldoValor);
+
+            assertEquals("saldo valor", new BigDecimal(expectedSaldoValor), entry.getValue());
         }
+    }
 
-        assertContaByNome("Saldo", nomeConta, actual.getConta());
-
-        assertEquals("saldo value", new BigDecimal(valor), actual.getValor());
+    public static void assertData(String expectedData, Calendar actualData) {
+        if (expectedData == null) {
+            assertNull("data should be null", actualData);
+        } else {
+            assertNotNull("data cant be null", actualData);
+            assertEquals("data", expectedData, TimeUtils.dateToString(actualData));
+        }
     }
 
 }
