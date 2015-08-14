@@ -2,20 +2,16 @@ package zero.listprinter;
 
 import java.lang.reflect.Field;
 
-public class ReflectionFieldColumn implements Column {
-    private String title;
+public class ReflectionFieldColumn extends AbstractColumn {
+
     private String fieldName;
     private Formatter formatter;
 
     public ReflectionFieldColumn(String title, String fieldName, Formatter formatter) {
-        this.title = title;
+        super(title);
+
         this.fieldName = fieldName;
         this.formatter = formatter;
-    }
-
-    @Override
-    public String getTitle() {
-        return title;
     }
 
     @Override
