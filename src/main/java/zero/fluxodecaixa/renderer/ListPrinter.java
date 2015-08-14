@@ -97,11 +97,17 @@ public class ListPrinter {
         boolean headerPrinted = false;
 
         for (List<StringBuilder> line : formattedData) {
+            if (!headerPrinted)
+                printRuler();
+
+            StringBuilder stringLine = createBodyString(line);
+
+            System.out.println(stringLine.toString());
+
             if (!headerPrinted) {
-                printHeader(line);
+                printRuler();
                 headerPrinted = true;
-            } else
-                printBody(line);
+            }
         }
 
         printRuler();
@@ -113,16 +119,6 @@ public class ListPrinter {
         String entity = bodyLineCount == 1 ? entityName : pluralEntityName;
 
         System.out.println(String.format("%d %s", bodyLineCount, entity));
-    }
-
-    private void printHeader(List<StringBuilder> line) {
-        printRuler();
-
-        StringBuilder stringLine = createBodyString(line);
-
-        System.out.println(stringLine.toString());
-
-        printRuler();
     }
 
     private void printRuler() {
@@ -145,12 +141,6 @@ public class ListPrinter {
         for (int i = 0; i < count; i++) {
             builder.append(string);
         }
-    }
-
-    private void printBody(List<StringBuilder> line) {
-        StringBuilder stringLine = createBodyString(line);
-
-        System.out.println(stringLine.toString());
     }
 
     private StringBuilder createBodyString(List<StringBuilder> line) {
