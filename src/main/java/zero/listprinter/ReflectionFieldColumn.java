@@ -5,13 +5,11 @@ import java.lang.reflect.Field;
 public class ReflectionFieldColumn extends AbstractColumn {
 
     private String fieldName;
-    private Formatter formatter;
 
     public ReflectionFieldColumn(String title, String fieldName, Formatter formatter) {
-        super(title);
+        super(title, formatter);
 
         this.fieldName = fieldName;
-        this.formatter = formatter;
     }
 
     @Override
@@ -33,15 +31,7 @@ public class ReflectionFieldColumn extends AbstractColumn {
         }
         field.setAccessible(accessible);
 
-        Formatter dataFormatter;
-
-        if (theData == null)
-            dataFormatter = NullFormatter.getInstance();
-        else
-            dataFormatter = formatter;
-
-        // FIXME
-        return dataFormatter.format(theData).toString();
+        return formatData(theData);
     }
 
 }
