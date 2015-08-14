@@ -28,6 +28,12 @@ public class LancamentoListCommand {
 
     @CommandHandler(path = { "lanc", "ls" })
     public void run() throws ParseException, SQLException {
+        PreparedQuery<Lancamento> query = createQuery();
+
+        lancamentos = dao.query(query);
+    }
+
+    private PreparedQuery<Lancamento> createQuery() throws SQLException {
         QueryBuilder<Transacao, Integer> transacaoBuilder = transacaoDao.queryBuilder();
 
         transacaoBuilder.orderBy(Transacao.DATA_FIELD_NAME, true);
@@ -38,7 +44,7 @@ public class LancamentoListCommand {
 
         PreparedQuery<Lancamento> query = builder.prepare();
 
-        lancamentos = dao.query(query);
+        return query;
     }
 
 }
