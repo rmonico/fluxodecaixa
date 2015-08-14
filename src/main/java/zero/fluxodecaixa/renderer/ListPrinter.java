@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ListPrinter {
 
-    private List<Column> columnDefinitions;
+    private List<Column> columns;
     private List<?> dataList;
     private List<Integer> columnWidths;
     private String entityName;
@@ -17,8 +17,8 @@ public class ListPrinter {
         this.pluralEntityName = pluralEntityName;
     }
 
-    public void setColumnDefinitions(List<Column> columnDefinitions) {
-        this.columnDefinitions = columnDefinitions;
+    public void setColumnDefinitions(List<Column> columns) {
+        this.columns = columns;
     }
 
     public void setData(List<?> dataList) {
@@ -37,15 +37,15 @@ public class ListPrinter {
         List<List<StringBuilder>> formattedDataList = new LinkedList<List<StringBuilder>>();
 
         List<StringBuilder> headerLine = new LinkedList<StringBuilder>();
-        for (Column columnDefinition : columnDefinitions)
-            headerLine.add(new StringBuilder(columnDefinition.getTitle()));
+        for (Column column : columns)
+            headerLine.add(new StringBuilder(column.getTitle()));
         formattedDataList.add(headerLine);
 
         for (Object line : dataList) {
             List<StringBuilder> formattedLine = new LinkedList<StringBuilder>();
 
-            for (Column columnDefinition : columnDefinitions) {
-                Field field = line.getClass().getDeclaredField(columnDefinition.getFieldName().toString());
+            for (Column column : columns) {
+                Field field = line.getClass().getDeclaredField(column.getFieldName().toString());
 
                 boolean accessible = field.isAccessible();
                 field.setAccessible(true);
@@ -57,7 +57,7 @@ public class ListPrinter {
                 if (theData == null)
                     formatter = NullFormatter.getInstance();
                 else
-                    formatter = columnDefinition.getFormatter();
+                    formatter = column.getFormatter();
 
                 StringBuilder stringData = formatter.format(theData);
 
