@@ -96,10 +96,9 @@ public class ListPrinter {
     private void printEverything(List<List<StringBuilder>> formattedData) {
         boolean printingHeader = true;
 
-        for (List<StringBuilder> line : formattedData) {
-            if (printingHeader)
-                printRuler();
+        printRuler();
 
+        for (List<StringBuilder> line : formattedData) {
             StringBuilder stringLine = createBodyString(line);
 
             System.out.println(stringLine.toString());
