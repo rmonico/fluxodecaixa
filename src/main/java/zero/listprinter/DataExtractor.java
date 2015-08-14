@@ -2,6 +2,6 @@ package zero.listprinter;
 
 public interface DataExtractor {
 
-    Object extract(Object line) throws ListPrinterException;
+    Object extract(Object data) throws ListPrinterException;
 
 }

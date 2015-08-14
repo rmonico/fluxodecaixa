@@ -17,10 +17,10 @@ public class ReflectionFieldExtractor implements DataExtractor {
     }
 
     @Override
-    public Object extract(Object line) throws ListPrinterException {
+    public Object extract(Object data) throws ListPrinterException {
         Field field;
         try {
-            field = line.getClass().getDeclaredField(fieldName.toString());
+            field = data.getClass().getDeclaredField(fieldName.toString());
         } catch (NoSuchFieldException | SecurityException e) {
             throw new ListPrinterException(e);
         }
@@ -29,7 +29,7 @@ public class ReflectionFieldExtractor implements DataExtractor {
         field.setAccessible(true);
         Object theData;
         try {
-            theData = field.get(line);
+            theData = field.get(data);
         } catch (IllegalArgumentException | IllegalAccessException e) {
             throw new ListPrinterException(e);
         }

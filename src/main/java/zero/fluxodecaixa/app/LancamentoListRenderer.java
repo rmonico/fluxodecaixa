@@ -10,7 +10,7 @@ import zero.listprinter.DateFormatter;
 import zero.listprinter.IDFormatter;
 import zero.listprinter.ListPrinter;
 import zero.listprinter.ListPrinterException;
-import zero.listprinter.MoneyFormatter;
+import zero.listprinter.DoubleFormatter;
 import zero.listprinter.FormattedColumn;
 import zero.listprinter.ReflectionFieldExtractor;
 import zero.listprinter.StringFormatter;
@@ -39,7 +39,7 @@ public class LancamentoListRenderer {
         defs.add(new FormattedColumn("Data", new ReflectionFieldExtractor("transacao", new ReflectionFieldExtractor("data")), DateFormatter.getInstance()));
         defs.add(new FormattedColumn("Origem", new ReflectionFieldExtractor("origem", new ReflectionFieldExtractor("nome")), StringFormatter.getInstance()));
         defs.add(new FormattedColumn("Destino", new ReflectionFieldExtractor("destino", new ReflectionFieldExtractor("nome")), StringFormatter.getInstance()));
-        defs.add(new FormattedColumn("Valor", new ReflectionFieldExtractor("valor"), MoneyFormatter.getInstance()));
+        defs.add(new FormattedColumn("Valor", new ReflectionFieldExtractor("valor"), DoubleFormatter.getInstance()));
         defs.add(new FormattedColumn("Observacao", new ReflectionFieldExtractor("observacao"), StringFormatter.getInstance()));
 
         return defs;

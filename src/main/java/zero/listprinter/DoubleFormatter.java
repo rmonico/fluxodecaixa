@@ -2,13 +2,13 @@ package zero.listprinter;
 
 import java.text.NumberFormat;
 
-public class MoneyFormatter implements Formatter {
+public class DoubleFormatter implements Formatter {
 
-    private static MoneyFormatter instance;
+    private static DoubleFormatter instance;
 
-    public static MoneyFormatter getInstance() {
+    public static DoubleFormatter getInstance() {
         if (instance == null)
-            instance = new MoneyFormatter();
+            instance = new DoubleFormatter();
 
         return instance;
     }
