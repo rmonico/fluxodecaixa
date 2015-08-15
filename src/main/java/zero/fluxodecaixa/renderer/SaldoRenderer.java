@@ -47,6 +47,8 @@ public class SaldoRenderer {
         for (String nomeConta : nomeContas)
             columns.add(new FormattedColumn(nomeConta, new ReflectionFieldExtractor("valores", new MapExtractor(nomeConta)), MoneyFormatter.getInstance()));
 
+        columns.add(new FormattedColumn("Total", new ReflectionFieldExtractor("valores", new TotalSaldoCalculator()), MoneyFormatter.getInstance()));
+
         return columns;
     }
 
