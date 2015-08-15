@@ -8,9 +8,9 @@ import java.util.GregorianCalendar;
 
 public class TimeUtils {
 
-    private static SimpleDateFormat timestampFormatter = new SimpleDateFormat("dd/MMM/yyyy kk:mm:ss.SSS");
+    private static SimpleDateFormat timestampFormatter = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss.SSS");
     private static SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MMM/yyyy");
-    private static SimpleDateFormat timeFormatter = new SimpleDateFormat("kk:mm:ss.SSS");
+    private static SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss.SSS");
 
     public static String timestampToString(Calendar timestamp) {
         return timestampFormatter.format(timestamp.getTime());
