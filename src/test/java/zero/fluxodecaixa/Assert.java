@@ -64,10 +64,10 @@ class Assert {
 
         assertEquals("Keyset", expectedValores.keySet().size(), actual.getValores().keySet().size());
 
-        for (Entry<Conta, BigDecimal> entry : actual.getValores().entrySet()) {
-            Conta actualConta = entry.getKey();
+        for (Entry<String, BigDecimal> entry : actual.getValores().entrySet()) {
+            String actualConta = entry.getKey();
 
-            String expectedSaldoValor = expectedValores.get(actualConta.getNome());
+            String expectedSaldoValor = expectedValores.get(actualConta);
             assertNotNull("nome conta", expectedSaldoValor);
 
             assertEquals("saldo valor", new BigDecimal(expectedSaldoValor), entry.getValue());

@@ -77,7 +77,7 @@ public class SaldoCommand {
         if (!conta.isContabilizavel())
             return;
 
-        BigDecimal oldSaldoValor = currentSaldo.getValores().get(conta);
+        BigDecimal oldSaldoValor = currentSaldo.getValores().get(conta.getNome());
 
         if (oldSaldoValor == null)
             oldSaldoValor = BigDecimal.ZERO;
@@ -91,7 +91,7 @@ public class SaldoCommand {
         else
             newSaldoValor = oldSaldoValor.add(lancamentoValor);
 
-        currentSaldo.getValores().put(conta, newSaldoValor);
+        currentSaldo.getValores().put(conta.getNome(), newSaldoValor);
     }
 
 }

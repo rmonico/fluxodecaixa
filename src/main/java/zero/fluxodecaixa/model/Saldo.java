@@ -7,19 +7,19 @@ import java.util.Map;
 
 public class Saldo {
     private Calendar data;
-    private Map<Conta, BigDecimal> valores;
+    private Map<String, BigDecimal> valores;
 
     public Saldo(Calendar data) {
-        this(data, new HashMap<Conta, BigDecimal>());
+        this(data, new HashMap<String, BigDecimal>());
     }
 
     public Saldo(Calendar data, Saldo other) {
         this(data, other.valores);
     }
 
-    private Saldo(Calendar data, Map<Conta, BigDecimal> valores) {
+    private Saldo(Calendar data, Map<String, BigDecimal> valores) {
         // Dont need to clone map's values, they are immutable
-        this.valores = new HashMap<Conta, BigDecimal>(valores);
+        this.valores = new HashMap<String, BigDecimal>(valores);
 
         this.data = data;
     }
@@ -28,7 +28,7 @@ public class Saldo {
         return data;
     }
 
-    public Map<Conta, BigDecimal> getValores() {
+    public Map<String, BigDecimal> getValores() {
         return valores;
     }
 
