@@ -20,7 +20,7 @@ public class Transacao {
     @DatabaseField(generatedId = true)
     private int id;
 
-    @DatabaseField(dataType = DataType.DATE_STRING)
+    @DatabaseField(dataType = DataType.DATE_STRING, format="yyyy-MM-dd")
     private Date data;
 
     @DatabaseField
