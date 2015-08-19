@@ -32,8 +32,6 @@ public class ContaCreateCommand {
 
         conta.setObservacao(arguments.getObservacao());
 
-        // TODO Verificar se já existe uma conta com o mesmo nome...
-
         dao.create(conta);
     }
 }
