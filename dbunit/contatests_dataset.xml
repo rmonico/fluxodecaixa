@@ -2,6 +2,6 @@
 <!DOCTYPE dataset SYSTEM "dbunit/fluxodecaixa.dtd">
 <dataset>
   <conta id="1" nome="carteira" contabilizavel="1" />
-  <conta id="2" nome="casa" contabilizavel="0" />
-  <conta id="3" nome="itau" contabilizavel="1" />
+  <conta id="2" nome="casa" />
+  <conta id="3" nome="itau" contabilizavel="1" observacao="AG: 0646; CC: 70699-4" />
 </dataset>

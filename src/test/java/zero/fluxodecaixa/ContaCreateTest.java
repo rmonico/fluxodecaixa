@@ -18,7 +18,7 @@ public class ContaCreateTest extends FluxodecaixaTest {
 
         Conta conta = EasyMVCAssert.assertAndGetBean(beans, 0, Conta.class);
 
-        Assert.assertConta("nova conta", false, conta);
+        Assert.assertConta("nova conta", false, null, conta);
     }
 
     @Test
@@ -29,6 +29,6 @@ public class ContaCreateTest extends FluxodecaixaTest {
 
         Conta conta = EasyMVCAssert.assertAndGetBean(beans, 0, Conta.class);
 
-        Assert.assertConta("conta", true, conta);
+        Assert.assertConta("conta", true, null, conta);
     }
 }
