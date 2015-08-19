@@ -21,7 +21,7 @@ public class ContaRemoveTest extends FluxodecaixaTest {
         EasyMVCAssert.assertBeanList(beans, 1);
         Conta removedConta = EasyMVCAssert.assertAndGetBean(beans, 0, Conta.class);
 
-        Assert.assertConta("carteira", true, null, removedConta);
+        Assert.assertConta("carteira", true, false, null, removedConta);
     }
 
     // TODO Test remove a nonexistent conta

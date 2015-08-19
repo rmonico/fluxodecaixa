@@ -20,7 +20,7 @@ public class ContaCreateTest extends FluxodecaixaTest {
 
         Conta conta = EasyMVCAssert.assertAndGetBean(beans, 0, Conta.class);
 
-        Assert.assertConta("nova conta", false, null, conta);
+        Assert.assertConta("nova conta", false, false, null, conta);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class ContaCreateTest extends FluxodecaixaTest {
 
         Conta conta = EasyMVCAssert.assertAndGetBean(beans, 0, Conta.class);
 
-        Assert.assertConta("conta", true, null, conta);
+        Assert.assertConta("conta", true, false, null, conta);
     }
 
     @Test
@@ -46,6 +46,21 @@ public class ContaCreateTest extends FluxodecaixaTest {
 
         assertEquals(1, contas.size());
 
-        Assert.assertConta("conta", false, "Observação da conta", contas.get(0));
+        Assert.assertConta("conta", false, false, "Observação da conta", contas.get(0));
+    }
+
+    @Test
+    public void should_create_a_new_saldo_conta() throws EasyMVCException {
+        controller.run("conta", "add", "conta", "--saldo");
+
+        List<Object> beans = controller.run("conta", "ls");
+
+        EasyMVCAssert.assertBeanList(beans, 1);
+        @SuppressWarnings("unchecked")
+        List<Conta> contas = EasyMVCAssert.assertAndGetBean(beans, 0, List.class);
+
+        assertEquals(1, contas.size());
+
+        Assert.assertConta("conta", false, false, "Observação da conta", contas.get(0));
     }
 }

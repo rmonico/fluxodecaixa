@@ -27,9 +27,9 @@ public class ContaListTest extends FluxodecaixaTest {
 
         assertEquals(3, contas.size());
 
-        Assert.assertConta("carteira", true, null, contas.get(0));
-        Assert.assertConta("casa", false, null, contas.get(1));
-        Assert.assertConta("itau", true, "AG: 0646; CC: 70699-4", contas.get(2));
+        Assert.assertConta("carteira", true, false, null, contas.get(0));
+        Assert.assertConta("casa", false, false, null, contas.get(1));
+        Assert.assertConta("itau", true, false, "AG: 0646; CC: 70699-4", contas.get(2));
     }
 
 }

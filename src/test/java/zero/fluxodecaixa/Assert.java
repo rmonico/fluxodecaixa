@@ -17,11 +17,12 @@ import zero.utils.TimeUtils;
 
 class Assert {
 
-    public static void assertConta(String nome, boolean contabilizavel, String observacao, Conta actual) {
+    public static void assertConta(String nome, boolean contabilizavel, boolean saldo, String observacao, Conta actual) {
         assertNotNull(actual);
         assertEquals(nome, actual.getNome());
-        assertEquals(observacao, actual.getObservacao());
         assertEquals(contabilizavel, actual.isContabilizavel());
+        assertEquals(saldo, actual.isSaldo());
+        assertEquals(observacao, actual.getObservacao());
     }
 
     public static void assertTransacao(String date, String observacao, Transacao transacao) {
