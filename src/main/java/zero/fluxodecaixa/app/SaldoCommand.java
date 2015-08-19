@@ -98,14 +98,7 @@ public class SaldoCommand {
 
         BigDecimal lancamentoValor = new BigDecimal(lancamento.getValor());
 
-        BigDecimal newSaldoValor;
-
-        if (origem)
-            newSaldoValor = oldSaldoValor.subtract(lancamentoValor);
-        else
-            newSaldoValor = oldSaldoValor.add(lancamentoValor);
-
-        return newSaldoValor;
+        return origem ? oldSaldoValor.subtract(lancamentoValor) : oldSaldoValor.add(lancamentoValor);
     }
 
 }
