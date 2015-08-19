@@ -73,11 +73,25 @@ public class SaldoCommand {
 
     private void makeAccount(Lancamento lancamento, boolean origem) {
         Conta conta = origem ? lancamento.getOrigem() : lancamento.getDestino();
+        Conta anotherConta = origem ? lancamento.getDestino() : lancamento.getOrigem();
 
         if (!conta.isContabilizavel())
             return;
 
-        BigDecimal oldSaldoValor = currentSaldo.getValores().get(conta.getNome());
+        BigDecimal newSaldoValor;
+
+        if (anotherConta.isSaldo()) {
+            newSaldoValor = new BigDecimal(lancamento.getValor());
+        } else {
+            String nomeConta = conta.getNome();
+            newSaldoValor = getNewSaldoValueForNonSaldoConta(lancamento, nomeConta, origem);
+        }
+
+        currentSaldo.getValores().put(conta.getNome(), newSaldoValor);
+    }
+
+    private BigDecimal getNewSaldoValueForNonSaldoConta(Lancamento lancamento, String nomeConta, boolean origem) {
+        BigDecimal oldSaldoValor = currentSaldo.getValores().get(nomeConta);
 
         if (oldSaldoValor == null)
             oldSaldoValor = BigDecimal.ZERO;
@@ -91,7 +105,7 @@ public class SaldoCommand {
         else
             newSaldoValor = oldSaldoValor.add(lancamentoValor);
 
-        currentSaldo.getValores().put(conta.getNome(), newSaldoValor);
+        return newSaldoValor;
     }
 
 }
