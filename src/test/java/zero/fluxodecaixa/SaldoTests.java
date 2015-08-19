@@ -71,4 +71,26 @@ public class SaldoTests extends FluxodecaixaTest {
         Assert.assertSaldo(TimeUtils.dateToString(today), expectedValores, saldos.get(2));
     }
 
+    @Test
+    public void should_reset_conta_saldo_when_found_a_saldo_lancamento() throws EasyMVCException {
+        controller.run("lanc", "add", "saldo", "itau", "1230");
+        controller.run("lanc", "add", "saldo", "bradesco", "4500");
+
+        List<Object> beans = controller.run("saldo");
+
+        EasyMVCAssert.assertBeanList(beans, 1);
+
+        @SuppressWarnings("unchecked")
+        List<Saldo> saldos = EasyMVCAssert.assertAndGetBean(beans, 0, List.class);
+
+        assertEquals(3, saldos.size());
+
+        Map<String, String> expectedValores = new HashMap<String, String>();
+        expectedValores.put("bradesco", "4500");
+        expectedValores.put("itau", "1230");
+
+        Calendar today = GregorianCalendar.getInstance();
+
+        Assert.assertSaldo(TimeUtils.dateToString(today), expectedValores, saldos.get(2));
+    }
 }
