@@ -49,7 +49,7 @@ public class Conta {
         this.contabilizavel = contabilizavel;
     }
 
-    public boolean getSaldo() {
+    public boolean isSaldo() {
         return saldo;
     }
 
