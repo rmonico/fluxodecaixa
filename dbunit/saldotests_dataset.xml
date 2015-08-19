@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"  ?>
 <!DOCTYPE dataset SYSTEM "dbunit/fluxodecaixa.dtd">
 <dataset>
-  <conta id="1" nome="salário" contabilizavel="0" />
+  <conta id="1" nome="salário" />
   <conta id="2" nome="itau" contabilizavel="1" />
   <conta id="3" nome="bradesco" contabilizavel="1" />
-  <conta id="4" nome="casa" contabilizavel="0" />
+  <conta id="4" nome="casa" />
   <conta id="5" nome="saldo" saldo="1" />
 
   <!-- 03/ago, salário -> itau 1000 -->
