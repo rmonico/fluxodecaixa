@@ -19,10 +19,10 @@ class Assert {
 
     public static void assertConta(String nome, boolean contabilizavel, boolean saldo, String observacao, Conta actual) {
         assertNotNull(actual);
-        assertEquals(nome, actual.getNome());
-        assertEquals(contabilizavel, actual.isContabilizavel());
-        assertEquals(saldo, actual.isSaldo());
-        assertEquals(observacao, actual.getObservacao());
+        assertEquals("nome", nome, actual.getNome());
+        assertEquals("contabilizavel", contabilizavel, actual.isContabilizavel());
+        assertEquals("saldo", saldo, actual.isSaldo());
+        assertEquals("observação", observacao, actual.getObservacao());
     }
 
     public static void assertTransacao(String date, String observacao, Transacao transacao) {

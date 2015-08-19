@@ -8,11 +8,14 @@ public class ContaCreateArguments {
     @PositionalParameter
     private String nome;
 
-    @TokenParameter(token = { "-o", "--observacao" })
-    private String observacao;
-
     @TokenParameter(token = { "-c", "--contabilizavel" })
     private boolean contabilizavel;
+
+    @TokenParameter(token = { "-s", "--saldo" })
+    private boolean saldo;
+
+    @TokenParameter(token = { "-o", "--observacao" })
+    private String observacao;
 
     public String getNome() {
         return nome;
@@ -20,6 +23,14 @@ public class ContaCreateArguments {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public boolean isContabilizavel() {
+        return contabilizavel;
+    }
+
+    public void setContabilizavel(boolean contabilizavel) {
+        this.contabilizavel = contabilizavel;
     }
 
     public String getObservacao() {
@@ -30,12 +41,12 @@ public class ContaCreateArguments {
         this.observacao = observacao;
     }
 
-    public boolean isContabilizavel() {
-        return contabilizavel;
+    public boolean isSaldo() {
+        return saldo;
     }
 
-    public void setContabilizavel(boolean contabilizavel) {
-        this.contabilizavel = contabilizavel;
+    public void setSaldo(boolean saldo) {
+        this.saldo = saldo;
     }
 
 }

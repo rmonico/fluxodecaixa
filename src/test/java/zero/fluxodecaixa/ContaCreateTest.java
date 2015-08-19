@@ -61,6 +61,6 @@ public class ContaCreateTest extends FluxodecaixaTest {
 
         assertEquals(1, contas.size());
 
-        Assert.assertConta("conta", false, false, "Observação da conta", contas.get(0));
+        Assert.assertConta("conta", false, true, null, contas.get(0));
     }
 }
