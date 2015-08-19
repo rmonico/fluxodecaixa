@@ -11,6 +11,7 @@ public class Conta {
     public static final String ID_FIELD_NAME = "id";
     public static final String NOME_FIELD_NAME = "nome";
     public static final String CONTABILIZAVEL_FIELD_NAME = "contabilizavel";
+    public static final String SALDO_FIELD_NAME = "saldo";
 
     @DatabaseField(generatedId = true)
     private int id;
@@ -20,6 +21,9 @@ public class Conta {
 
     @DatabaseField
     private boolean contabilizavel;
+
+    @DatabaseField
+    private boolean saldo;
 
     public int getId() {
         return id;
@@ -43,6 +47,14 @@ public class Conta {
 
     public void setContabilizavel(boolean contabilizavel) {
         this.contabilizavel = contabilizavel;
+    }
+
+    public boolean getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(boolean saldo) {
+        this.saldo = saldo;
     }
 
     @Override

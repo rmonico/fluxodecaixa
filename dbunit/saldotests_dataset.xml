@@ -5,6 +5,7 @@
   <conta id="2" nome="itau" contabilizavel="1" />
   <conta id="3" nome="bradesco" contabilizavel="1" />
   <conta id="4" nome="casa" contabilizavel="0" />
+  <conta id="5" nome="saldo" saldo="1" />
 
   <!-- 03/ago, salário -> itau 1000 -->
   <transacao id="1" data="2015-08-03" />

@@ -4,6 +4,7 @@
 <!ATTLIST conta id CDATA #REQUIRED>
 <!ATTLIST conta nome CDATA #REQUIRED>
 <!ATTLIST conta contabilizavel CDATA #REQUIRED>
+<!ATTLIST conta saldo CDATA #REQUIRED>
 
 <!ELEMENT transacao (#PCDATA)>
 <!ATTLIST transacao id CDATA #REQUIRED>
