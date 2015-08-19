@@ -23,9 +23,6 @@ public class SaldoTests extends FluxodecaixaTest {
 
     @Test
     public void should_calculate_saldos() throws EasyMVCException {
-        // saldo [ --contas=<nomes das contas separados por ,> ] [ --diario |
-        // --semanal | --mensal | --atual ]
-
         List<Object> beans = controller.run("saldo");
 
         EasyMVCAssert.assertBeanList(beans, 1);
