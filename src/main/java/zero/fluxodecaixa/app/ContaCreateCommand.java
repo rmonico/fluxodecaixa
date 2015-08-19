@@ -28,6 +28,8 @@ public class ContaCreateCommand {
 
         conta.setContabilizavel(arguments.isContabilizavel());
 
+        conta.setSaldo(arguments.isSaldo());
+
         conta.setObservacao(arguments.getObservacao());
 
         // TODO Verificar se já existe uma conta com o mesmo nome...
