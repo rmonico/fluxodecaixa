@@ -1,4 +1,9 @@
-<!ELEMENT dataset (conta*,transacao*, lancamento*)>
+<!ELEMENT dataset (metainf*, conta*,transacao*, lancamento*)>
+
+<!ELEMENT metainf (#PCDATA)>
+<!ATTLIST metainf id CDATA #REQUIRED>
+<!ATTLIST metainf key CDATA #REQUIRED>
+<!ATTLIST metainf value CDATA #REQUIRED>
 
 <!ELEMENT conta (#PCDATA)>
 <!ATTLIST conta id CDATA #REQUIRED>

@@ -10,6 +10,7 @@ public class FluxodecaixaTest {
 
     protected EasyMVC controller;
     private String[] datasetFileNames;
+    ControllerFactory controllerFactory;
 
     public FluxodecaixaTest() {
         this((String[]) null);
@@ -25,9 +26,9 @@ public class FluxodecaixaTest {
     public void before() throws Exception {
         Properties props = createTestProperties();
 
-        ControllerFactory factory = new TestControllerFactory(props, datasetFileNames);
+        controllerFactory = new TestControllerFactory(props, datasetFileNames);
 
-        controller = factory.createAndSetupController();
+        controller = controllerFactory.createAndSetupController();
     }
 
     private static Properties createTestProperties() {
