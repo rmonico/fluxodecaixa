@@ -13,18 +13,18 @@ public class HelpRenderer {
     @Renderer(path = "help")
     public void render() throws IOException {
         createText();
-        
+
         printText();
     }
 
     private void createText() {
         text = new LinkedList<>();
-        
+
         text.add("Fluxo de Caixa (Cash Flow) is a command line personal cash flow software. Inspired by Linux style commands, its simple, easy and versatile.");
         text.add("");
         text.add("Usage:");
         text.add("");
-        text.add("  fluxodecaixa conta add <nome> [ --contabilizavel ]");
+        text.add("  fluxodecaixa conta add <nome> [ --contabilizavel | -c ] [ --saldo | -s ] [ --observacao | -o ]");
         text.add("");
         text.add("  fluxodecaixa conta ls");
         text.add("");
