@@ -46,33 +46,6 @@ public class ControllerFactory {
         return controller;
     }
 
-    private void registerDependencies() throws SQLException {
-        connectionManager = new ConnectionManager(props);
-
-        DependencyManager daoManager = new DaoManager(connectionManager.getConnection());
-
-        controller.addDependencyManager(daoManager);
-    }
-
-    private void registerCommandsAndRenderers() {
-        controller.registerCommandHandler(ContaCreateCommand.class);
-        controller.registerRenderer(ContaCreateRenderer.class);
-        controller.registerCommandHandler(ContaListCommand.class);
-        controller.registerRenderer(ContaListRenderer.class);
-        controller.registerCommandHandler(ContaRemoveCommand.class);
-        controller.registerRenderer(ContaRemoveRenderer.class);
-        controller.registerCommandHandler(LancamentoCreateCommand.class);
-        controller.registerRenderer(LancamentoCreateRenderer.class);
-        controller.registerCommandHandler(LancamentoListCommand.class);
-        controller.registerRenderer(LancamentoListRenderer.class);
-        controller.registerCommandHandler(VersionCommand.class);
-        controller.registerRenderer(VersionCommand.class);
-        controller.registerCommandHandler(SaldoCommand.class);
-        controller.registerRenderer(SaldoRenderer.class);
-        controller.registerCommandHandler(HelpCommand.class);
-        controller.registerRenderer(HelpRenderer.class);
-    }
-
     private void setupLogger() {
         Logger root = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
 
@@ -118,6 +91,33 @@ public class ControllerFactory {
         }
 
         root.setLevel(loggerLevel);
+    }
+
+    private void registerDependencies() throws SQLException {
+        connectionManager = new ConnectionManager(props);
+
+        DependencyManager daoManager = new DaoManager(connectionManager.getConnection());
+
+        controller.addDependencyManager(daoManager);
+    }
+
+    private void registerCommandsAndRenderers() {
+        controller.registerCommandHandler(ContaCreateCommand.class);
+        controller.registerRenderer(ContaCreateRenderer.class);
+        controller.registerCommandHandler(ContaListCommand.class);
+        controller.registerRenderer(ContaListRenderer.class);
+        controller.registerCommandHandler(ContaRemoveCommand.class);
+        controller.registerRenderer(ContaRemoveRenderer.class);
+        controller.registerCommandHandler(LancamentoCreateCommand.class);
+        controller.registerRenderer(LancamentoCreateRenderer.class);
+        controller.registerCommandHandler(LancamentoListCommand.class);
+        controller.registerRenderer(LancamentoListRenderer.class);
+        controller.registerCommandHandler(VersionCommand.class);
+        controller.registerRenderer(VersionCommand.class);
+        controller.registerCommandHandler(SaldoCommand.class);
+        controller.registerRenderer(SaldoRenderer.class);
+        controller.registerCommandHandler(HelpCommand.class);
+        controller.registerRenderer(HelpRenderer.class);
     }
 
 }
