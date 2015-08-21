@@ -40,13 +40,3 @@
   <lancamento id="8" transacao_id="8" origem_id="3" destino_id="4" valor="12" />
 
 </dataset>
-
-<!--
-Para duas contabilizaveis diferentes
-2 lançamentos em dois dias diferentes
-2 lançamentos em semanas diferentes - definir que dia a semana começa
-2 lançamentos em meses diferentes
-
-Ter dois lancamentos de saldo 
-Lançamentos de saldo
- -->
