@@ -10,6 +10,7 @@ public class MetaInf {
     public static final String ID_FIELD_NAME = "id";
     public static final String KEY_FIELD_NAME = "key";
     public static final String VALUE_FIELD_NAME = "value";
+    public static final String TABLE_NAME = "metainf";
 
     @DatabaseField(generatedId = true)
     private int id;

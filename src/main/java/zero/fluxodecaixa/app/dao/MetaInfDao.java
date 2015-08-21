@@ -12,6 +12,8 @@ import com.j256.ormlite.support.ConnectionSource;
 
 public class MetaInfDao extends AbstractDao<MetaInf> {
 
+    public static final String APP_INTERNAL_VERSION_KEY = "app.internal_version";
+
     public MetaInfDao(ConnectionSource connection, Class<MetaInf> dataClass) throws SQLException {
         super(connection, dataClass);
     }
@@ -20,7 +22,7 @@ public class MetaInfDao extends AbstractDao<MetaInf> {
         return (MetaInfDao) AbstractDao.getInstance(connection, MetaInf.class);
     }
 
-    public String getValue(String key) throws SQLException {
+    public MetaInf getValue(String key) throws SQLException {
         QueryBuilder<MetaInf, Integer> builder = queryBuilder();
 
         Where<MetaInf, Integer> where = builder.where();
@@ -34,6 +36,7 @@ public class MetaInfDao extends AbstractDao<MetaInf> {
         if (keys.isEmpty())
             return null;
 
-        return keys.get(0).getValue();
+        return keys.get(0);
     }
+
 }

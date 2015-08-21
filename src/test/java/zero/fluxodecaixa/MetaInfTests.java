@@ -21,6 +21,6 @@ public class MetaInfTests extends FluxodecaixaTest {
         ConnectionSource connection = controllerFactory.connectionManager.getConnection();
         MetaInfDao dao = MetaInfDao.getInstance(connection);
 
-        assertEquals("some random value", dao.getValue("some random key"));
+        assertEquals("some random value", dao.getValue("some random key").getValue());
     }
 }
