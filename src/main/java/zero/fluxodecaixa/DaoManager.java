@@ -42,6 +42,11 @@ public class DaoManager implements DependencyManager {
 
     @Override
     public void afterUse(Class<?> daoClass) throws Exception {
+        // FIXME Isso não deve ser tratado aqui, deve ser tratado no
+        // ConnectionManager, mas essa linha deve ser executada mesmo quando o
+        // comando depende apenas dessa classe... Uma solução seria criar uma
+        // árvore de dependências para indicar que o ciclo de vida dos objetos
+        // deste manager dependem do ConnectionManager
         connection.close();
     }
 

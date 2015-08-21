@@ -3,6 +3,7 @@ package zero.fluxodecaixa;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import zero.easymvc.DependencyManager;
 import zero.fluxodecaixa.app.dao.MetaInfDao;
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.model.Lancamento;
@@ -14,7 +15,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.j256.ormlite.table.TableUtils;
 
-public class ConnectionManager {
+public class ConnectionManager implements DependencyManager {
 
     public static final String DEFAULT_JDBC_DRIVER = "org.sqlite.JDBC";
     public static final String APP_INTERNAL_VERSION = "1";
@@ -115,6 +116,21 @@ public class ConnectionManager {
         TableUtils.createTableIfNotExists(connectionSource, Transacao.class);
         TableUtils.createTableIfNotExists(connectionSource, Lancamento.class);
         TableUtils.createTableIfNotExists(connectionSource, MetaInf.class);
+    }
+
+    @Override
+    public Class<?>[] managedClasses() {
+        return new Class[] { ConnectionSource.class };
+    }
+
+    @Override
+    public Object getInstance(Class<?> dependencyClass) throws Exception {
+        return connectionSource;
+    }
+
+    @Override
+    public void afterUse(Class<?> dependencyClass) throws Exception {
+
     }
 
 }

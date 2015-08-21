@@ -96,6 +96,8 @@ public class ControllerFactory {
     private void registerDependencies() throws SQLException {
         connectionManager = new ConnectionManager(props);
 
+        controller.addDependencyManager(connectionManager);
+
         DependencyManager daoManager = new DaoManager(connectionManager.getConnection());
 
         controller.addDependencyManager(daoManager);

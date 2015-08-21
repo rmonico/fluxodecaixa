@@ -1,14 +1,19 @@
 package zero.fluxodecaixa.app;
 
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.support.DatabaseConnection;
 
 import zero.easymvc.ArgumentsBean;
 import zero.easymvc.Bean;
 import zero.easymvc.CommandHandler;
 import zero.easymvc.CommandLineParsingException;
 import zero.easymvc.Dependency;
+import zero.easymvc.EasyMVCException;
 import zero.fluxodecaixa.app.dao.ContaDao;
 import zero.fluxodecaixa.app.dao.LancamentoDao;
 import zero.fluxodecaixa.app.dao.TransacaoDao;
@@ -17,6 +22,9 @@ import zero.fluxodecaixa.model.Lancamento;
 import zero.fluxodecaixa.model.Transacao;
 
 public class LancamentoCreateCommand {
+
+    @Dependency
+    private ConnectionSource source;
 
     @Dependency
     private LancamentoDao lancamentoDao;
@@ -34,28 +42,51 @@ public class LancamentoCreateCommand {
     private Lancamento lancamento;
 
     @CommandHandler(path = { "lanc", "add" })
-    public void run() throws SQLException, CommandLineParsingException {
+    public void run() throws CommandLineParsingException, SQLException, EasyMVCException {
         checkCommandLine();
 
-        Transacao transacao = createOrGetTransacao();
+        final DatabaseConnection connection = source.getReadWriteConnection();
 
-        lancamento = new Lancamento();
+        connection.setAutoCommit(false);
 
-        lancamento.setTransacao(transacao);
+        final Savepoint savePoint = connection.setSavePoint("lancamento create");
 
-        Conta origem = contaDao.getContaByNome(args.getNomeOrigem());
+        try {
+            Transacao transacao = createOrGetTransacao();
 
-        lancamento.setOrigem(origem);
+            lancamento = new Lancamento();
 
-        Conta destino = contaDao.getContaByNome(args.getNomeDestino());
+            lancamento.setTransacao(transacao);
 
-        lancamento.setDestino(destino);
+            String nomeOrigem = args.getNomeOrigem();
+            Conta origem = contaDao.getContaByNome(nomeOrigem);
 
-        lancamento.setValor(args.getValor());
+            if (origem == null)
+                throw new EasyMVCException(String.format("Conta origem \"%s\" must exist!", nomeOrigem));
 
-        lancamento.setObservacao(args.getObservacao());
+            lancamento.setOrigem(origem);
 
-        lancamentoDao.create(lancamento);
+            String nomeDestino = args.getNomeDestino();
+            Conta destino = contaDao.getContaByNome(nomeDestino);
+
+            if (destino == null)
+                throw new EasyMVCException(String.format("Conta destino \"%s\" must exist!", nomeDestino));
+
+            lancamento.setDestino(destino);
+
+            lancamento.setValor(args.getValor());
+
+            lancamento.setObservacao(args.getObservacao());
+
+            lancamentoDao.create(lancamento);
+
+            connection.commit(savePoint);
+        } catch (SQLException e) {
+            connection.rollback(savePoint);
+
+            throw e;
+
+        }
     }
 
     private void checkCommandLine() throws CommandLineParsingException {
