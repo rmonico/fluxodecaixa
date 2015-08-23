@@ -37,6 +37,7 @@ public class ContaListRenderer {
         defs.add(new FormattedColumn("ID", new ReflectionFieldExtractor("id"), IDFormatter.getInstance()));
         defs.add(new FormattedColumn("Nome", new ReflectionFieldExtractor("nome"), StringFormatter.getInstance()));
         defs.add(new FormattedColumn("Contabilizável", new ReflectionFieldExtractor("contabilizavel"), BooleanFormatter.getInstance()));
+        defs.add(new FormattedColumn("Saldo", new ReflectionFieldExtractor("saldo"), BooleanFormatter.getInstance()));
 
         return defs;
     }
