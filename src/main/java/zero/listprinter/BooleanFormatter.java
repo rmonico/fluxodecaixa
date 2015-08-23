@@ -15,7 +15,7 @@ public class BooleanFormatter implements Formatter {
     public String format(Object data) {
         Boolean booleanData = (Boolean) data;
 
-        return booleanData ? "True" : "False";
+        return booleanData ? "Sim" : "Não";
     }
 
 }
