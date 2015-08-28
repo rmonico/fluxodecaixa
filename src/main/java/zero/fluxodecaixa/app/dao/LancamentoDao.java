@@ -2,6 +2,7 @@ package zero.fluxodecaixa.app.dao;
 
 import java.sql.SQLException;
 
+import zero.easymvc.ormlite.dao.AbstractDao;
 import zero.fluxodecaixa.model.Lancamento;
 import zero.fluxodecaixa.model.Transacao;
 

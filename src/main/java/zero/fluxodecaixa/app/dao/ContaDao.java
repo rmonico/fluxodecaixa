@@ -3,6 +3,7 @@ package zero.fluxodecaixa.app.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import zero.easymvc.ormlite.dao.AbstractDao;
 import zero.fluxodecaixa.model.Conta;
 
 import com.j256.ormlite.support.ConnectionSource;
