@@ -5,10 +5,9 @@ import java.util.Properties;
 
 import org.slf4j.LoggerFactory;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
 import zero.easymvc.DependencyManager;
 import zero.easymvc.EasyMVC;
+import zero.easymvc.ormlite.ConnectionManager;
 import zero.fluxodecaixa.app.ContaCreateCommand;
 import zero.fluxodecaixa.app.ContaListCommand;
 import zero.fluxodecaixa.app.ContaRemoveCommand;
@@ -24,6 +23,8 @@ import zero.fluxodecaixa.renderer.ContaRemoveRenderer;
 import zero.fluxodecaixa.renderer.HelpRenderer;
 import zero.fluxodecaixa.renderer.LancamentoCreateRenderer;
 import zero.fluxodecaixa.renderer.SaldoRenderer;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 
 public class ControllerFactory {
     private EasyMVC controller;
@@ -98,7 +99,7 @@ public class ControllerFactory {
 
         controller.addDependencyManager(connectionManager);
 
-        DependencyManager daoManager = new DaoManager(connectionManager.getConnection());
+        DependencyManager daoManager = new FluxoDeCaixaDaoManager(connectionManager.getConnection());
 
         controller.addDependencyManager(daoManager);
     }
