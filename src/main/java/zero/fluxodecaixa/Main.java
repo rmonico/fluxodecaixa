@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import zero.easymvc.EasyMVC;
 import zero.easymvc.StringArrayCommand;
+import zero.easymvc.ormlite.ControllerFactory;
 
 public class Main {
 
@@ -23,7 +24,7 @@ public class Main {
         // TODO Extract to a factory class
         Properties props = loadConfigsFromFile();
 
-        ControllerFactory factory = new ControllerFactory(props);
+        ControllerFactory factory = new FluxodecaixaControllerFactory(props);
 
         EasyMVC controller = factory.createAndSetupController();
 

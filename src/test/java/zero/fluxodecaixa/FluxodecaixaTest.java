@@ -5,6 +5,8 @@ import java.util.Properties;
 import org.junit.Before;
 
 import zero.easymvc.EasyMVC;
+import zero.easymvc.ormlite.ControllerFactory;
+import zero.easymvc.ormlite.TestControllerFactory;
 
 public class FluxodecaixaTest {
 

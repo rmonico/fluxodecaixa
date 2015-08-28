@@ -2,8 +2,6 @@ package zero.fluxodecaixa;
 
 import java.util.Map;
 
-import com.j256.ormlite.support.ConnectionSource;
-
 import zero.easymvc.ormlite.DaoManager;
 import zero.fluxodecaixa.app.dao.ContaDao;
 import zero.fluxodecaixa.app.dao.LancamentoDao;
@@ -14,8 +12,8 @@ import zero.fluxodecaixa.model.Transacao;
 
 public class FluxoDeCaixaDaoManager extends DaoManager {
 
-    public FluxoDeCaixaDaoManager(ConnectionSource connection) {
-        super(connection);
+    public FluxoDeCaixaDaoManager() {
+        super();
     }
 
     @Override
