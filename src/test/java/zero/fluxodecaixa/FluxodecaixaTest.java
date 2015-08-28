@@ -17,8 +17,6 @@ public class FluxodecaixaTest {
     }
 
     public FluxodecaixaTest(String... datasetFileNames) {
-        super();
-
         this.datasetFileNames = datasetFileNames;
     }
 
