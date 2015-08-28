@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import zero.easymvc.EasyMVC;
 import zero.easymvc.StringArrayCommand;
+import zero.easymvc.ormlite.ConnectionManager;
 import zero.easymvc.ormlite.ControllerFactory;
 
 public class Main {
@@ -26,7 +27,7 @@ public class Main {
 
         ControllerFactory factory = new FluxodecaixaControllerFactory(props);
 
-        EasyMVC controller = factory.createAndSetupController();
+        EasyMVC controller = factory.createAndSetupController(new FluxoDeCaixaDaoManager());
 
         controller.run(new StringArrayCommand(args));
     }

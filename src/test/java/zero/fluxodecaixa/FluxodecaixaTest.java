@@ -28,7 +28,7 @@ public class FluxodecaixaTest {
 
         controllerFactory = new TestControllerFactory(props, datasetFileNames);
 
-        controller = controllerFactory.createAndSetupController();
+        controller = controllerFactory.createAndSetupController(new FluxoDeCaixaDaoManager());
     }
 
     private static Properties createTestProperties() {
