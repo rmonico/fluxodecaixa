@@ -4,9 +4,9 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import zero.easymvc.EasyMVC;
+import zero.easymvc.ormlite.model.MetaInf;
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.model.Lancamento;
-import zero.fluxodecaixa.model.MetaInf;
 import zero.fluxodecaixa.model.Transacao;
 import zero.utils.test.DBUnitTest;
 
