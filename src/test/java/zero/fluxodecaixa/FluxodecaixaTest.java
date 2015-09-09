@@ -6,7 +6,7 @@ import org.junit.Before;
 
 import zero.easymvc.EasyMVC;
 import zero.easymvc.ormlite.ControllerFactory;
-import zero.easymvc.ormlite.TestControllerFactory;
+import zero.easymvc.ormlite.test.TestControllerFactory;
 
 public class FluxodecaixaTest {
 

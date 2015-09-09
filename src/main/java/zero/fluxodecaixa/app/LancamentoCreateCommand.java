@@ -5,9 +5,6 @@ import java.sql.Savepoint;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.support.DatabaseConnection;
-
 import zero.easymvc.ArgumentsBean;
 import zero.easymvc.Bean;
 import zero.easymvc.CommandHandler;
@@ -20,6 +17,9 @@ import zero.fluxodecaixa.app.dao.TransacaoDao;
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.model.Lancamento;
 import zero.fluxodecaixa.model.Transacao;
+
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.support.DatabaseConnection;
 
 public class LancamentoCreateCommand {
 

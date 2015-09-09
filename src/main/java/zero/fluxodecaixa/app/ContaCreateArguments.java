@@ -1,7 +1,7 @@
 package zero.fluxodecaixa.app;
 
-import zero.easymvc.TokenParameter;
 import zero.easymvc.PositionalParameter;
+import zero.easymvc.TokenParameter;
 
 public class ContaCreateArguments {
 

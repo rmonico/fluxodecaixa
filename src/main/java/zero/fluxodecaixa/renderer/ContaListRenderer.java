@@ -7,10 +7,10 @@ import zero.easymvc.Renderer;
 import zero.fluxodecaixa.model.Conta;
 import zero.listprinter.BooleanFormatter;
 import zero.listprinter.Column;
+import zero.listprinter.FormattedColumn;
 import zero.listprinter.IDFormatter;
 import zero.listprinter.ListPrinter;
 import zero.listprinter.ListPrinterException;
-import zero.listprinter.FormattedColumn;
 import zero.listprinter.ReflectionFieldExtractor;
 import zero.listprinter.StringFormatter;
 
