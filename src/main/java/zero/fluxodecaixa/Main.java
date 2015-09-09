@@ -12,6 +12,7 @@ import zero.easymvc.EasyMVC;
 import zero.easymvc.StringArrayCommand;
 import zero.easymvc.ormlite.ConnectionManager;
 import zero.easymvc.ormlite.ControllerFactory;
+import zero.easymvc.ormlite.LoggerFactory;
 
 public class Main {
 
@@ -24,6 +25,10 @@ public class Main {
     private void run(String[] args) throws Exception {
         // TODO Extract to a factory class
         Properties props = loadConfigsFromFile();
+
+        LoggerFactory loggerFactory = new LoggerFactory(props);
+
+        loggerFactory.setup();
 
         ControllerFactory factory = new FluxodecaixaControllerFactory(props);
 
