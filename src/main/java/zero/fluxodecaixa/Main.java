@@ -32,7 +32,9 @@ public class Main {
 
         ControllerFactory factory = new FluxodecaixaControllerFactory(props);
 
-        EasyMVC controller = factory.createAndSetupController(new FluxoDeCaixaDaoManager());
+        factory.setDaoManager(new FluxoDeCaixaDaoManager());
+
+        EasyMVC controller = factory.createAndSetupController();
 
         controller.run(new StringArrayCommand(args));
     }
