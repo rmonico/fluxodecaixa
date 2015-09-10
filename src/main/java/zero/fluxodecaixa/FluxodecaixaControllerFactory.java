@@ -27,7 +27,7 @@ public class FluxodecaixaControllerFactory extends ControllerFactory {
     }
 
     @Override
-    protected void registerCommandsAndRenderers(EasyMVC controller) {
+    public void registerCommandsAndRenderers(EasyMVC controller) {
         controller.registerCommandHandler(ContaCreateCommand.class);
         controller.registerRenderer(ContaCreateRenderer.class);
         controller.registerCommandHandler(ContaListCommand.class);
