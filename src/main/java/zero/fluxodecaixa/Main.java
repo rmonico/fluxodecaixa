@@ -11,8 +11,7 @@ import java.util.Properties;
 import zero.easymvc.EasyMVC;
 import zero.easymvc.StringArrayCommand;
 import zero.easymvc.ormlite.ConnectionManager;
-import zero.easymvc.ormlite.ControllerFactory;
-import zero.easymvc.ormlite.LoggerFactory;
+import zero.easymvc.ormlite.factory.AbstractApplicationFactory;
 
 public class Main {
 
@@ -23,18 +22,17 @@ public class Main {
     }
 
     private void run(String[] args) throws Exception {
-        // TODO Extract to a factory class
         Properties props = loadConfigsFromFile();
 
-        LoggerFactory loggerFactory = new LoggerFactory(props);
+        AbstractApplicationFactory factory = new FluxodecaixaApplicationFactory(props);
 
-        loggerFactory.setup();
+        factory.makeLogger();
 
-        ControllerFactory factory = new FluxodecaixaControllerFactory(props);
+        factory.makeConnectionManager();
 
-        factory.setDaoManager(new FluxoDeCaixaDaoManager());
+        EasyMVC controller = factory.makeController();
 
-        EasyMVC controller = factory.createAndSetupController();
+        factory.makeDatabaseUpdater();
 
         controller.run(new StringArrayCommand(args));
     }
