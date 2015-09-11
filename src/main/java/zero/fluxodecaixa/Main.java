@@ -32,7 +32,7 @@ public class Main {
 
         EasyMVC controller = factory.makeController();
 
-        factory.makeDatabaseUpdater();
+        factory.checkAndUpdateDatabaseVersion();
 
         controller.run(new StringArrayCommand(args));
     }

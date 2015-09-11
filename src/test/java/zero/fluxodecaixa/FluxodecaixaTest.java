@@ -31,7 +31,7 @@ public class FluxodecaixaTest {
 
         controller = factory.makeController();
 
-        factory.makeDatabaseUpdater();
+        factory.checkAndUpdateDatabaseVersion();
     }
 
     private static Properties createTestProperties() {

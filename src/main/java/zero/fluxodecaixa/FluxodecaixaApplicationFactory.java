@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import zero.easymvc.ormlite.DatabaseVersion;
 import zero.easymvc.ormlite.factory.ApplicationFactory;
 import zero.fluxodecaixa.app.ContaCreateCommand;
 import zero.fluxodecaixa.app.ContaListCommand;
@@ -17,6 +18,7 @@ import zero.fluxodecaixa.app.VersionCommand;
 import zero.fluxodecaixa.app.dao.ContaDao;
 import zero.fluxodecaixa.app.dao.LancamentoDao;
 import zero.fluxodecaixa.app.dao.TransacaoDao;
+import zero.fluxodecaixa.database.DatabaseVersion_1;
 import zero.fluxodecaixa.model.Conta;
 import zero.fluxodecaixa.model.Lancamento;
 import zero.fluxodecaixa.model.Transacao;
@@ -69,7 +71,10 @@ public class FluxodecaixaApplicationFactory extends ApplicationFactory {
         renderers.add(SaldoRenderer.class);
         renderers.add(VersionCommand.class);
     }
-    
-    // TODO Fazer método para atualizar banco de dados para a versão mais recente
-    // TODO Fazer atualizador de versão por referência, não por herança
+
+    @Override
+    public DatabaseVersion createDatabaseVersion() throws Exception {
+        return new DatabaseVersion_1(connectionManager.getConnection());
+    }
+
 }
