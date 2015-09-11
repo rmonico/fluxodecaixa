@@ -20,13 +20,9 @@ public class FluxodecaixaTestApplicationFactory extends FluxodecaixaApplicationF
     public DatabaseVersion createDatabaseVersion() throws Exception {
         ConnectionSource connection = connectionManager.getConnection();
 
-        DBUnitUpdater updater = new DBUnitUpdater(connection, new FluxodecaixaTestUpdater(connection, super.createDatabaseVersion()));
+        FluxodecaixaTestUpdater previousVersion = new FluxodecaixaTestUpdater(connection, super.createDatabaseVersion());
 
-        updater.setConnectionString(connectionManager.getConnectionString());
-
-        updater.setJDBCDriverClass(connectionManager.getDriverClassName());
-
-        updater.setDatasetFileNames(datasetFileNames);
+        DBUnitUpdater updater = createDBUnitUpdater(previousVersion, datasetFileNames);
 
         return updater;
     }
