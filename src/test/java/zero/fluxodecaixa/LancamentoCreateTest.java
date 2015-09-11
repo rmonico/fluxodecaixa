@@ -51,7 +51,7 @@ public class LancamentoCreateTest extends FluxodecaixaTest {
 
         Lancamento lancamento = EasyMVCAssert.assertAndGetBean(beans, 0, Lancamento.class);
 
-        Assert.assertLancamento("16/Jun/2015", "carteira", "casa", 500d, null, lancamento);
+        Assert.assertLancamento("16/jun/2015", "carteira", "casa", 500d, null, lancamento);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class LancamentoCreateTest extends FluxodecaixaTest {
 
         Lancamento lancamento = EasyMVCAssert.assertAndGetBean(beans, 0, Lancamento.class);
 
-        Assert.assertLancamento("30/Abr/2015", "carteira", "casa", 15d, null, lancamento);
+        Assert.assertLancamento("30/abr/2015", "carteira", "casa", 15d, null, lancamento);
     }
 
     @Test(expected = EasyMVCException.class)
