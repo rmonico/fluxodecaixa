@@ -3,5 +3,4 @@ bin
 .classpath
 .project
 .settings
-dbunit/test_database
-dbunit/database
+dbunit/test_database*
