@@ -26,7 +26,7 @@ public class FluxodecaixaTestApplicationFactory extends FluxodecaixaApplicationF
     }
 
     @Override
-    public DatabaseVersion createDatabaseVersion() throws Exception {
+    protected DatabaseVersion createDatabaseVersion() throws Exception {
         ConnectionSource connection = connectionManager.getConnection();
 
         FluxodecaixaTestUpdater previousVersion = new FluxodecaixaTestUpdater(connection, super.createDatabaseVersion());

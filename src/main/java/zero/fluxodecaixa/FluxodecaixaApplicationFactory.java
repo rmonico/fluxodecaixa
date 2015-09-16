@@ -44,7 +44,7 @@ public class FluxodecaixaApplicationFactory extends ApplicationFactory {
     }
 
     @Override
-    public void populateDaoInfo(Map<Class<?>, Class<?>> daoInfo) {
+    protected void populateDaoInfo(Map<Class<?>, Class<?>> daoInfo) {
         super.populateDaoInfo(daoInfo);
 
         daoInfo.put(ContaDao.class, Conta.class);
@@ -53,7 +53,7 @@ public class FluxodecaixaApplicationFactory extends ApplicationFactory {
     }
 
     @Override
-    public void createCommandList(List<Class<?>> commands) {
+    protected void createCommandList(List<Class<?>> commands) {
         super.createCommandList(commands);
 
         commands.add(ContaCreateCommand.class);
@@ -67,7 +67,7 @@ public class FluxodecaixaApplicationFactory extends ApplicationFactory {
     }
 
     @Override
-    public void createRendererList(List<Class<?>> renderers) {
+    protected void createRendererList(List<Class<?>> renderers) {
         super.createRendererList(renderers);
 
         renderers.add(ContaCreateRenderer.class);
@@ -81,7 +81,7 @@ public class FluxodecaixaApplicationFactory extends ApplicationFactory {
     }
 
     @Override
-    public DatabaseVersion createDatabaseVersion() throws Exception {
+    protected DatabaseVersion createDatabaseVersion() throws Exception {
         return new DatabaseVersion_1(connectionManager.getConnection());
     }
 
