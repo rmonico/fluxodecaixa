@@ -19,6 +19,8 @@ public class VersionCommand {
     public void execute() throws IOException {
         Properties props = new Properties();
 
+        // TODO Pegar das propriedades da aplicação
+
         File file = new File("version.properties");
 
         InputStream fis = new FileInputStream(file);
