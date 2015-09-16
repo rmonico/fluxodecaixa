@@ -8,6 +8,8 @@ import zero.easymvc.EasyMVC;
 
 public class FluxodecaixaTest {
 
+    private FluxodecaixaTestApplicationFactory factory;
+    protected Properties appProperties;
     protected EasyMVC controller;
     private String[] datasetFileNames;
 
@@ -21,9 +23,9 @@ public class FluxodecaixaTest {
 
     @Before
     public void before() throws Exception {
-        Properties props = createTestProperties();
+        factory = new FluxodecaixaTestApplicationFactory(datasetFileNames);
 
-        FluxodecaixaTestApplicationFactory factory = new FluxodecaixaTestApplicationFactory(props, datasetFileNames);
+        appProperties = factory.makeProperties();
 
         factory.makeLogger();
 
@@ -32,15 +34,6 @@ public class FluxodecaixaTest {
         controller = factory.makeController();
 
         factory.checkAndUpdateDatabaseVersion();
-    }
-
-    private static Properties createTestProperties() {
-        Properties props = new Properties();
-
-        props.setProperty("jdbc_url", "jdbc:sqlite:dbunit/test_database");
-        props.setProperty("jdbc_driver_class", "org.sqlite.JDBC");
-
-        return props;
     }
 
 }
