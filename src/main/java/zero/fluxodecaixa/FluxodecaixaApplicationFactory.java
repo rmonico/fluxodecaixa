@@ -33,6 +33,9 @@ public class FluxodecaixaApplicationFactory extends ApplicationFactory {
 
     public FluxodecaixaApplicationFactory(Properties props) {
         super(props);
+    public static final String EXECUTABLE_MAJOR_VERSION = "0";
+    public static final String EXECUTABLE_MINOR_VERSION = "3";
+    public static final String EXECUTABLE_PROJECT_PHASE = "beta";
     }
 
     @Override
