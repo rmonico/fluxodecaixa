@@ -2,7 +2,6 @@ package zero.fluxodecaixa;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import zero.easymvc.ormlite.DatabaseVersion;
 import zero.easymvc.ormlite.factory.ApplicationFactory;
@@ -31,11 +30,17 @@ import zero.fluxodecaixa.renderer.SaldoRenderer;
 
 public class FluxodecaixaApplicationFactory extends ApplicationFactory {
 
-    public FluxodecaixaApplicationFactory(Properties props) {
-        super(props);
     public static final String EXECUTABLE_MAJOR_VERSION = "0";
     public static final String EXECUTABLE_MINOR_VERSION = "3";
     public static final String EXECUTABLE_PROJECT_PHASE = "beta";
+
+    @Override
+    protected void setupDefaultProperties() {
+        super.setupDefaultProperties();
+
+        properties.setProperty(ApplicationFactory.EXECUTABLE_MAJOR_VERSION_PROPERTY_KEY, EXECUTABLE_MAJOR_VERSION);
+        properties.setProperty(ApplicationFactory.EXECUTABLE_MINOR_VERSION_PROPERTY_KEY, EXECUTABLE_MINOR_VERSION);
+        properties.setProperty(ApplicationFactory.EXECUTABLE_PROJECT_PHASE_PROPERTY_KEY, EXECUTABLE_PROJECT_PHASE);
     }
 
     @Override
