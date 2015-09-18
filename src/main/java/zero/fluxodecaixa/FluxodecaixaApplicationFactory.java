@@ -6,6 +6,7 @@ import java.util.Map;
 import zero.easymvc.ormlite.DatabaseVersion;
 import zero.easymvc.ormlite.factory.ApplicationFactory;
 import zero.environment.ApplicationPropertyKeys;
+import zero.environment.Environment;
 import zero.fluxodecaixa.app.ContaCreateCommand;
 import zero.fluxodecaixa.app.ContaListCommand;
 import zero.fluxodecaixa.app.ContaRemoveCommand;
@@ -48,9 +49,9 @@ public class FluxodecaixaApplicationFactory extends ApplicationFactory {
     protected void setupDefaultProperties() {
         super.setupDefaultProperties();
 
-        properties.setProperty(ApplicationPropertyKeys.EXECUTABLE_MAJOR_VERSION_PROPERTY_KEY, EXECUTABLE_MAJOR_VERSION);
-        properties.setProperty(ApplicationPropertyKeys.EXECUTABLE_MINOR_VERSION_PROPERTY_KEY, EXECUTABLE_MINOR_VERSION);
-        properties.setProperty(ApplicationPropertyKeys.EXECUTABLE_PROJECT_PHASE_PROPERTY_KEY, EXECUTABLE_PROJECT_PHASE);
+        Environment.get().setProperty(ApplicationPropertyKeys.EXECUTABLE_MAJOR_VERSION_PROPERTY_KEY, EXECUTABLE_MAJOR_VERSION);
+        Environment.get().setProperty(ApplicationPropertyKeys.EXECUTABLE_MINOR_VERSION_PROPERTY_KEY, EXECUTABLE_MINOR_VERSION);
+        Environment.get().setProperty(ApplicationPropertyKeys.EXECUTABLE_PROJECT_PHASE_PROPERTY_KEY, EXECUTABLE_PROJECT_PHASE);
     }
 
     @Override
