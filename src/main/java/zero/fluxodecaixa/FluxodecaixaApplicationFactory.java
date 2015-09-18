@@ -31,9 +31,18 @@ import zero.fluxodecaixa.renderer.SaldoRenderer;
 
 public class FluxodecaixaApplicationFactory extends ApplicationFactory {
 
+    public static final String BASENAME = "fluxodecaixa";
     public static final String EXECUTABLE_MAJOR_VERSION = "0";
     public static final String EXECUTABLE_MINOR_VERSION = "3";
     public static final String EXECUTABLE_PROJECT_PHASE = "beta";
+
+    public FluxodecaixaApplicationFactory() {
+        super(BASENAME);
+    }
+
+    protected FluxodecaixaApplicationFactory(String baseName) {
+        super(baseName);
+    }
 
     @Override
     protected void setupDefaultProperties() {

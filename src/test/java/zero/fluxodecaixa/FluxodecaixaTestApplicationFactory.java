@@ -10,8 +10,7 @@ public class FluxodecaixaTestApplicationFactory extends FluxodecaixaApplicationF
     private String[] datasetFileNames;
 
     public FluxodecaixaTestApplicationFactory(String[] datasetFileNames) {
-        this.datasetFileNames = datasetFileNames;
-    }
+        super(FluxodecaixaApplicationFactory.BASENAME + "_test");
 
         this.datasetFileNames = datasetFileNames;
     }
