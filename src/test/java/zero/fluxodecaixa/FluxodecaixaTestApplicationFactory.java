@@ -21,9 +21,7 @@ public class FluxodecaixaTestApplicationFactory extends FluxodecaixaApplicationF
 
         FluxodecaixaTestUpdater previousVersion = new FluxodecaixaTestUpdater(connection, super.createDatabaseVersion());
 
-        DBUnitUpdater updater = createDBUnitUpdater(previousVersion, datasetFileNames);
-
-        return updater;
+        return new DBUnitUpdater(connection, previousVersion, datasetFileNames);
     }
 
 }
