@@ -9,7 +9,7 @@ import java.util.Properties;
 import zero.easymvc.Bean;
 import zero.easymvc.CommandHandler;
 import zero.easymvc.Renderer;
-import zero.fluxodecaixa.FluxodecaixaApplicationFactory;
+import zero.environment.ApplicationPropertyKeys;
 
 public class VersionCommand {
 
@@ -30,9 +30,9 @@ public class VersionCommand {
 
         fis.close();
 
-        String majorVersion = props.getProperty(FluxodecaixaApplicationFactory.EXECUTABLE_MAJOR_VERSION_PROPERTY_KEY);
-        String minorVersion = props.getProperty(FluxodecaixaApplicationFactory.EXECUTABLE_MINOR_VERSION_PROPERTY_KEY);
-        String projectPhase = props.getProperty(FluxodecaixaApplicationFactory.EXECUTABLE_PROJECT_PHASE_PROPERTY_KEY);
+        String majorVersion = props.getProperty(ApplicationPropertyKeys.EXECUTABLE_MAJOR_VERSION_PROPERTY_KEY);
+        String minorVersion = props.getProperty(ApplicationPropertyKeys.EXECUTABLE_MINOR_VERSION_PROPERTY_KEY);
+        String projectPhase = props.getProperty(ApplicationPropertyKeys.EXECUTABLE_PROJECT_PHASE_PROPERTY_KEY);
 
         version = new AppVersion(majorVersion, minorVersion, projectPhase);
     }

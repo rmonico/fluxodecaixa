@@ -1,7 +1,7 @@
 package zero.fluxodecaixa;
 
 import zero.easymvc.ormlite.DatabaseVersion;
-import zero.easymvc.ormlite.factory.ApplicationFactory;
+import zero.environment.ApplicationPropertyKeys;
 import zero.utils.test.DBUnitUpdater;
 
 import com.j256.ormlite.support.ConnectionSource;
@@ -21,8 +21,8 @@ public class FluxodecaixaTestApplicationFactory extends FluxodecaixaApplicationF
     protected void setupDefaultProperties() {
         super.setupDefaultProperties();
 
-        properties.setProperty(ApplicationFactory.JDBC_URL_KEY, DEFAULT_TEST_JDBC_URL);
-        properties.setProperty(ApplicationFactory.JDBC_DRIVER_CLASS_KEY, DEFAULT_TEST_JDBC_DRIVER_CLASS);
+        properties.setProperty(ApplicationPropertyKeys.JDBC_URL_KEY, DEFAULT_TEST_JDBC_URL);
+        properties.setProperty(ApplicationPropertyKeys.JDBC_DRIVER_CLASS_KEY, DEFAULT_TEST_JDBC_DRIVER_CLASS);
     }
 
     @Override
