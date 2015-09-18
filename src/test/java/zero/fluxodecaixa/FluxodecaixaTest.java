@@ -1,7 +1,5 @@
 package zero.fluxodecaixa;
 
-import java.util.Properties;
-
 import org.junit.Before;
 
 import zero.easymvc.EasyMVC;
@@ -9,7 +7,6 @@ import zero.easymvc.EasyMVC;
 public class FluxodecaixaTest {
 
     private FluxodecaixaTestApplicationFactory factory;
-    protected Properties appProperties;
     protected EasyMVC controller;
     private String[] datasetFileNames;
 
@@ -25,7 +22,7 @@ public class FluxodecaixaTest {
     public void before() throws Exception {
         factory = new FluxodecaixaTestApplicationFactory(datasetFileNames);
 
-        appProperties = factory.makeProperties();
+        factory.makeProperties();
 
         factory.makeLogger();
 

@@ -1,5 +1,6 @@
 package zero.fluxodecaixa;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -46,8 +47,8 @@ public class FluxodecaixaApplicationFactory extends ApplicationFactory {
     }
 
     @Override
-    protected void setupDefaultProperties() {
-        super.setupDefaultProperties();
+    public void makeProperties() throws IOException {
+        super.makeProperties();
 
         Environment.get().setProperty(ApplicationPropertyKeys.EXECUTABLE_MAJOR_VERSION_PROPERTY_KEY, EXECUTABLE_MAJOR_VERSION);
         Environment.get().setProperty(ApplicationPropertyKeys.EXECUTABLE_MINOR_VERSION_PROPERTY_KEY, EXECUTABLE_MINOR_VERSION);
