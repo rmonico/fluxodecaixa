@@ -36,13 +36,13 @@ public class SaldoTests extends FluxodecaixaTest {
         expectedValores.put("bradesco", "925");
         expectedValores.put("itau", "945");
 
-        Assert.assertSaldo("03/ago/2015", expectedValores, saldos.get(0));
+        Assert.assertSaldo("03/Ago/2015", expectedValores, saldos.get(0));
 
         expectedValores = new HashMap<String, String>();
         expectedValores.put("bradesco", "833");
         expectedValores.put("itau", "835");
 
-        Assert.assertSaldo("04/ago/2015", expectedValores, saldos.get(1));
+        Assert.assertSaldo("04/Ago/2015", expectedValores, saldos.get(1));
     }
 
     @Test
