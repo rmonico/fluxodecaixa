@@ -39,7 +39,7 @@ public class HelpRenderer {
         text.add("Formata da data:");
         text.add("dd/mmm/yyyy");
         text.add("Exemplo: 17/jul/2015");
-        text.add("Também é possível usar as palavras \"ontem\", \"hoje\" e \"amanhã\"");
+        text.add("Também é possível usar as palavras \"anteontem\", \"ontem\", \"hoje\" e \"amanhã\"");
         text.add("");
         text.add("Formato numérico:");
         text.add("0.##");
