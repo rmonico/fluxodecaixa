@@ -1,36 +1,21 @@
 package zero.fluxodecaixa;
 
-import org.junit.Before;
+import zero.easymvc.ormlite.factory.AbstractApplicationFactory;
+import zero.utils.test.AbstractEasyMVCOrmliteTest;
 
-import zero.easymvc.EasyMVC;
-
-public class FluxodecaixaTest {
-
-    private FluxodecaixaTestApplicationFactory factory;
-    protected EasyMVC controller;
-    private String[] datasetFileNames;
+public class FluxodecaixaTest extends AbstractEasyMVCOrmliteTest {
 
     public FluxodecaixaTest() {
         this((String[]) null);
     }
 
-    public FluxodecaixaTest(String... datasetFileNames) {
-        this.datasetFileNames = datasetFileNames;
+    public FluxodecaixaTest(String... defaultDBUnitDatasetFileNames) {
+        super("%%HOME%%/.config/fluxodecaixa_test", defaultDBUnitDatasetFileNames);
     }
 
-    @Before
-    public void before() throws Exception {
-        factory = new FluxodecaixaTestApplicationFactory(datasetFileNames);
-
-        factory.makeProperties();
-
-        factory.makeLogger();
-
-        factory.makeConnectionManager();
-
-        controller = factory.makeController();
-
-        factory.checkAndUpdateDatabaseVersion();
+    @Override
+    protected AbstractApplicationFactory createApplicationFactory() {
+        return new FluxodecaixaTestApplicationFactory();
     }
 
 }
