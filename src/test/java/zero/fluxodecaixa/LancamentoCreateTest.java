@@ -56,17 +56,17 @@ public class LancamentoCreateTest extends FluxodecaixaTest {
 
     @Test
     public void should_create_a_lancamento_to_a_specific_date() throws EasyMVCException {
-        List<Object> beans = controller.run("lanc", "add", "carteira", "casa", "15", "--", "--data=30/Abr/2015");
+        List<Object> beans = controller.run("lanc", "add", "carteira", "casa", "15", "--", "--data=30/Apr/2015");
 
         EasyMVCAssert.assertBeanList(beans, 1);
 
         Lancamento lancamento = EasyMVCAssert.assertAndGetBean(beans, 0, Lancamento.class);
 
-        Assert.assertLancamento("30/Abr/2015", "carteira", "casa", 15d, null, lancamento);
+        Assert.assertLancamento("30/Apr/2015", "carteira", "casa", 15d, null, lancamento);
     }
 
     @Test(expected = EasyMVCException.class)
     public void should_throw_exception_when_pass_data_and_transaction_id() throws EasyMVCException {
-        controller.run("lanc", "add", "carteira", "casa", "1.99", "--", "--data=30/Abr/2015", "--transacao-id=4");
+        controller.run("lanc", "add", "carteira", "casa", "1.99", "--", "--data=30/Apr/2015", "--transacao-id=4");
     }
 }
