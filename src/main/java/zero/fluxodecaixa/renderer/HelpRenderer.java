@@ -38,6 +38,7 @@ public class HelpRenderer {
         text.add("");
         text.add("Formata da data:");
         text.add("dd/mmm/yyyy");
+        text.add("Nomes dos meses devem ser abreviados em inglês: Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec");
         text.add("Exemplo: 17/jul/2015");
         text.add("Também é possível usar as palavras \"anteontem\", \"ontem\", \"hoje\" e \"amanhã\"");
         text.add("");
