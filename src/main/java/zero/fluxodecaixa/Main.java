@@ -21,6 +21,8 @@ public class Main {
 
         factory.makeConnectionManager();
 
+        factory.makeDaoManager();
+
         EasyMVC controller = factory.makeController();
 
         factory.checkAndUpdateDatabaseVersion();
