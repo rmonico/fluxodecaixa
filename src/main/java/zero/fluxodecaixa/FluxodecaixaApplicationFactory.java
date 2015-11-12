@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import zero.easymvc.ormlite.DatabaseVersion;
+import zero.easymvc.ormlite.DatabaseUpdater;
 import zero.easymvc.ormlite.factory.ApplicationFactory;
 import zero.environment.ApplicationPropertyKeys;
 import zero.environment.Environment;
@@ -93,7 +93,7 @@ public class FluxodecaixaApplicationFactory extends ApplicationFactory {
     }
 
     @Override
-    protected DatabaseVersion createDatabaseVersion() throws Exception {
+    public DatabaseUpdater getDatabaseUpdater() {
         return new DatabaseVersion_1(connectionManager.getConnection());
     }
 

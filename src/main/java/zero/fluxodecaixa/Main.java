@@ -25,8 +25,6 @@ public class Main {
 
         EasyMVC controller = factory.makeController();
 
-        factory.checkAndUpdateDatabaseVersion();
-
         controller.run(new StringArrayCommand(args));
     }
 

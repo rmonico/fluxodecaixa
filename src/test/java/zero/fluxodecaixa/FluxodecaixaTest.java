@@ -18,4 +18,9 @@ public class FluxodecaixaTest extends AbstractEasyMVCOrmliteTest {
         return new FluxodecaixaTestApplicationFactory();
     }
 
+    @Override
+    protected AbstractApplicationFactory createApplicationFactory(int databaseVersion) {
+        return new FluxodecaixaTestApplicationFactory(databaseVersion);
+    }
+
 }
